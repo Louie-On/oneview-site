@@ -206,8 +206,10 @@ body {
 /* ===== 自社プロダクト Bona：アイコンタイル ===== */
 .bona .fy {
   background: #000 url("bona-icon.png") center / cover no-repeat;
-  border-radius: 9px;
+  border-radius: 10px;
 }
+.bona .top { border-radius: 6px; }              /* 天井の角も丸めて前面に添わせる */
+.bona .fx  { border-radius: 6px; }              /* 左側面の角も丸める */
 
 /* ===== お問い合わせ：郵便ポスト ===== */
 .post .top { border-radius: 5px 5px 0 0; }
