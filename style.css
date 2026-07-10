@@ -202,6 +202,18 @@ body {
 .leaf .top, .leaf .fx, .leaf .fy { border-radius: 9px; }
 .leaf.round .top, .leaf.round .fx, .leaf.round .fy { border-radius: 50%; }
 
+/* ===== お問い合わせ：郵便ポスト ===== */
+.post .top { border-radius: 5px 5px 0 0; }
+.post .fy { position: relative; }
+.post .slot {                                   /* 投函口 */
+  position: absolute;
+  left: 20%; right: 20%; top: 22%;
+  height: 7px;
+  background: #2a2a2a;
+  border-radius: 2px;
+  box-shadow: 0 8px 0 -2px rgba(0,0,0,.12);
+}
+
 /* ===== スマートフォン（アプリ受託開発） ===== */
 .phone .top { background: var(--_t); border-radius: 7px 7px 0 0; }
 .phone .fx  { background: var(--_l); border-radius: 0 0 0 7px; }
@@ -253,6 +265,7 @@ body {
   border: none;
   border-radius: 20px;
   cursor: pointer;
+  text-decoration: none;
   box-shadow: 0 6px 16px rgba(20, 50, 100, 0.22);
   transition: transform 0.15s;
 }
