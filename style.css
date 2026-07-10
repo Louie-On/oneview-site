@@ -233,17 +233,16 @@ body {
 .post .mark .mb3 { left: 50%; width: 3px; top: 0; bottom: 6px; transform: translateX(-50%); }  /* 縦棒（下へ伸ばす） */
 
 /* ===== スマートフォン（アプリ受託開発） ===== */
-.phone .top { background: var(--_t); border-radius: 12px; }
-.phone .fx  { background: var(--_l); border-radius: 12px; }
-.phone .fy  {                                   /* 前面（黒ベゼル） */
+.phone .top { background: var(--_t); }
+.phone .fx  { background: var(--_l); }
+.phone .fy  {                                   /* 前面（黒ベゼル：外形はシャープに接合） */
   background: #12161f;
-  border-radius: 12px;
-  padding: 8px;
+  padding: 9px;
 }
-.phone .scr {                                   /* 画面 */
+.phone .scr {                                   /* 画面（内側を角丸に） */
   width: 100%; height: 100%;
   background: linear-gradient(160deg, #eef3fa, #dfe7f2);
-  border-radius: 5px;
+  border-radius: 13px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(4, 1fr);
