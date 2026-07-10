@@ -139,10 +139,10 @@ body {
 .park {
   position: absolute;
   left: 50%; top: 50%;
-  width: 620px; height: 560px;
+  width: 624px; height: 572px;               /* グリッド(52px)の整数倍でマスに合わせる */
   transform: translate(-50%, -50%) translateZ(2px);
   background: radial-gradient(circle at 50% 42%, #a3d768, #83c14c);
-  border-radius: 140px;
+  border-radius: 36px;                        /* 角を控えめにして縁を床グリッドに沿わせる */
 }
 /* 公園内の周回トラック */
 .track {
