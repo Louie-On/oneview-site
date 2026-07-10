@@ -208,16 +208,6 @@ body {
   vertical-align: top;
 }
 
-/* ===== フッター（画面下に小さく固定） ===== */
-.foot {
-  position: fixed;
-  bottom: 14px; left: 0; right: 0;
-  text-align: center;
-  font-size: 0.75rem;
-  color: #98a6bb;
-  z-index: 5;
-}
-
 /* ===== レスポンシブ ===== */
 /* アイソメの拡大縮小は JS（fitStage）が画面サイズに合わせて自動調整します */
 @media (max-width: 560px) {
