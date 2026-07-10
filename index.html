@@ -22,12 +22,55 @@
     </div>
   </header>
 
-  <!-- ヒーロー -->
+  <!-- ヒーロー（アイソメ） -->
   <section class="hero">
-    <div class="container">
-      <h1 class="hero__title">すべてをひとつのViewに</h1>
-      <p class="hero__lead">散らばった情報や複雑さを、ひとつのわかりやすい視点へ。<br>OneViewは、シンプルでわかりやすいプロダクトづくりを支援します。</p>
-      <a href="#contact" class="btn">お問い合わせ</a>
+    <div class="container hero__inner">
+      <div class="hero__copy">
+        <h1 class="hero__title">すべてをひとつのViewに</h1>
+        <p class="hero__lead">散らばった情報や複雑さを、ひとつのわかりやすい視点へ。<br>OneViewは、シンプルでわかりやすいプロダクトづくりを支援します。</p>
+        <a href="#contact" class="btn btn--primary">お問い合わせ</a>
+      </div>
+
+      <div class="hero__scene">
+        <div class="stage">
+          <div class="scene">
+            <div class="ground"><div class="grid"></div></div>
+
+            <!-- 中央：OneView 本社 -->
+            <div class="box" style="--w:120px;--d:120px;--h:150px;transform:translate(-60px,-60px);
+                 --_t:#2f6fc4;--_r:#1a4d8f;--_l:#123a6e;">
+              <i class="fy"></i><i class="fx"></i><i class="top"></i>
+            </div>
+
+            <!-- 左下：アプリ受託開発 -->
+            <div class="box" style="--w:100px;--d:80px;--h:80px;transform:translate(-210px,60px);
+                 --_t:#f4c33a;--_r:#e0a91f;--_l:#c69516;">
+              <i class="fy"></i><i class="fx"></i><i class="top"></i>
+            </div>
+
+            <!-- 右上：PM／開発参画 -->
+            <div class="box" style="--w:100px;--d:80px;--h:110px;transform:translate(120px,-190px);
+                 --_t:#54b98a;--_r:#3d9a70;--_l:#2f7d5a;">
+              <i class="fy"></i><i class="fx"></i><i class="top"></i>
+            </div>
+
+            <!-- 装飾：木 -->
+            <div class="box" style="--w:24px;--d:24px;--h:46px;transform:translate(70px,120px);
+                 --_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;">
+              <i class="fy"></i><i class="fx"></i><i class="top"></i>
+            </div>
+            <div class="box" style="--w:24px;--d:24px;--h:38px;transform:translate(-150px,-150px);
+                 --_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;">
+              <i class="fy"></i><i class="fx"></i><i class="top"></i>
+            </div>
+          </div>
+
+          <!-- ラベル（立体の外・平面で重ねる → まっすぐ読める） -->
+          <a class="iso-label" href="#about"    style="left:320px;top:161px;">OneView</a>
+          <a class="iso-label" href="#services" style="left:278px;top:314px;">アプリ受託開発</a>
+          <a class="iso-label" href="#services" style="left:334px;top:83px;">プロジェクトマネジメント</a>
+        </div>
+      </div>
     </div>
   </section>
 
