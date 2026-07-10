@@ -214,6 +214,14 @@ body {
   border-radius: 2px;
   box-shadow: 0 8px 0 -2px rgba(0,0,0,.12);
 }
+.post .mark {                                   /* 〒マーク */
+  position: absolute;
+  left: 0; right: 0; top: 44%;
+  text-align: center;
+  color: #fff;
+  font: 700 22px/1 inherit;
+  transform: rotate(180deg);                    /* 3D面の向き補正（上下反転を戻す） */
+}
 
 /* ===== スマートフォン（アプリ受託開発） ===== */
 .phone .top { background: var(--_t); border-radius: 7px 7px 0 0; }
