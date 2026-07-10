@@ -201,6 +201,30 @@ body {
 /* 葉（角を丸めて茂みに） */
 .leaf .top, .leaf .fx, .leaf .fy { border-radius: 9px; }
 .leaf.round .top, .leaf.round .fx, .leaf.round .fy { border-radius: 50%; }
+
+/* ===== スマートフォン（アプリ受託開発） ===== */
+.phone .top { background: var(--_t); border-radius: 7px 7px 0 0; }
+.phone .fx  { background: var(--_l); border-radius: 0 0 0 7px; }
+.phone .fy  {                                   /* 前面（黒ベゼル） */
+  background: #12161f;
+  border-radius: 12px;
+  padding: 8px;
+}
+.phone .scr {                                   /* 画面 */
+  width: 100%; height: 100%;
+  background: linear-gradient(160deg, #eef3fa, #dfe7f2);
+  border-radius: 5px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 6px;
+  padding: 9px 8px;
+}
+.phone .scr span {                              /* アプリアイコン */
+  border-radius: 6px;
+  background: var(--c);
+  box-shadow: inset 0 -2px 3px rgba(0,0,0,.12);
+}
 /* ラベル（平面で重ねる → まっすぐ読める / クリック可） */
 .iso-label {
   position: absolute;
