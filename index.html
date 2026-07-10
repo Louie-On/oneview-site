@@ -18,6 +18,7 @@
     <ul>
       <li><button type="button" data-modal="company">会社概要</button></li>
       <li><button type="button" data-modal="app">アプリ受託開発</button></li>
+      <li><button type="button" data-modal="ai">AIラーニング</button></li>
       <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSeoEm-YK0NHAoZQN1prAbbCqa6cGhm_HLvX0jbfzxV1CSysTA/viewform" target="_blank" rel="noopener">お問い合わせ</a></li>
     </ul>
   </nav>
@@ -65,6 +66,22 @@
             <i class="fx"></i><i class="top"></i>
           </div>
 
+          <!-- AIラーニング：モニター＋卒業帽 -->
+          <div class="box ai" style="--w:56px;--d:40px;--h:56px;transform:translate(230px,180px);
+               --_t:#3a4152;--_r:#20242e;--_l:#2b3140;">
+            <i class="fy"><div class="scr"></div></i><i class="fx"></i><i class="top"></i>
+          </div>
+          <!-- 卒業帽の板（モニター上に中央寄せ） -->
+          <div class="box" style="--w:60px;--d:60px;--h:7px;transform:translate(228px,170px) translateZ(56px);
+               --_t:#23252f;--_r:#14161d;--_l:#191b23;">
+            <i class="fy"></i><i class="fx"></i><i class="top"></i>
+          </div>
+          <!-- 帽子の房（金） -->
+          <div class="box" style="--w:9px;--d:9px;--h:8px;transform:translate(253px,196px) translateZ(63px);
+               --_t:#f4c744;--_r:#d9ad2f;--_l:#c09826;">
+            <i class="fy"></i><i class="fx"></i><i class="top"></i>
+          </div>
+
           <!-- ===== 木（幹＋葉の立体：丸い木・針葉樹・低木） ===== -->
           <!-- 丸い木（公園内） -->
           <div class="box" style="--w:9px;--d:9px;--h:16px;transform:translate(-210px,180px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;" data-trunk><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
@@ -74,9 +91,9 @@
           <div class="box leaf round" style="--w:30px;--d:30px;--h:28px;transform:translate(204px,-196px) translateZ(14px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
 
           <!-- 針葉樹（2段）（公園内） -->
-          <div class="box" style="--w:9px;--d:9px;--h:16px;transform:translate(220px,180px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box leaf" style="--w:28px;--d:28px;--h:20px;transform:translate(207px,167px) translateZ(12px);--_t:#5bb36a;--_r:#43974f;--_l:#357c40;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box leaf" style="--w:18px;--d:18px;--h:20px;transform:translate(212px,172px) translateZ(30px);--_t:#67c076;--_r:#4fa35b;--_l:#3f8a4b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:9px;--d:9px;--h:16px;transform:translate(-110px,190px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box leaf" style="--w:28px;--d:28px;--h:20px;transform:translate(-123px,177px) translateZ(12px);--_t:#5bb36a;--_r:#43974f;--_l:#357c40;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box leaf" style="--w:18px;--d:18px;--h:20px;transform:translate(-118px,182px) translateZ(30px);--_t:#67c076;--_r:#4fa35b;--_l:#3f8a4b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
 
           <!-- ===== 街区の建物（道路の外側・多様なパターン） ===== -->
           <!-- 上：高層タワー / 中層オフィス / 低層ショップ -->
@@ -92,35 +109,36 @@
           <!-- 下：カフェ / 家 / タワー -->
           <div class="box bldg win-store" style="--w:80px;--d:64px;--h:50px;transform:translate(120px,490px);--_t:#f28d6b;--_r:#d97654;--_l:#bf6243;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
           <div class="box bldg win-band" style="--w:66px;--d:62px;--h:60px;transform:translate(-160px,490px);--_t:#8a6fd0;--_r:#6f55b5;--_l:#5a44a0;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box bldg win-fine" style="--w:64px;--d:64px;--h:128px;transform:translate(340px,470px);--_t:#9fb0c4;--_r:#8598ae;--_l:#6f8298;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-fine" style="--w:64px;--d:64px;--h:128px;transform:translate(430px,480px);--_t:#9fb0c4;--_r:#8598ae;--_l:#6f8298;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
 
           <!-- 左：オフィス / 低層 / 家 -->
           <div class="box bldg win-band" style="--w:70px;--d:68px;--h:98px;transform:translate(-500px,90px);--_t:#cdd8e2;--_r:#b3c2d2;--_l:#9caec2;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
           <div class="box bldg win-store" style="--w:80px;--d:66px;--h:52px;transform:translate(-510px,-170px);--_t:#7fb0d6;--_r:#6698c0;--_l:#5382a8;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box bldg win-band" style="--w:60px;--d:58px;--h:64px;transform:translate(-360px,340px);--_t:#e07aa0;--_r:#c96389;--_l:#b05174;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-band" style="--w:60px;--d:58px;--h:64px;transform:translate(-250px,410px);--_t:#e07aa0;--_r:#c96389;--_l:#b05174;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
 
           <!-- ===== 街路樹・低木（散らし） ===== -->
           <!-- 針葉樹 -->
-          <div class="box" style="--w:8px;--d:8px;--h:14px;transform:translate(-380px,-30px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box leaf" style="--w:24px;--d:24px;--h:18px;transform:translate(-388px,-38px) translateZ(11px);--_t:#5bb36a;--_r:#43974f;--_l:#357c40;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box leaf" style="--w:15px;--d:15px;--h:18px;transform:translate(-384px,-34px) translateZ(26px);--_t:#67c076;--_r:#4fa35b;--_l:#3f8a4b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:8px;--d:8px;--h:14px;transform:translate(-270px,-30px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box leaf" style="--w:24px;--d:24px;--h:18px;transform:translate(-278px,-38px) translateZ(11px);--_t:#5bb36a;--_r:#43974f;--_l:#357c40;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box leaf" style="--w:15px;--d:15px;--h:18px;transform:translate(-274px,-34px) translateZ(26px);--_t:#67c076;--_r:#4fa35b;--_l:#3f8a4b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
 
-          <div class="box" style="--w:8px;--d:8px;--h:14px;transform:translate(370px,-330px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box leaf" style="--w:24px;--d:24px;--h:18px;transform:translate(362px,-338px) translateZ(11px);--_t:#5bb36a;--_r:#43974f;--_l:#357c40;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box leaf" style="--w:15px;--d:15px;--h:18px;transform:translate(366px,-334px) translateZ(26px);--_t:#67c076;--_r:#4fa35b;--_l:#3f8a4b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:8px;--d:8px;--h:14px;transform:translate(255px,-235px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box leaf" style="--w:24px;--d:24px;--h:18px;transform:translate(247px,-243px) translateZ(11px);--_t:#5bb36a;--_r:#43974f;--_l:#357c40;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box leaf" style="--w:15px;--d:15px;--h:18px;transform:translate(251px,-239px) translateZ(26px);--_t:#67c076;--_r:#4fa35b;--_l:#3f8a4b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
 
           <!-- 丸い木 -->
-          <div class="box" style="--w:8px;--d:8px;--h:14px;transform:translate(-320px,320px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box leaf round" style="--w:26px;--d:26px;--h:24px;transform:translate(-329px,311px) translateZ(12px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:8px;--d:8px;--h:14px;transform:translate(-255px,225px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box leaf round" style="--w:26px;--d:26px;--h:24px;transform:translate(-264px,216px) translateZ(12px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
 
-          <div class="box" style="--w:8px;--d:8px;--h:14px;transform:translate(300px,150px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box leaf round" style="--w:26px;--d:26px;--h:24px;transform:translate(291px,141px) translateZ(12px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:8px;--d:8px;--h:14px;transform:translate(150px,240px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box leaf round" style="--w:26px;--d:26px;--h:24px;transform:translate(141px,231px) translateZ(12px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
 
         </div>
 
         <!-- ラベル（平面で重ねる → まっすぐ読める / クリックでモーダル） -->
         <button type="button" class="iso-label" data-modal="company" style="left:320px;top:161px;">OneView</button>
         <button type="button" class="iso-label" data-modal="app"     style="left:150px;top:240px;">アプリ受託開発</button>
+        <button type="button" class="iso-label" data-modal="ai"      style="left:600px;top:238px;">AIラーニング</button>
       </div>
     </div>
   </main>
@@ -140,7 +158,7 @@
         <tr><th>CEO</th><td>小野澤 留偉</td></tr>
         <tr><th>所在地</th><td>東京都渋谷区恵比寿西2丁目4番8号 ウィンド恵比寿ビル8F</td></tr>
         <tr><th>資本金</th><td>100,000円</td></tr>
-        <tr><th>事業内容</th><td>Web・モバイルアプリの受託開発 / プロジェクトマネジメント支援</td></tr>
+        <tr><th>事業内容</th><td>Web・モバイルアプリの受託開発 / プロジェクトマネジメント支援 / AIラーニング</td></tr>
       </table>
     </div>
   </div>
@@ -152,6 +170,16 @@
       <p class="modal__label">SERVICE</p>
       <h2 class="modal__title">アプリ受託開発</h2>
       <p class="modal__text">要件定義から設計・開発・リリースまで、Web／モバイルアプリを成果物として一貫開発・納品します。企画段階からの伴走で、確かなプロダクトをかたちにします。</p>
+    </div>
+  </div>
+
+  <!-- AIラーニング -->
+  <div class="modal" id="m-ai" hidden>
+    <div class="modal__panel">
+      <button type="button" class="modal__close" aria-label="閉じる">&times;</button>
+      <p class="modal__label">SERVICE</p>
+      <h2 class="modal__title">AIラーニング</h2>
+      <p class="modal__text">AI・機械学習を活用した学習支援や、AIリテラシー向上のための教育プログラムを提供します。実務に活かせるスキル習得を、伴走しながらサポートします。</p>
     </div>
   </div>
 
