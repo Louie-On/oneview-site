@@ -233,8 +233,8 @@ body {
 .post .mark .mb3 { left: 50%; width: 3px; top: 0; bottom: 6px; transform: translateX(-50%); }  /* 縦棒（下へ伸ばす） */
 
 /* ===== スマートフォン（アプリ受託開発） ===== */
-.phone .top { background: var(--_t); border-radius: 7px 7px 0 0; }
-.phone .fx  { background: var(--_l); border-radius: 0 0 0 7px; }
+.phone .top { background: var(--_t); border-radius: 12px; }
+.phone .fx  { background: var(--_l); border-radius: 12px; }
 .phone .fy  {                                   /* 前面（黒ベゼル） */
   background: #12161f;
   border-radius: 12px;
