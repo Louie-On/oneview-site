@@ -18,7 +18,7 @@ body {
   line-height: 1.8;
   -webkit-font-smoothing: antialiased;
   overflow: hidden;                 /* スクロールさせない（1画面完結） */
-  background: linear-gradient(160deg, #eef4fc, #f7fafd);
+  background: #f4f1ea;              /* 街の下地（クリーム） */
 }
 
 /* ===== 1画面メイン ===== */
@@ -103,46 +103,55 @@ body {
   position: absolute;
   width: 2600px; height: 2600px;
   left: -1300px; top: -1300px;
-  background: #dfe8f2;
-}
-/* 中央の芝生広場（道路より上に重ねる） */
-.ground::after {
-  content: "";
-  position: absolute;
-  left: 50%; top: 50%;
-  width: 250px; height: 250px;
-  transform: translate(-50%, -50%) translateZ(3px);
-  background: radial-gradient(circle, #cdeab4, #b6dd99);
-  border-radius: 50%;
+  background: #ece8de;              /* 街区の下地 */
 }
 .grid {
   position: absolute; inset: 0;
   background-image:
-    linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px);
-  background-size: 44px 44px;
+    linear-gradient(rgba(255,255,255,.45) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.45) 1px, transparent 1px);
+  background-size: 52px 52px;
 }
 
-/* 道路 */
-.road { position: absolute; background: #c6cfdb; transform: translateZ(2px); }
-.road::after { content: ""; position: absolute; }
-.road-x { width: 2600px; height: 66px; left: -1300px; top: -33px; }
-.road-x::after {
-  left: 0; right: 0; top: 50%; height: 4px; transform: translateY(-50%);
-  background: repeating-linear-gradient(to right, #fff 0 22px, transparent 22px 44px);
-}
-.road-y { width: 66px; height: 2600px; left: -33px; top: -1300px; }
-.road-y::after {
-  top: 0; bottom: 0; left: 50%; width: 4px; transform: translateX(-50%);
-  background: repeating-linear-gradient(to bottom, #fff 0 22px, transparent 22px 44px);
-}
-
-/* 芝生パッチ */
-.grass {
+/* 道路（グリッド） */
+.road {
   position: absolute;
-  background: radial-gradient(circle, #c6e6a8, #aed693);
-  border-radius: 26px;
+  background: #eae8e0;
+  box-shadow: inset 0 0 0 2px #ddd9cd;
   transform: translateZ(1px);
+}
+.road.h { height: 100px; width: 2600px; left: -1300px; }
+.road.v { width: 100px; height: 2600px; top: -1300px; }
+
+/* 横断歩道 */
+.cross { position: absolute; transform: translateZ(2px); }
+.cross.ch {
+  width: 72px; height: 100px;
+  background: repeating-linear-gradient(90deg, #fff 0 9px, transparent 9px 20px);
+}
+.cross.cv {
+  width: 100px; height: 72px;
+  background: repeating-linear-gradient(0deg, #fff 0 9px, transparent 9px 20px);
+}
+
+/* 中央公園（芝生） */
+.park {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 620px; height: 560px;
+  transform: translate(-50%, -50%) translateZ(2px);
+  background: radial-gradient(circle at 50% 42%, #a3d768, #83c14c);
+  border-radius: 140px;
+}
+/* 公園内の周回トラック */
+.track {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 400px; height: 320px;
+  box-sizing: border-box;
+  transform: translate(-50%, -50%) translateZ(3px);
+  border: 32px solid #dccea6;
+  border-radius: 50%;
 }
 /* 立方体（建物） */
 .box { position: absolute; transform-style: preserve-3d; }

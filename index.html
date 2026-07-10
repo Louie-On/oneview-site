@@ -30,83 +30,72 @@
         <div class="scene">
           <div class="ground"><div class="grid"></div></div>
 
-          <!-- 道路（十字） -->
-          <div class="road road-x"></div>
-          <div class="road road-y"></div>
+          <!-- 道路（グリッド：中央公園を囲む） -->
+          <div class="road h" style="top:-350px;"></div>
+          <div class="road h" style="top:250px;"></div>
+          <div class="road v" style="left:-390px;"></div>
+          <div class="road v" style="left:290px;"></div>
 
-          <!-- 芝生パッチ -->
-          <div class="grass" style="width:200px;height:180px;left:-360px;top:-330px;"></div>
-          <div class="grass" style="width:220px;height:170px;left:180px;top:220px;"></div>
-          <div class="grass" style="width:170px;height:170px;left:-360px;top:220px;"></div>
-          <div class="grass" style="width:190px;height:160px;left:200px;top:-330px;"></div>
+          <!-- 横断歩道 -->
+          <div class="cross ch" style="left:-36px;top:-350px;"></div>
+          <div class="cross ch" style="left:-36px;top:250px;"></div>
+          <div class="cross cv" style="left:-390px;top:-36px;"></div>
+          <div class="cross cv" style="left:290px;top:-36px;"></div>
+
+          <!-- 中央公園（芝生＋周回トラック） -->
+          <div class="park"></div>
+          <div class="track"></div>
 
           <!-- 中央：OneView 本社 -->
-          <div class="box" style="--w:120px;--d:120px;--h:150px;transform:translate(-60px,-60px);
+          <div class="box" style="--w:110px;--d:110px;--h:150px;transform:translate(-55px,-55px);
                --_t:#2f6fc4;--_r:#1a4d8f;--_l:#123a6e;">
             <i class="fy"></i><i class="fx"></i><i class="top"></i>
           </div>
 
-          <!-- 左下：アプリ受託開発 -->
-          <div class="box" style="--w:100px;--d:80px;--h:80px;transform:translate(-210px,60px);
+          <!-- アプリ受託開発 -->
+          <div class="box" style="--w:90px;--d:75px;--h:80px;transform:translate(-150px,40px);
                --_t:#f4c33a;--_r:#e0a91f;--_l:#c69516;">
             <i class="fy"></i><i class="fx"></i><i class="top"></i>
           </div>
 
-          <!-- 右上：PM／開発参画 -->
-          <div class="box" style="--w:100px;--d:80px;--h:110px;transform:translate(120px,-190px);
+          <!-- PM／開発参画 -->
+          <div class="box" style="--w:90px;--d:75px;--h:100px;transform:translate(70px,-150px);
                --_t:#54b98a;--_r:#3d9a70;--_l:#2f7d5a;">
             <i class="fy"></i><i class="fx"></i><i class="top"></i>
           </div>
 
-          <!-- 装飾：木 -->
-          <div class="box" style="--w:24px;--d:24px;--h:46px;transform:translate(70px,120px);
-               --_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;">
-            <i class="fy"></i><i class="fx"></i><i class="top"></i>
-          </div>
-          <div class="box" style="--w:24px;--d:24px;--h:38px;transform:translate(-150px,-150px);
-               --_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;">
-            <i class="fy"></i><i class="fx"></i><i class="top"></i>
-          </div>
-          <div class="box" style="--w:22px;--d:22px;--h:40px;transform:translate(-300px,240px);
-               --_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;">
-            <i class="fy"></i><i class="fx"></i><i class="top"></i>
-          </div>
-          <div class="box" style="--w:22px;--d:22px;--h:44px;transform:translate(250px,-300px);
-               --_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;">
-            <i class="fy"></i><i class="fx"></i><i class="top"></i>
-          </div>
-          <div class="box" style="--w:22px;--d:22px;--h:36px;transform:translate(230px,250px);
-               --_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;">
-            <i class="fy"></i><i class="fx"></i><i class="top"></i>
-          </div>
-          <div class="box" style="--w:22px;--d:22px;--h:42px;transform:translate(-330px,-300px);
-               --_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;">
-            <i class="fy"></i><i class="fx"></i><i class="top"></i>
-          </div>
+          <!-- 公園内の木 -->
+          <div class="box" style="--w:22px;--d:22px;--h:40px;transform:translate(-210px,180px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:22px;--d:22px;--h:44px;transform:translate(210px,-190px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:22px;--d:22px;--h:38px;transform:translate(220px,180px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
 
-          <!-- 装飾：小さな家・お店 -->
-          <div class="box" style="--w:60px;--d:55px;--h:55px;transform:translate(-320px,150px);
-               --_t:#f0864f;--_r:#d96f3c;--_l:#bf5e30;">
-            <i class="fy"></i><i class="fx"></i><i class="top"></i>
-          </div>
-          <div class="box" style="--w:60px;--d:55px;--h:62px;transform:translate(200px,-330px);
-               --_t:#3fb3b3;--_r:#2f9a9a;--_l:#268585;">
-            <i class="fy"></i><i class="fx"></i><i class="top"></i>
-          </div>
-          <div class="box" style="--w:55px;--d:55px;--h:48px;transform:translate(210px,210px);
-               --_t:#8a6fd0;--_r:#6f55b5;--_l:#5a44a0;">
-            <i class="fy"></i><i class="fx"></i><i class="top"></i>
-          </div>
-          <div class="box" style="--w:58px;--d:52px;--h:58px;transform:translate(-330px,-260px);
-               --_t:#e8b84b;--_r:#d0a238;--_l:#b88e2c;">
-            <i class="fy"></i><i class="fx"></i><i class="top"></i>
-          </div>
+          <!-- ===== 街区の建物（道路の外側） ===== -->
+          <!-- 上（工場風） -->
+          <div class="box" style="--w:100px;--d:80px;--h:70px;transform:translate(-90px,-500px);--_t:#c9cdd2;--_r:#b3b8bf;--_l:#9ca2aa;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:70px;--d:70px;--h:100px;transform:translate(120px,-470px);--_t:#cdd8e2;--_r:#b3c2d2;--_l:#9caec2;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <!-- 右（薬局・家） -->
+          <div class="box" style="--w:75px;--d:70px;--h:90px;transform:translate(480px,-150px);--_t:#4fb3a0;--_r:#3d9a88;--_l:#2f8171;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:70px;--d:65px;--h:58px;transform:translate(480px,110px);--_t:#e0685a;--_r:#c9564a;--_l:#b0483d;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <!-- 下（カフェ・家） -->
+          <div class="box" style="--w:75px;--d:65px;--h:55px;transform:translate(120px,470px);--_t:#f0a94f;--_r:#d9933c;--_l:#bf7d30;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:65px;--d:62px;--h:52px;transform:translate(-150px,480px);--_t:#8a6fd0;--_r:#6f55b5;--_l:#5a44a0;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <!-- 左（ビル・家） -->
+          <div class="box" style="--w:70px;--d:70px;--h:95px;transform:translate(-500px,90px);--_t:#e8b84b;--_r:#d0a238;--_l:#b88e2c;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:72px;--d:66px;--h:60px;transform:translate(-500px,-160px);--_t:#c9cdd2;--_r:#b3b8bf;--_l:#9ca2aa;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+
+          <!-- 街路樹 -->
+          <div class="box" style="--w:20px;--d:20px;--h:38px;transform:translate(-390px,-180px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:20px;--d:20px;--h:42px;transform:translate(-180px,-350px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:20px;--d:20px;--h:40px;transform:translate(290px,150px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:20px;--d:20px;--h:36px;transform:translate(150px,250px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:20px;--d:20px;--h:44px;transform:translate(-390px,90px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:20px;--d:20px;--h:40px;transform:translate(360px,-350px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
         </div>
 
         <!-- ラベル（平面で重ねる → まっすぐ読める / クリックでモーダル） -->
         <button type="button" class="iso-label" data-modal="company" style="left:320px;top:161px;">OneView</button>
-        <button type="button" class="iso-label" data-modal="app"     style="left:278px;top:314px;">アプリ受託開発</button>
-        <button type="button" class="iso-label" data-modal="pm"      style="left:334px;top:83px;">プロジェクトマネジメント</button>
+        <button type="button" class="iso-label" data-modal="app"     style="left:301px;top:286px;">アプリ受託開発</button>
+        <button type="button" class="iso-label" data-modal="pm"      style="left:322px;top:124px;">プロジェクトマネジメント</button>
       </div>
     </div>
   </main>
