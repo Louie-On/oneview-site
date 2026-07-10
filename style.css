@@ -7,6 +7,9 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+/* hidden 属性を確実に効かせる（display:flex 等に上書きされないように） */
+[hidden] { display: none !important; }
+
 html, body { height: 100%; }
 
 body {
