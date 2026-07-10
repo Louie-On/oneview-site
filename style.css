@@ -162,6 +162,19 @@ body {
 .box .top { width: var(--w); height: var(--d); transform: translateZ(var(--h)); }
 .box .fx  { width: var(--h); height: var(--d); transform-origin: top left; transform: translateX(var(--w)) rotateY(-90deg); }
 .box .fy  { width: var(--w); height: var(--h); transform-origin: top left; transform: translateY(var(--d)) rotateX(90deg); }
+
+/* ビル表現（窓・屋上のふち）— .bldg を付けた箱だけに適用（木には付けない） */
+.bldg .fx,
+.bldg .fy {
+  background-image:
+    linear-gradient(rgba(255,255,255,.30) 50%, transparent 50%),   /* フロアの窓帯 */
+    linear-gradient(90deg, rgba(0,0,0,.14) 2px, transparent 2px);   /* 柱（縦の割り） */
+  background-size: 100% 18px, 15px 100%;
+  background-position: 0 5px, 0 0;
+}
+.bldg .top {
+  box-shadow: inset 0 0 0 3px rgba(255,255,255,.20);                /* 屋上のパラペット */
+}
 /* ラベル（平面で重ねる → まっすぐ読める / クリック可） */
 .iso-label {
   position: absolute;
