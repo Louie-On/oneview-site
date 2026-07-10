@@ -140,7 +140,7 @@ body {
   position: absolute;
   left: 50%; top: 50%;
   width: 624px; height: 572px;               /* グリッド(52px)の整数倍でマスに合わせる */
-  transform: translate(-50%, -50%) translateZ(2px);
+  transform: translate(-50%, -50%) translateZ(8px);   /* 道路より十分上げて z-fighting（芝生に道路が透ける）を防ぐ */
   background: radial-gradient(circle at 50% 42%, #a3d768, #83c14c);
   border-radius: 36px;                        /* 角を控えめにして縁を床グリッドに沿わせる */
 }
@@ -150,7 +150,7 @@ body {
   left: 50%; top: 50%;
   width: 400px; height: 320px;
   box-sizing: border-box;
-  transform: translate(-50%, -50%) translateZ(3px);
+  transform: translate(-50%, -50%) translateZ(9px);
   border: 32px solid #dccea6;
   border-radius: 50%;
 }
