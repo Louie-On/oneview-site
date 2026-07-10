@@ -236,6 +236,7 @@
     function applyLayout(mob) {
       if (appliedMobile === mob) return;
       appliedMobile = mob;
+      document.body.classList.toggle('is-mobile', mob);   // スマホは芝生エリアのみ表示
       var L = mob ? LAYOUT.mobile : LAYOUT.desktop;
       Object.keys(L).forEach(function (sel) {
         var el = q(sel); if (!el) return;

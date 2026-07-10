@@ -407,6 +407,16 @@ body {
   vertical-align: top;
 }
 
+/* ===== スマホ：芝生エリアだけを見せる（道路・外周ビルを隠して全面を緑に） ===== */
+body.is-mobile { background: #83c14c; }              /* 画面全体を芝生の緑に */
+body.is-mobile .ground { background: #83c14c; }      /* 地面も緑（公園と一体化） */
+body.is-mobile .grid,
+body.is-mobile .road,
+body.is-mobile .cross,
+body.is-mobile .win-band,
+body.is-mobile .win-fine,
+body.is-mobile .win-store { display: none; }          /* グリッド線・道路・外周の装飾ビルを非表示 */
+
 /* ===== レスポンシブ ===== */
 /* アイソメの拡大縮小は JS（fitStage）が画面サイズに合わせて自動調整します */
 @media (max-width: 560px) {
