@@ -127,11 +127,11 @@ body {
 .cross { position: absolute; transform: translateZ(2px); }
 .cross.ch {
   width: 72px; height: 100px;
-  background: repeating-linear-gradient(90deg, #fff 0 9px, transparent 9px 20px);
+  background: repeating-linear-gradient(0deg, #fff 0 9px, transparent 9px 20px);
 }
 .cross.cv {
   width: 100px; height: 72px;
-  background: repeating-linear-gradient(0deg, #fff 0 9px, transparent 9px 20px);
+  background: repeating-linear-gradient(90deg, #fff 0 9px, transparent 9px 20px);
 }
 
 /* 中央公園（芝生） */
@@ -175,6 +175,32 @@ body {
 .bldg .top {
   box-shadow: inset 0 0 0 3px rgba(255,255,255,.20);                /* 屋上のパラペット */
 }
+/* 窓バリエーション：横連窓（オフィス） */
+.bldg.win-band .fx,
+.bldg.win-band .fy {
+  background-image: linear-gradient(rgba(255,255,255,.34) 45%, transparent 45%);
+  background-size: 100% 16px;
+  background-position: 0 6px;
+}
+/* 窓バリエーション：格子細かめ（タワー） */
+.bldg.win-fine .fx,
+.bldg.win-fine .fy {
+  background-size: 100% 12px, 10px 100%;
+}
+/* 窓バリエーション：大きめの窓（ショップ・低層） */
+.bldg.win-store .fx,
+.bldg.win-store .fy {
+  background-size: 100% 22px, 22px 100%;
+}
+
+/* ===== 木 ===== */
+/* 幹 */
+.trunk .top { background: #a9743f; }
+.trunk .fx  { background: #8f5f31; }
+.trunk .fy  { background: #7a5029; }
+/* 葉（角を丸めて茂みに） */
+.leaf .top, .leaf .fx, .leaf .fy { border-radius: 9px; }
+.leaf.round .top, .leaf.round .fx, .leaf.round .fy { border-radius: 50%; }
 /* ラベル（平面で重ねる → まっすぐ読める / クリック可） */
 .iso-label {
   position: absolute;
