@@ -102,8 +102,8 @@ body {
 /* 地面（画面いっぱいに敷き詰めるため大きく展開） */
 .ground {
   position: absolute;
-  width: 2600px; height: 2600px;
-  left: -1300px; top: -1300px;
+  width: 3800px; height: 3800px;
+  left: -1900px; top: -1900px;
   background: #f3f0e8;              /* 街区の下地（暖かいオフホワイト） */
 }
 .grid {
@@ -121,8 +121,8 @@ body {
   box-shadow: inset 0 0 0 2px #cbc9c1;
   transform: translateZ(1px);
 }
-.road.h { height: 100px; width: 2600px; left: -1300px; }
-.road.v { width: 100px; height: 2600px; top: -1300px; }
+.road.h { height: 100px; width: 3800px; left: -1900px; }
+.road.v { width: 100px; height: 3800px; top: -1900px; }
 
 /* 横断歩道 */
 .cross { position: absolute; transform: translateZ(2px); }
@@ -410,5 +410,10 @@ body {
 /* ===== レスポンシブ ===== */
 /* アイソメの拡大縮小は JS（fitStage）が画面サイズに合わせて自動調整します */
 @media (max-width: 560px) {
-  .burger { top: 16px; right: 16px; }
+  .burger { top: 16px; right: 16px; width: 42px; height: 42px; }
+  .modal { padding: 14px; }
+  .modal__panel { padding: 28px 22px; max-height: 88vh; }
+  .modal__title { font-size: 1.3rem; }
+  .modal__text { font-size: 0.92rem; }
+  .menu li button, .menu li a { font-size: 1.2rem; }
 }
