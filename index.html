@@ -54,7 +54,7 @@
           </div>
 
           <!-- アプリ受託開発：巨大スマートフォン -->
-          <div class="box phone" style="--w:62px;--d:17px;--h:104px;transform:translate(-225px,-150px);
+          <div id="obj-phone" class="box phone" style="--w:62px;--d:17px;--h:104px;transform:translate(-225px,-150px);
                --_t:#2b3140;--_r:#20242e;--_l:#3a4152;">
             <i class="fy">
               <div class="scr">
@@ -67,17 +67,17 @@
           </div>
 
           <!-- AIラーニング：モニター＋卒業帽 -->
-          <div class="box ai" style="--w:56px;--d:40px;--h:56px;transform:translate(205px,193px);
+          <div id="obj-aimon" class="box ai" style="--w:56px;--d:40px;--h:56px;transform:translate(205px,193px);
                --_t:#3a4152;--_r:#20242e;--_l:#2b3140;">
             <i class="fy"><div class="scr"></div></i><i class="fx"></i><i class="top"></i>
           </div>
           <!-- 卒業帽の板（モニター上に中央寄せ） -->
-          <div class="box" style="--w:60px;--d:60px;--h:7px;transform:translate(203px,183px) translateZ(56px);
+          <div id="obj-aicap" class="box" style="--w:60px;--d:60px;--h:7px;transform:translate(203px,183px) translateZ(56px);
                --_t:#23252f;--_r:#14161d;--_l:#191b23;">
             <i class="fy"></i><i class="fx"></i><i class="top"></i>
           </div>
           <!-- 帽子の房（金） -->
-          <div class="box" style="--w:9px;--d:9px;--h:8px;transform:translate(228px,209px) translateZ(63px);
+          <div id="obj-aitas" class="box" style="--w:9px;--d:9px;--h:8px;transform:translate(228px,209px) translateZ(63px);
                --_t:#f4c744;--_r:#d9ad2f;--_l:#c09826;">
             <i class="fy"></i><i class="fx"></i><i class="top"></i>
           </div>
@@ -210,10 +210,47 @@
   </div>
 
   <script>
-    // アイソメを画面いっぱいに自動フィット（画面サイズに対する相対拡大）
+    // アイソメを画面いっぱいに自動フィット。スマホでは要素を中央寄せしてズームイン
     var stage = document.querySelector('.stage');
+    var q = function (s) { return document.querySelector(s); };
+    // 通常配置 / スマホ用の中央寄せ配置
+    var LAYOUT = {
+      desktop: {
+        '#obj-phone':  'translate(-225px,-150px)',
+        '#obj-aimon':  'translate(205px,193px)',
+        '#obj-aicap':  'translate(203px,183px) translateZ(56px)',
+        '#obj-aitas':  'translate(228px,209px) translateZ(63px)',
+        '.spot[data-modal="app"]': [82, 174],
+        '.spot[data-modal="ai"]':  [635, 184]
+      },
+      mobile: {
+        '#obj-phone':  'translate(-160px,-115px)',
+        '#obj-aimon':  'translate(145px,125px)',
+        '#obj-aicap':  'translate(143px,115px) translateZ(56px)',
+        '#obj-aitas':  'translate(168px,141px) translateZ(63px)',
+        '.spot[data-modal="app"]': [153, 183],
+        '.spot[data-modal="ai"]':  [545, 200]
+      }
+    };
+    var appliedMobile = null;
+    function applyLayout(mob) {
+      if (appliedMobile === mob) return;
+      appliedMobile = mob;
+      var L = mob ? LAYOUT.mobile : LAYOUT.desktop;
+      Object.keys(L).forEach(function (sel) {
+        var el = q(sel); if (!el) return;
+        var v = L[sel];
+        if (typeof v === 'string') { el.style.transform = v; }
+        else { el.style.left = v[0] + 'px'; el.style.top = v[1] + 'px'; }
+      });
+    }
     function fitStage() {
-      var s = Math.min(window.innerWidth / 700, window.innerHeight / 660) * 0.98;
+      var vw = window.innerWidth, vh = window.innerHeight;
+      var mob = vw < 768;
+      applyLayout(mob);
+      var s = mob
+        ? Math.min(vw / 545, vh / 600) * 0.97   // スマホ：中央寄せした分だけ大きく
+        : Math.min(vw / 700, vh / 660) * 0.98;
       stage.style.transform = 'translate(-50%, -50%) scale(' + s + ')';
     }
     window.addEventListener('resize', fitStage);
