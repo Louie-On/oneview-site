@@ -203,6 +203,12 @@ body {
 .leaf .top, .leaf .fx, .leaf .fy { border-radius: 9px; }
 .leaf.round .top, .leaf.round .fx, .leaf.round .fy { border-radius: 50%; }
 
+/* ===== 自社プロダクト Bona：アイコンタイル ===== */
+.bona .fy {
+  background: #000 url("bona-icon.png") center / cover no-repeat;
+  border-radius: 9px;
+}
+
 /* ===== お問い合わせ：郵便ポスト ===== */
 .post .top { border-radius: 5px 5px 0 0; }
 .post .fy { position: relative; }

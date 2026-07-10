@@ -19,6 +19,7 @@
       <li><button type="button" data-modal="company">会社概要</button></li>
       <li><button type="button" data-modal="app">アプリ受託開発</button></li>
       <li><button type="button" data-modal="ai">AIラーニング</button></li>
+      <li><button type="button" data-modal="bona">Bona（自社プロダクト）</button></li>
       <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSeoEm-YK0NHAoZQN1prAbbCqa6cGhm_HLvX0jbfzxV1CSysTA/viewform" target="_blank" rel="noopener">お問い合わせ</a></li>
     </ul>
   </nav>
@@ -93,6 +94,16 @@
             <i class="fy"></i><i class="fx"></i><i class="top"></i>
           </div>
 
+          <!-- 自社プロダクト Bona：台座ショーケース -->
+          <div class="box" style="--w:52px;--d:44px;--h:34px;transform:translate(-70px,195px);
+               --_t:#ece9e0;--_r:#d8d4c8;--_l:#cbc7ba;">
+            <i class="fy"></i><i class="fx"></i><i class="top"></i>
+          </div>
+          <div class="box bona" style="--w:44px;--d:11px;--h:46px;transform:translate(-66px,212px) translateZ(34px);
+               --_t:#262626;--_r:#1c1c1c;--_l:#1c1c1c;">
+            <i class="fy"></i><i class="fx"></i><i class="top"></i>
+          </div>
+
           <!-- ===== 木（幹＋葉の立体：丸い木・針葉樹・低木） ===== -->
           <!-- 丸い木（公園内） -->
           <div class="box" style="--w:9px;--d:9px;--h:16px;transform:translate(-210px,180px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;" data-trunk><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
@@ -144,6 +155,7 @@
         <button type="button" class="spot" data-modal="app"     data-name="アプリ受託開発" style="left:82px;top:174px;" aria-label="アプリ受託開発"></button>
         <button type="button" class="spot" data-modal="ai"      data-name="AIラーニング" style="left:635px;top:184px;" aria-label="AIラーニング"></button>
         <a class="spot" href="https://docs.google.com/forms/d/e/1FAIpQLSeoEm-YK0NHAoZQN1prAbbCqa6cGhm_HLvX0jbfzxV1CSysTA/viewform" target="_blank" rel="noopener" data-name="お問い合わせ" style="left:512px;top:250px;" aria-label="お問い合わせ"></a>
+        <button type="button" class="spot" data-modal="bona" data-name="Bona（自社プロダクト）" style="left:442px;top:274px;" aria-label="Bona"></button>
       </div>
     </div>
   </main>
@@ -185,6 +197,17 @@
       <p class="modal__label">SERVICE</p>
       <h2 class="modal__title">AIラーニング</h2>
       <p class="modal__text">AI・機械学習を活用した学習支援や、AIリテラシー向上のための教育プログラムを提供します。実務に活かせるスキル習得を、伴走しながらサポートします。</p>
+    </div>
+  </div>
+
+  <!-- 自社プロダクト Bona -->
+  <div class="modal" id="m-bona" hidden>
+    <div class="modal__panel">
+      <button type="button" class="modal__close" aria-label="閉じる">&times;</button>
+      <p class="modal__label">PRODUCT</p>
+      <img src="bona-icon.png" alt="Bona アプリアイコン" style="width:84px;height:84px;border-radius:19px;display:block;margin:2px 0 16px;box-shadow:0 6px 16px rgba(20,50,100,.18);">
+      <h2 class="modal__title">Bona</h2>
+      <p class="modal__text">OneViewが開発する自社プロダクト「Bona」。（ここにアプリの説明・特長を記載してください。）</p>
     </div>
   </div>
 
