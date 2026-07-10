@@ -97,6 +97,7 @@ body {
   left: 320px;
   transform-style: preserve-3d;
   transform: rotateX(60deg) rotateZ(-45deg);
+  pointer-events: none;            /* 街のジオメトリはクリック対象外。＋ボタンだけ反応させる */
 }
 /* 地面（画面いっぱいに敷き詰めるため大きく展開） */
 .ground {
@@ -270,6 +271,52 @@ body {
   transition: transform 0.15s;
 }
 .iso-label:hover { transform: translate(-50%, -50%) scale(1.06); }
+
+/* ===== ＋ホットスポット（クリックでポップアップ） ===== */
+.spot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: #fff;
+  border: none;
+  cursor: pointer;
+  color: var(--color-main);
+  font: 700 26px/1 inherit;
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none;
+  box-shadow: 0 5px 14px rgba(20, 50, 100, 0.28);
+  animation: spot-pulse 2.4s ease-out infinite;
+  transition: transform 0.15s, background 0.2s, color 0.2s;
+}
+.spot::before { content: "+"; margin-top: -2px; }
+.spot:hover {
+  background: var(--color-main);
+  color: #fff;
+  transform: translate(-50%, -50%) scale(1.18);
+  animation: none;
+}
+/* ホバーで名前を表示 */
+.spot::after {
+  content: attr(data-name);
+  position: absolute;
+  bottom: 128%; left: 50%;
+  transform: translateX(-50%);
+  background: #fff; color: var(--color-dark);
+  font: 700 12px/1 inherit; white-space: nowrap;
+  padding: 6px 12px; border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(20, 50, 100, 0.2);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.15s;
+}
+.spot:hover::after { opacity: 1; }
+/* パルスリング（押せることを示唆） */
+@keyframes spot-pulse {
+  0%   { box-shadow: 0 5px 14px rgba(20,50,100,.28), 0 0 0 0 rgba(26,77,143,.45); }
+  70%  { box-shadow: 0 5px 14px rgba(20,50,100,.28), 0 0 0 13px rgba(26,77,143,0); }
+  100% { box-shadow: 0 5px 14px rgba(20,50,100,.28), 0 0 0 0 rgba(26,77,143,0); }
+}
+@media (prefers-reduced-motion: reduce) { .spot { animation: none; } }
 
 /* ===== モーダル ===== */
 .modal {
