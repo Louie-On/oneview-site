@@ -9,107 +9,77 @@
 </head>
 <body>
 
-  <!-- ヘッダー -->
-  <header class="header">
-    <div class="container header__inner">
-      <a href="#" class="logo">OneView<span>合同会社</span></a>
-      <nav class="nav">
-        <a href="#about">私たちについて</a>
-        <a href="#services">事業内容</a>
-        <a href="#company">会社概要</a>
-        <a href="#contact">お問い合わせ</a>
-      </nav>
+  <!-- ハンバーガーメニュー -->
+  <button type="button" class="burger" id="burger" aria-label="メニューを開く">
+    <span></span><span></span><span></span>
+  </button>
+  <nav class="menu" id="menu" hidden>
+    <button type="button" class="menu__close" aria-label="閉じる">&times;</button>
+    <ul>
+      <li><button type="button" data-modal="company">会社概要</button></li>
+      <li><button type="button" data-modal="app">アプリ受託開発</button></li>
+      <li><button type="button" data-modal="pm">プロジェクトマネジメント</button></li>
+      <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSeoEm-YK0NHAoZQN1prAbbCqa6cGhm_HLvX0jbfzxV1CSysTA/viewform" target="_blank" rel="noopener">お問い合わせ</a></li>
+    </ul>
+  </nav>
+
+  <!-- 1画面完結メイン -->
+  <main class="screen">
+    <div class="screen__copy">
+      <h1 class="screen__title">すべてをひとつのViewに</h1>
+      <p class="screen__lead">散らばった情報や複雑さを、ひとつのわかりやすい視点へ。</p>
+      <p class="screen__hint">ブロックをクリックすると詳細が開きます</p>
     </div>
-  </header>
 
-  <!-- ヒーロー（アイソメ） -->
-  <section class="hero">
-    <div class="container hero__inner">
-      <div class="hero__copy">
-        <h1 class="hero__title">すべてをひとつのViewに</h1>
-        <p class="hero__lead">散らばった情報や複雑さを、ひとつのわかりやすい視点へ。<br>OneViewは、シンプルでわかりやすいプロダクトづくりを支援します。</p>
-        <a href="#contact" class="btn btn--primary">お問い合わせ</a>
-      </div>
+    <div class="hero__scene">
+      <div class="stage">
+        <div class="scene">
+          <div class="ground"><div class="grid"></div></div>
 
-      <div class="hero__scene">
-        <div class="stage">
-          <div class="scene">
-            <div class="ground"><div class="grid"></div></div>
-
-            <!-- 中央：OneView 本社 -->
-            <div class="box" style="--w:120px;--d:120px;--h:150px;transform:translate(-60px,-60px);
-                 --_t:#2f6fc4;--_r:#1a4d8f;--_l:#123a6e;">
-              <i class="fy"></i><i class="fx"></i><i class="top"></i>
-            </div>
-
-            <!-- 左下：アプリ受託開発 -->
-            <div class="box" style="--w:100px;--d:80px;--h:80px;transform:translate(-210px,60px);
-                 --_t:#f4c33a;--_r:#e0a91f;--_l:#c69516;">
-              <i class="fy"></i><i class="fx"></i><i class="top"></i>
-            </div>
-
-            <!-- 右上：PM／開発参画 -->
-            <div class="box" style="--w:100px;--d:80px;--h:110px;transform:translate(120px,-190px);
-                 --_t:#54b98a;--_r:#3d9a70;--_l:#2f7d5a;">
-              <i class="fy"></i><i class="fx"></i><i class="top"></i>
-            </div>
-
-            <!-- 装飾：木 -->
-            <div class="box" style="--w:24px;--d:24px;--h:46px;transform:translate(70px,120px);
-                 --_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;">
-              <i class="fy"></i><i class="fx"></i><i class="top"></i>
-            </div>
-            <div class="box" style="--w:24px;--d:24px;--h:38px;transform:translate(-150px,-150px);
-                 --_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;">
-              <i class="fy"></i><i class="fx"></i><i class="top"></i>
-            </div>
+          <!-- 中央：OneView 本社 -->
+          <div class="box" style="--w:120px;--d:120px;--h:150px;transform:translate(-60px,-60px);
+               --_t:#2f6fc4;--_r:#1a4d8f;--_l:#123a6e;">
+            <i class="fy"></i><i class="fx"></i><i class="top"></i>
           </div>
 
-          <!-- ラベル（立体の外・平面で重ねる → まっすぐ読める） -->
-          <a class="iso-label" href="#about"    style="left:320px;top:161px;">OneView</a>
-          <a class="iso-label" href="#services" style="left:278px;top:314px;">アプリ受託開発</a>
-          <a class="iso-label" href="#services" style="left:334px;top:83px;">プロジェクトマネジメント</a>
+          <!-- 左下：アプリ受託開発 -->
+          <div class="box" style="--w:100px;--d:80px;--h:80px;transform:translate(-210px,60px);
+               --_t:#f4c33a;--_r:#e0a91f;--_l:#c69516;">
+            <i class="fy"></i><i class="fx"></i><i class="top"></i>
+          </div>
+
+          <!-- 右上：PM／開発参画 -->
+          <div class="box" style="--w:100px;--d:80px;--h:110px;transform:translate(120px,-190px);
+               --_t:#54b98a;--_r:#3d9a70;--_l:#2f7d5a;">
+            <i class="fy"></i><i class="fx"></i><i class="top"></i>
+          </div>
+
+          <!-- 装飾：木 -->
+          <div class="box" style="--w:24px;--d:24px;--h:46px;transform:translate(70px,120px);
+               --_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;">
+            <i class="fy"></i><i class="fx"></i><i class="top"></i>
+          </div>
+          <div class="box" style="--w:24px;--d:24px;--h:38px;transform:translate(-150px,-150px);
+               --_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;">
+            <i class="fy"></i><i class="fx"></i><i class="top"></i>
+          </div>
         </div>
+
+        <!-- ラベル（平面で重ねる → まっすぐ読める / クリックでモーダル） -->
+        <button type="button" class="iso-label" data-modal="company" style="left:320px;top:161px;">OneView</button>
+        <button type="button" class="iso-label" data-modal="app"     style="left:278px;top:314px;">アプリ受託開発</button>
+        <button type="button" class="iso-label" data-modal="pm"      style="left:334px;top:83px;">プロジェクトマネジメント</button>
       </div>
     </div>
-  </section>
+  </main>
 
-  <!-- 私たちについて -->
-  <section id="about" class="section">
-    <div class="container">
-      <p class="section__label">ABOUT</p>
-      <h2 class="section__title">私たちについて</h2>
-      <p class="section__text">
-        OneView合同会社は、Web・モバイルアプリの受託開発とプロジェクトマネジメントを軸に、
-        お客様のプロダクト開発を支援しています。企画から開発・運用まで一貫して伴走し、
-        確かな価値を届けることを大切にしています。
-      </p>
-    </div>
-  </section>
-
-  <!-- 事業内容 -->
-  <section id="services" class="section section--gray">
-    <div class="container">
-      <p class="section__label">SERVICES</p>
-      <h2 class="section__title">事業内容</h2>
-      <div class="cards cards--two">
-        <div class="card">
-          <h3>アプリ受託開発</h3>
-          <p>要件定義から設計・開発・リリースまで、Web／モバイルアプリを成果物として一貫開発・納品します。</p>
-        </div>
-        <div class="card">
-          <h3>プロジェクトマネジメント／開発参画</h3>
-          <p>お客様の開発プロジェクトにPMとして参画し、進行管理・チーム推進を担います。</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
+  <!-- ===== モーダル ===== -->
   <!-- 会社概要 -->
-  <section id="company" class="section">
-    <div class="container">
-      <p class="section__label">COMPANY</p>
-      <h2 class="section__title">会社概要</h2>
+  <div class="modal" id="m-company" hidden>
+    <div class="modal__panel">
+      <button type="button" class="modal__close" aria-label="閉じる">&times;</button>
+      <p class="modal__label">COMPANY</p>
+      <h2 class="modal__title">会社概要</h2>
       <table class="company-table">
         <tr><th>会社名</th><td>OneView合同会社</td></tr>
         <tr><th>設立</th><td>2026年6月29日</td></tr>
@@ -121,24 +91,62 @@
         <tr><th>事業内容</th><td>Web・モバイルアプリの受託開発 / プロジェクトマネジメント支援</td></tr>
       </table>
     </div>
-  </section>
+  </div>
 
-  <!-- お問い合わせ -->
-  <section id="contact" class="section section--gray">
-    <div class="container container--narrow">
-      <p class="section__label">CONTACT</p>
-      <h2 class="section__title">お問い合わせ</h2>
-      <p class="section__text">下記フォームよりお気軽にお問い合わせください。</p>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSeoEm-YK0NHAoZQN1prAbbCqa6cGhm_HLvX0jbfzxV1CSysTA/viewform" class="btn" target="_blank" rel="noopener">お問い合わせフォームへ</a>
+  <!-- アプリ受託開発 -->
+  <div class="modal" id="m-app" hidden>
+    <div class="modal__panel">
+      <button type="button" class="modal__close" aria-label="閉じる">&times;</button>
+      <p class="modal__label">SERVICE</p>
+      <h2 class="modal__title">アプリ受託開発</h2>
+      <p class="modal__text">要件定義から設計・開発・リリースまで、Web／モバイルアプリを成果物として一貫開発・納品します。企画段階からの伴走で、確かなプロダクトをかたちにします。</p>
     </div>
-  </section>
+  </div>
 
-  <!-- フッター -->
-  <footer class="footer">
-    <div class="container">
-      <p>&copy; 2026 OneView合同会社. All rights reserved.</p>
+  <!-- プロジェクトマネジメント -->
+  <div class="modal" id="m-pm" hidden>
+    <div class="modal__panel">
+      <button type="button" class="modal__close" aria-label="閉じる">&times;</button>
+      <p class="modal__label">SERVICE</p>
+      <h2 class="modal__title">プロジェクトマネジメント／開発参画</h2>
+      <p class="modal__text">お客様の開発プロジェクトにPMとして参画し、進行管理・チーム推進を担います。開発現場を前に進め、プロジェクトを成功へ導きます。</p>
     </div>
-  </footer>
+  </div>
+
+  <footer class="foot">&copy; 2026 OneView合同会社</footer>
+
+  <script>
+    var menu = document.getElementById('menu');
+    var burger = document.getElementById('burger');
+
+    // ハンバーガー開閉
+    burger.addEventListener('click', function () { menu.hidden = false; });
+    menu.addEventListener('click', function (e) {
+      if (e.target === menu || e.target.classList.contains('menu__close')) menu.hidden = true;
+    });
+
+    // モーダル開閉（メニュー項目・ラベル共通）
+    document.querySelectorAll('[data-modal]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        menu.hidden = true;
+        var m = document.getElementById('m-' + btn.dataset.modal);
+        if (m) m.hidden = false;
+      });
+    });
+    document.querySelectorAll('.modal').forEach(function (modal) {
+      modal.addEventListener('click', function (e) {
+        if (e.target === modal || e.target.classList.contains('modal__close')) modal.hidden = true;
+      });
+    });
+
+    // Escで全て閉じる
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        menu.hidden = true;
+        document.querySelectorAll('.modal').forEach(function (m) { m.hidden = true; });
+      }
+    });
+  </script>
 
 </body>
 </html>
