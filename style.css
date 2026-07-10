@@ -98,21 +98,20 @@ body {
   transform-style: preserve-3d;
   transform: rotateX(60deg) rotateZ(-45deg);
 }
-/* 地面 */
+/* 地面（画面いっぱいに敷き詰めるため大きく展開） */
 .ground {
   position: absolute;
-  width: 440px; height: 440px;
-  left: -220px; top: -220px;
+  width: 2600px; height: 2600px;
+  left: -1300px; top: -1300px;
   background: #dfe8f2;
-  border-radius: 18px;
-  box-shadow: 0 40px 60px rgba(20, 50, 100, 0.18);
 }
+/* 中央の芝生広場（道路より上に重ねる） */
 .ground::after {
   content: "";
   position: absolute;
   left: 50%; top: 50%;
   width: 250px; height: 250px;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) translateZ(3px);
   background: radial-gradient(circle, #cdeab4, #b6dd99);
   border-radius: 50%;
 }
@@ -122,7 +121,28 @@ body {
     linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px);
   background-size: 44px 44px;
-  border-radius: 18px;
+}
+
+/* 道路 */
+.road { position: absolute; background: #c6cfdb; transform: translateZ(2px); }
+.road::after { content: ""; position: absolute; }
+.road-x { width: 2600px; height: 66px; left: -1300px; top: -33px; }
+.road-x::after {
+  left: 0; right: 0; top: 50%; height: 4px; transform: translateY(-50%);
+  background: repeating-linear-gradient(to right, #fff 0 22px, transparent 22px 44px);
+}
+.road-y { width: 66px; height: 2600px; left: -33px; top: -1300px; }
+.road-y::after {
+  top: 0; bottom: 0; left: 50%; width: 4px; transform: translateX(-50%);
+  background: repeating-linear-gradient(to bottom, #fff 0 22px, transparent 22px 44px);
+}
+
+/* 芝生パッチ */
+.grass {
+  position: absolute;
+  background: radial-gradient(circle, #c6e6a8, #aed693);
+  border-radius: 26px;
+  transform: translateZ(1px);
 }
 /* 立方体（建物） */
 .box { position: absolute; transform-style: preserve-3d; }
