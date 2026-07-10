@@ -25,12 +25,6 @@
 
   <!-- 1画面完結メイン -->
   <main class="screen">
-    <div class="screen__copy">
-      <h1 class="screen__title">すべてをひとつのViewに</h1>
-      <p class="screen__lead">散らばった情報や複雑さを、ひとつのわかりやすい視点へ。</p>
-      <p class="screen__hint">ブロックをクリックすると詳細が開きます</p>
-    </div>
-
     <div class="hero__scene">
       <div class="stage">
         <div class="scene">
@@ -116,6 +110,15 @@
   <footer class="foot">&copy; 2026 OneView合同会社</footer>
 
   <script>
+    // アイソメを画面いっぱいに自動フィット（画面サイズに対する相対拡大）
+    var stage = document.querySelector('.stage');
+    function fitStage() {
+      var s = Math.min(window.innerWidth / 700, window.innerHeight / 660) * 0.98;
+      stage.style.transform = 'translate(-50%, -50%) scale(' + s + ')';
+    }
+    window.addEventListener('resize', fitStage);
+    fitStage();
+
     var menu = document.getElementById('menu');
     var burger = document.getElementById('burger');
 
