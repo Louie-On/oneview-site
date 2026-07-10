@@ -18,7 +18,7 @@ body {
   line-height: 1.8;
   -webkit-font-smoothing: antialiased;
   overflow: hidden;                 /* スクロールさせない（1画面完結） */
-  background: #ece8de;              /* 街の下地（床と同色で境目を目立たせない） */
+  background: #f3f0e8;              /* 街の下地（暖かいオフホワイト） */
 }
 
 /* ===== 1画面メイン ===== */
@@ -103,7 +103,7 @@ body {
   position: absolute;
   width: 2600px; height: 2600px;
   left: -1300px; top: -1300px;
-  background: #ece8de;              /* 街区の下地 */
+  background: #f3f0e8;              /* 街区の下地（暖かいオフホワイト） */
 }
 .grid {
   position: absolute; inset: 0;
@@ -116,8 +116,8 @@ body {
 /* 道路（グリッド） */
 .road {
   position: absolute;
-  background: #eae8e0;
-  box-shadow: inset 0 0 0 2px #ddd9cd;
+  background: #d8d7d1;              /* 道路（ライトグレー） */
+  box-shadow: inset 0 0 0 2px #cbc9c1;
   transform: translateZ(1px);
 }
 .road.h { height: 100px; width: 2600px; left: -1300px; }
