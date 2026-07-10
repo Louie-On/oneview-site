@@ -157,9 +157,9 @@ body {
 /* 立方体（建物） */
 .box { position: absolute; transform-style: preserve-3d; }
 .box > i { position: absolute; top: 0; left: 0; display: block; }
-.box .top { background: var(--_t); }
-.box .fx  { background: var(--_r); }
-.box .fy  { background: var(--_l); }
+.box .top { background: var(--_t); box-shadow: 0 0 0 1px var(--_t); }
+.box .fx  { background: var(--_r); box-shadow: 0 0 0 1px var(--_r); }
+.box .fy  { background: var(--_l); box-shadow: 0 0 0 1px var(--_l); }
 .box .top { width: var(--w); height: var(--d); transform: translateZ(var(--h)); }
 .box .fx  { width: var(--h); height: var(--d); transform-origin: top left; transform: rotateY(-90deg); }
 .box .fy  { width: var(--w); height: var(--h); transform-origin: top left; transform: translateY(var(--d)) rotateX(90deg); }
@@ -174,7 +174,7 @@ body {
   background-position: 0 5px, 0 0;
 }
 .bldg .top {
-  box-shadow: inset 0 0 0 3px rgba(255,255,255,.20);                /* 屋上のパラペット */
+  box-shadow: inset 0 0 0 3px rgba(255,255,255,.20), 0 0 0 1px var(--_t);   /* 屋上のパラペット＋隙間埋め */
 }
 /* 窓バリエーション：横連窓（オフィス） */
 .bldg.win-band .fx,
