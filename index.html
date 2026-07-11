@@ -791,6 +791,123 @@
     addVehicle(makeBus('#3f9c6d'), 'x', -44, -3, +1, -90, 3);
     addVehicle(makeTaxi(), 'z', 44, +3, -1, 70, 4.5);
 
+    // ---------- 低木・生垣・花壇・ベンチ・バス停・噴水広場 ----------
+    // 低木（丸い茂み）
+    function makeBush(x, z, s = 1) {
+      const b = new THREE.Mesh(new THREE.IcosahedronGeometry(1.6, 1),
+        new THREE.MeshStandardMaterial({ color: '#6fae4e', roughness: 1, flatShading: true }));
+      b.scale.set(s, s * 0.8, s); b.position.set(x, 1.2 * s, z); b.castShadow = true; scene.add(b); return b;
+    }
+    // 生垣（低い緑の壁）
+    function makeHedge(x, z, len, axis) {
+      const w = axis === 'x' ? len : 1.4, d = axis === 'x' ? 1.4 : len;
+      const h = new THREE.Mesh(new RoundedBoxGeometry(w, 1.6, d, 2, 0.4),
+        new THREE.MeshStandardMaterial({ color: '#5c9e43', roughness: 1 }));
+      h.position.set(x, 0.9, z); h.castShadow = true; h.receiveShadow = true; scene.add(h); return h;
+    }
+    // 花壇（土＋色とりどりの花）
+    function makeFlowerBed(x, z) {
+      const g = new THREE.Group();
+      const bed = new THREE.Mesh(new RoundedBoxGeometry(3, 0.5, 3, 2, 0.12),
+        new THREE.MeshStandardMaterial({ color: '#6b5140', roughness: 1 }));
+      bed.position.y = 0.25; bed.receiveShadow = true; g.add(bed);
+      const cols = ['#e8615b', '#f4c430', '#f06595', '#9775fa', '#4dabf7', '#ff922b'];
+      for (let i = 0; i < 9; i++) {
+        const flower = new THREE.Mesh(new THREE.SphereGeometry(0.28, 8, 6),
+          new THREE.MeshStandardMaterial({ color: cols[(i * 2) % cols.length], roughness: 0.7 }));
+        flower.position.set(-1 + (i % 3) * 1, 0.62, -1 + Math.floor(i / 3) * 1); g.add(flower);
+      }
+      g.position.set(x, 0.1, z); scene.add(g); return g;
+    }
+    // ベンチ
+    function makeBench(x, z, rotY = 0) {
+      const g = new THREE.Group();
+      const wood = new THREE.MeshStandardMaterial({ color: '#a9763f', roughness: 0.8 });
+      const seat = new THREE.Mesh(new THREE.BoxGeometry(2.6, 0.16, 0.8), wood);
+      seat.position.y = 0.7; seat.castShadow = true;
+      const back = new THREE.Mesh(new THREE.BoxGeometry(2.6, 0.7, 0.14), wood);
+      back.position.set(0, 1.05, -0.33);
+      g.add(seat, back);
+      [[-1.1, 0.3], [1.1, 0.3], [-1.1, -0.3], [1.1, -0.3]].forEach(([lx, lz]) => {
+        const leg = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.7, 0.12), new THREE.MeshStandardMaterial({ color: '#5a5f66' }));
+        leg.position.set(lx, 0.35, lz); g.add(leg);
+      });
+      g.position.set(x, 0.1, z); g.rotation.y = rotY; scene.add(g); return g;
+    }
+    // バス停（屋根＋ガラス壁＋ベンチ＋サイン）
+    function makeBusStop(x, z, rotY = 0) {
+      const g = new THREE.Group();
+      const frame = new THREE.MeshStandardMaterial({ color: '#5a6470', roughness: 0.5, metalness: 0.2 });
+      const roof = new THREE.Mesh(new RoundedBoxGeometry(4.6, 0.2, 2, 2, 0.08), frame);
+      roof.position.y = 3.1; roof.castShadow = true; g.add(roof);
+      const wall = new THREE.Mesh(new THREE.BoxGeometry(4.6, 2.4, 0.1),
+        new THREE.MeshStandardMaterial({ color: '#bcd6e8', roughness: 0.2, metalness: 0.1, transparent: true, opacity: 0.6 }));
+      wall.position.set(0, 1.9, -0.9); g.add(wall);
+      [-2.2, 2.2].forEach(px => {
+        const post = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 3, 8), frame);
+        post.position.set(px, 1.5, -0.9); post.castShadow = true; g.add(post);
+      });
+      const seat = new THREE.Mesh(new THREE.BoxGeometry(3.6, 0.15, 0.6), new THREE.MeshStandardMaterial({ color: '#8a8f98' }));
+      seat.position.set(0, 0.7, -0.55); g.add(seat);
+      const sPost = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 3.4, 8), frame);
+      sPost.position.set(2.6, 1.7, 0.7); g.add(sPost);
+      const sign = new THREE.Mesh(new THREE.CircleGeometry(0.5, 20),
+        new THREE.MeshStandardMaterial({ color: '#2b6cb0', roughness: 0.5, side: THREE.DoubleSide }));
+      sign.position.set(2.6, 3.3, 0.71); g.add(sign);
+      g.position.set(x, 0.1, z); g.rotation.y = rotY; scene.add(g); return g;
+    }
+    // 噴水
+    function makeFountain(x, z) {
+      const g = new THREE.Group();
+      const stone = new THREE.MeshStandardMaterial({ color: '#c9c4b8', roughness: 0.9 });
+      const waterMat = new THREE.MeshStandardMaterial({ color: '#5aa8d8', roughness: 0.15, metalness: 0.3, transparent: true, opacity: 0.85 });
+      const basin = new THREE.Mesh(new THREE.CylinderGeometry(3.4, 3.6, 0.8, 28), stone);
+      basin.position.y = 0.4; basin.castShadow = true; basin.receiveShadow = true; g.add(basin);
+      const water = new THREE.Mesh(new THREE.CylinderGeometry(3.0, 3.0, 0.3, 28), waterMat);
+      water.position.y = 0.7; g.add(water);
+      const column = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.7, 1.6, 16), stone);
+      column.position.y = 1.4; column.castShadow = true; g.add(column);
+      const tier = new THREE.Mesh(new THREE.CylinderGeometry(1.3, 1.3, 0.3, 24), stone);
+      tier.position.y = 2.2; tier.castShadow = true; g.add(tier);
+      const tierWater = new THREE.Mesh(new THREE.CylinderGeometry(1.1, 1.1, 0.15, 24), waterMat);
+      tierWater.position.y = 2.36; g.add(tierWater);
+      const spout = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.18, 1.6, 8),
+        new THREE.MeshStandardMaterial({ color: '#bfe4f5', roughness: 0.1, transparent: true, opacity: 0.6 }));
+      spout.position.y = 3.15; g.add(spout);
+      g.position.set(x, 0.1, z); scene.add(g); return g;
+    }
+
+    // 噴水広場（公園の右手・開けたエリア）
+    (function () {
+      const px = 28, pz = -4;
+      const plaza = new THREE.Mesh(new THREE.CircleGeometry(7.5, 40),
+        new THREE.MeshStandardMaterial({ color: '#dcd6c8', roughness: 1 }));
+      plaza.rotation.x = -Math.PI / 2; plaza.position.set(px, 0.085, pz); plaza.receiveShadow = true; scene.add(plaza);
+      makeFountain(px, pz);
+      makeBench(px - 6, pz, Math.PI / 2);
+      makeBench(px + 6, pz, -Math.PI / 2);
+      makeBench(px, pz + 6, Math.PI);
+      makeFlowerBed(px - 5, pz - 5);
+      makeFlowerBed(px + 5, pz - 5);
+      [[px - 6.5, pz + 5], [px + 6.5, pz + 5], [px - 7, pz - 1], [px + 7, pz - 1]].forEach(([bx, bz]) => makeBush(bx, bz, 0.9));
+    })();
+
+    // バス停（バス路線 z=-44 沿いの歩道）
+    makeBusStop(-24, -53, 0);
+
+    // 公園内のベンチ
+    makeBench(-7, 26, Math.PI);
+    makeBench(9, 28, Math.PI);
+
+    // 生垣（開けた場所のアクセント）
+    makeHedge(-28, 9, 10, 'x');
+    makeHedge(7, 31, 10, 'x');
+    makeHedge(31, 15, 8, 'z');
+
+    // 低木を公園の縁に点在
+    [[-33, -16], [-16, -33], [16, -33], [33, -18], [-33, 18], [33, 20], [-19, 33], [14, 33]]
+      .forEach(([bx, bz], i) => makeBush(bx, bz, 0.9 + (i % 3) * 0.15));
+
     // ---------- ＋ホットスポット（HTMLを3D位置に投影） ----------
     const hotspots = [];
     clickable.forEach(obj => {
