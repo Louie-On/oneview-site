@@ -195,13 +195,8 @@
     // 地面（道路グリッド＋横断歩道）
     function groundTexture() {
       const N = 2048, c = makeCanvas(N, N), x = c.getContext('2d');
-      x.fillStyle = '#f3f0e8'; x.fillRect(0, 0, N, N);              // 街区（クリーム）
+      x.fillStyle = '#f3f0e8'; x.fillRect(0, 0, N, N);              // 街区（クリーム・グリッド無し）
       const mid = N / 2, unit = 150;                                 // 1ブロック=150px
-      x.strokeStyle = 'rgba(255,255,255,0.5)'; x.lineWidth = 2;      // グリッド線
-      for (let i = -12; i <= 12; i++) {
-        x.beginPath(); x.moveTo(mid + i * 60, 0); x.lineTo(mid + i * 60, N); x.stroke();
-        x.beginPath(); x.moveTo(0, mid + i * 60); x.lineTo(N, mid + i * 60); x.stroke();
-      }
       // 道路（グレー）
       x.fillStyle = '#d8d7d1';
       const roadW = 42;                                              // 2車線程度に細く
