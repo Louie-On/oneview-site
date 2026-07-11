@@ -516,6 +516,7 @@
       const face = new THREE.Mesh(new THREE.PlaneGeometry(4.0, 4.2), new THREE.MeshBasicMaterial({ map: tex }));
       face.position.set(0, 5.7, 0.27); bona.add(face);
     });
+    bona.scale.setScalar(2);   // 2倍に拡大
     bona.position.set(-9, 0.1, 15);
     bona.rotation.y = 0;
     scene.add(bona);
