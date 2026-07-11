@@ -352,7 +352,7 @@
       return g;
     }
     // 教室の床
-    const floor = new THREE.Mesh(new RoundedBoxGeometry(7.5, 0.3, 6.5, 2, 0.15),
+    const floor = new THREE.Mesh(new RoundedBoxGeometry(8, 0.3, 7, 2, 0.15),
       new THREE.MeshStandardMaterial({ color: '#e5ddcd', roughness: 0.9 }));
     floor.position.y = 0.15; floor.receiveShadow = true;
     // 黒板（ニューラルネット図）
@@ -374,26 +374,74 @@
         new THREE.MeshStandardMaterial({ color: '#6b513a', roughness: 0.8 }));
       leg.position.set(lx, 0.8, -2.7); leg.castShadow = true; return leg;
     });
-    // 講師（正面向き）＋指し棒
+    // 着席した生徒（椅子＋机＋人）※ローカルは +z 向き（前方に机）
+    function seatedStudent(shirt, pants, hair, skin = '#e8b48c') {
+      const g = new THREE.Group();
+      const mat = c => new THREE.MeshStandardMaterial({ color: c, roughness: 0.7 });
+      const seatY = 0.8;
+      // 椅子（座面＋背もたれ＋脚）
+      const seat = new THREE.Mesh(new RoundedBoxGeometry(0.6, 0.1, 0.55, 2, 0.05), mat('#8a6b4f'));
+      seat.position.set(0, seatY - 0.05, -0.05); seat.castShadow = true; g.add(seat);
+      const back = new THREE.Mesh(new RoundedBoxGeometry(0.56, 0.6, 0.09, 2, 0.05), mat('#8a6b4f'));
+      back.position.set(0, seatY + 0.3, -0.3); back.castShadow = true; g.add(back);
+      [[-0.25, -0.28], [0.25, -0.28], [-0.25, 0.18], [0.25, 0.18]].forEach(([lx, lz]) => {
+        const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, seatY - 0.1, 6), mat('#6f563f'));
+        leg.position.set(lx, (seatY - 0.1) / 2, lz); g.add(leg);
+      });
+      // 机（前方 +z）：天板＋脚
+      const top = new THREE.Mesh(new RoundedBoxGeometry(1.0, 0.09, 0.62, 2, 0.05), mat('#cdb896'));
+      top.position.set(0, 0.98, 0.62); top.castShadow = true; g.add(top);
+      [[-0.42, 0.4], [0.42, 0.4], [-0.42, 0.84], [0.42, 0.84]].forEach(([lx, lz]) => {
+        const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.94, 6), mat('#b39f7e'));
+        leg.position.set(lx, 0.47, lz); g.add(leg);
+      });
+      // 生徒（着席姿勢）
+      const torso = new THREE.Mesh(new RoundedBoxGeometry(0.66, 0.78, 0.4, 3, 0.16), mat(shirt));
+      torso.position.set(0, seatY + 0.44, -0.02); torso.castShadow = true; g.add(torso);
+      const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 0.12, 8), mat(skin));
+      neck.position.set(0, seatY + 0.86, -0.02); g.add(neck);
+      const head = new THREE.Mesh(new THREE.SphereGeometry(0.25, 16, 14), mat(skin));
+      head.position.set(0, seatY + 1.08, -0.02); head.castShadow = true; g.add(head);
+      const hairM = new THREE.Mesh(new THREE.SphereGeometry(0.27, 16, 14, 0, Math.PI * 2, 0, Math.PI * 0.62), mat(hair));
+      hairM.position.set(0, seatY + 1.12, -0.04); g.add(hairM);
+      // 太もも（水平）＋すね（垂直）＋靴
+      [-0.17, 0.17].forEach(dx => {
+        const thigh = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.13, 0.5, 10), mat(pants));
+        thigh.rotation.x = Math.PI / 2; thigh.position.set(dx, seatY, 0.22); thigh.castShadow = true; g.add(thigh);
+        const shin = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.11, 0.7, 10), mat(pants));
+        shin.position.set(dx, 0.35, 0.44); g.add(shin);
+        const shoe = new THREE.Mesh(new RoundedBoxGeometry(0.2, 0.14, 0.4, 2, 0.05), mat('#3a2f28'));
+        shoe.position.set(dx, 0.08, 0.56); shoe.castShadow = true; g.add(shoe);
+      });
+      // 腕（机の上へ）
+      [-0.4, 0.4].forEach(dx => {
+        const arm = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.085, 0.6, 10), mat(shirt));
+        arm.rotation.x = Math.PI / 2.4; arm.position.set(dx, seatY + 0.5, 0.2); g.add(arm);
+      });
+      return g;
+    }
+    // 講師（生徒の方を向いて説明）＋指し棒
     const teacher = person('#34507a', '#2b3a55', 1.0, '#2a2118');
-    teacher.position.set(-2.0, 0.3, -0.9);
+    teacher.position.set(-2.2, 0.3, -1.2);
+    teacher.rotation.y = Math.PI * 0.12;   // 生徒側へ少し向く
     const pointer = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 1.8, 8),
       new THREE.MeshStandardMaterial({ color: '#d8b048', roughness: 0.5 }));
-    pointer.rotation.z = Math.PI / 3; pointer.position.set(0.6, 1.8, 0.15);
+    pointer.rotation.z = -Math.PI / 3; pointer.position.set(-0.6, 1.8, 0.15);   // 黒板側を指す
     teacher.add(pointer);
-    // 生徒3人（後ろ姿・黒板の方を向く）
+    // 生徒3人（机と椅子に着席・黒板の方を向く）
     const studentStyle = [
       ['#e0685a', '#38506e', '#2a2118'],  // 赤シャツ×デニム
       ['#f4c744', '#5a4a3a', '#5a3a24'],  // 黄シャツ×ブラウン
       ['#51cf66', '#3a4a5a', '#2a2118'],  // 緑シャツ×スレート
     ];
     const students = new THREE.Group();
-    [-1.6, 0.1, 1.7].forEach((sx, i) => {
+    [-1.7, 0.1, 1.9].forEach((sx, i) => {
       const [shirt, pants, hair] = studentStyle[i];
-      const s = person(shirt, pants, 0.86, hair);
-      s.position.set(sx, 0.3, 1.6);
-      s.rotation.y = Math.PI;   // 黒板の方（-z）を向く＝後ろ姿
-      students.add(s);
+      const unit = seatedStudent(shirt, pants, hair);
+      unit.scale.setScalar(0.9);
+      unit.position.set(sx, 0.3, 1.35);
+      unit.rotation.y = Math.PI;   // 黒板の方（-z）を向く＝後ろ姿
+      students.add(unit);
     });
     ai.add(floor, boardFrame, boardPanel, ...boardLegs, teacher, students);
     ai.position.set(16, 0.1, 8);
