@@ -327,8 +327,8 @@
       g.textAlign = 'center'; g.textBaseline = 'middle';
       g.fillText('OneView LLC', 256, 78);
       const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8;
+      const roofY = 17.5, cy = 2.3;
       const roofSign = new THREE.Group();
-      const cy = 2.3;
       const panel = new THREE.Mesh(new RoundedBoxGeometry(8, 2.2, 0.3, 3, 0.1),
         new THREE.MeshStandardMaterial({ color: '#1a4d8f', roughness: 0.5 }));
       panel.position.set(0, cy, 0); panel.castShadow = true;
@@ -336,15 +336,18 @@
       face.position.set(0, cy, 0.17);
       const faceB = new THREE.Mesh(new THREE.PlaneGeometry(7.7, 2.0), new THREE.MeshBasicMaterial({ map: tex }));
       faceB.position.set(0, cy, -0.17); faceB.rotation.y = Math.PI;
-      [-2.6, 2.6].forEach(px => {
-        const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.13, 1.5, 10),
-          new THREE.MeshStandardMaterial({ color: '#7f8792', roughness: 0.6, metalness: 0.3 }));
-        leg.position.set(px, 0.75, 0); leg.castShadow = true; roofSign.add(leg);
-      });
       roofSign.add(panel, face, faceB);
-      roofSign.scale.setScalar(3);       // 看板を3倍に
-      roofSign.position.set(0, 17.5, 0);  // 屋上に接地
+      roofSign.scale.setScalar(3);        // パネルを3倍に
+      roofSign.position.set(0, roofY, 0);
       oneview.add(roofSign);
+      // 柱：屋上（±4・ビルの上）から生えてパネル下端まで伸ばす
+      const panelBottom = roofY + (cy - 1.1) * 3;   // パネル下端の高さ
+      const h = panelBottom - roofY + 0.5;
+      [-4, 4].forEach(px => {
+        const post = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.35, h, 12),
+          new THREE.MeshStandardMaterial({ color: '#7f8792', roughness: 0.6, metalness: 0.3 }));
+        post.position.set(px, roofY + h / 2, 0); post.castShadow = true; oneview.add(post);
+      });
     })();
     scene.add(oneview);
     tag(oneview, { modal: 'company', name: '会社概要' });
@@ -569,6 +572,37 @@
     // 街路樹（区画内・道路を避ける）
     [[-72, -20], [-20, -72], [72, 20], [20, 72], [-72, 20], [72, -20], [-20, 72], [20, -72],
      [-108, -108], [108, 108], [-108, 108], [108, -108]].forEach((p, i) => tree(p[0], p[1], 0.85 + (i % 3) * 0.15));
+
+    // 道路沿いの並木（各道路の両側に等間隔・交差点/建物/道路上は避ける）
+    (function () {
+      const lanes = [-132, -44, 44, 132], off = 10;
+      const nearRoad = v => lanes.some(c => Math.abs(v - c) < 13);
+      const inBuilding = (tx, tz) => {
+        for (let bx = -180; bx <= 180; bx += 36)
+          for (let bz = -180; bz <= 180; bz += 36) {
+            if (nearRoad(bx) || nearRoad(bz)) continue;
+            if (Math.abs(bx) < 30 && Math.abs(bz) < 26) continue;
+            if (Math.abs(tx - bx) < 9 && Math.abs(tz - bz) < 9) return true;
+          }
+        return false;
+      };
+      const seen = new Set();
+      let i = 0;
+      const plant = (tx, tz) => {
+        const key = Math.round(tx) + ',' + Math.round(tz);
+        if (seen.has(key)) return; seen.add(key);
+        if (Math.abs(tx) > 172 || Math.abs(tz) > 172) return;
+        if (inBuilding(tx, tz)) return;
+        tree(tx, tz, 0.75 + (i++ % 4) * 0.12);
+      };
+      lanes.forEach(rc => {
+        for (let t = -168; t <= 168; t += 28) {
+          if (nearRoad(t)) continue;                 // 交差点付近はスキップ
+          plant(rc - off, t); plant(rc + off, t);    // 縦道路（x=rc）の両側
+          plant(t, rc - off); plant(t, rc + off);    // 横道路（z=rc）の両側
+        }
+      });
+    })();
 
     // mamori 看板（右上エリア・支援プロダクト）
     (function () {
