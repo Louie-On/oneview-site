@@ -560,7 +560,7 @@
       });
       sign.add(panel, face, faceB);
       sign.position.set(10, 0, -60);   // 右上ブロック（青ビルの手前）
-      sign.rotation.y = Math.PI / 4;   // 正面（カメラ方向）を向く
+      sign.rotation.y = 0;             // ビルと同じ軸沿いの向き（+Z面）
       scene.add(sign);
     })();
 
