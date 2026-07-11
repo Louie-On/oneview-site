@@ -6,8 +6,22 @@
   <title>OneView合同会社</title>
   <meta name="description" content="OneView合同会社のコーポレートサイト。私たちの事業・会社概要・お問い合わせはこちら。">
   <link rel="stylesheet" href="style.css">
+  <style>
+    body { overflow: hidden; background: #eef1f4; }
+    #app { position: fixed; inset: 0; }
+    #app canvas { display: block; }
+    /* 3D上に重ねる＋ホットスポット */
+    #spots { position: fixed; inset: 0; pointer-events: none; z-index: 5; }
+    #spots .spot { pointer-events: auto; position: absolute; }
+    #loading { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+      color: #6b7686; font: 600 15px/1 "Hiragino Kaku Gothic ProN", system-ui, sans-serif; z-index: 2; }
+  </style>
 </head>
 <body>
+
+  <div id="loading">読み込み中…</div>
+  <div id="app"></div>
+  <div id="spots"></div>
 
   <!-- ハンバーガーメニュー -->
   <button type="button" class="burger" id="burger" aria-label="メニューを開く">
@@ -24,160 +38,7 @@
     </ul>
   </nav>
 
-  <!-- 1画面完結メイン -->
-  <main class="screen">
-    <div class="hero__scene">
-      <div class="stage">
-        <div class="scene">
-          <div class="ground"><div class="grid"></div></div>
-
-          <!-- 道路（グリッド：中央公園を囲む＋外周まで拡張） -->
-          <div class="road h" style="top:-650px;"></div>
-          <div class="road h" style="top:-350px;"></div>
-          <div class="road h" style="top:250px;"></div>
-          <div class="road h" style="top:550px;"></div>
-          <div class="road v" style="left:-720px;"></div>
-          <div class="road v" style="left:-390px;"></div>
-          <div class="road v" style="left:290px;"></div>
-          <div class="road v" style="left:620px;"></div>
-
-          <!-- 横断歩道（中央公園まわり） -->
-          <div class="cross ch" style="left:-36px;top:-350px;"></div>
-          <div class="cross ch" style="left:-36px;top:250px;"></div>
-          <div class="cross cv" style="left:-390px;top:-36px;"></div>
-          <div class="cross cv" style="left:290px;top:-36px;"></div>
-
-          <!-- 中央公園（芝生＋周回トラック） -->
-          <div class="park"></div>
-          <div class="track"></div>
-
-          <!-- 中央：OneView 本社 -->
-          <div class="box bldg" style="--w:110px;--d:110px;--h:150px;transform:translate(-55px,-55px);
-               --_t:#2f6fc4;--_r:#1a4d8f;--_l:#123a6e;">
-            <i class="fy"></i><i class="fx"></i><i class="top"></i>
-          </div>
-
-          <!-- アプリ受託開発：巨大スマートフォン -->
-          <div id="obj-phone" class="box phone" style="--w:62px;--d:17px;--h:104px;transform:translate(-225px,-150px);
-               --_t:#2b3140;--_r:#20242e;--_l:#3a4152;">
-            <i class="fy">
-              <div class="scr">
-                <span style="--c:#ff6b6b"></span><span style="--c:#4dabf7"></span><span style="--c:#51cf66"></span>
-                <span style="--c:#ffd43b"></span><span style="--c:#845ef7"></span><span style="--c:#ff922b"></span>
-                <span style="--c:#22b8cf"></span><span style="--c:#f06595"></span><span style="--c:#94d82d"></span>
-                <span style="--c:#5c7cfa"></span><span style="--c:#ffa94d"></span><span style="--c:#20c997"></span>
-              </div>
-            </i>
-          </div>
-
-          <!-- AIラーニング：モニター＋卒業帽 -->
-          <div id="obj-aimon" class="box ai" style="--w:56px;--d:40px;--h:56px;transform:translate(205px,193px);
-               --_t:#3a4152;--_r:#20242e;--_l:#2b3140;">
-            <i class="fy"><div class="scr"></div></i><i class="fx"></i><i class="top"></i>
-          </div>
-          <!-- 卒業帽の板（モニター上に中央寄せ） -->
-          <div id="obj-aicap" class="box" style="--w:60px;--d:60px;--h:7px;transform:translate(203px,183px) translateZ(56px);
-               --_t:#23252f;--_r:#14161d;--_l:#191b23;">
-            <i class="fy"></i><i class="fx"></i><i class="top"></i>
-          </div>
-          <!-- 帽子の房（金） -->
-          <div id="obj-aitas" class="box" style="--w:9px;--d:9px;--h:8px;transform:translate(228px,209px) translateZ(63px);
-               --_t:#f4c744;--_r:#d9ad2f;--_l:#c09826;">
-            <i class="fy"></i><i class="fx"></i><i class="top"></i>
-          </div>
-
-          <!-- お問い合わせ：郵便ポスト -->
-          <div class="box post" style="--w:40px;--d:34px;--h:62px;transform:translate(30px,205px);
-               --_t:#e23b3b;--_r:#c22e2e;--_l:#a82727;">
-            <i class="fy"><span class="mark"><b class="mb1"></b><b class="mb2"></b><b class="mb3"></b></span><span class="slot"></span></i><i class="fx"></i><i class="top"></i>
-          </div>
-          <!-- ポストの屋根（少し張り出し） -->
-          <div class="box" style="--w:46px;--d:40px;--h:7px;transform:translate(27px,202px) translateZ(62px);
-               --_t:#b62727;--_r:#9c2020;--_l:#871c1c;">
-            <i class="fy"></i><i class="fx"></i><i class="top"></i>
-          </div>
-
-          <!-- 自社プロダクト Bona：台座ショーケース -->
-          <div class="box" style="--w:52px;--d:44px;--h:34px;transform:translate(-70px,195px);
-               --_t:#ece9e0;--_r:#d8d4c8;--_l:#cbc7ba;">
-            <i class="fy"></i><i class="fx"></i><i class="top"></i>
-          </div>
-          <div class="box bona" style="--w:44px;--d:6px;--h:46px;transform:translate(-66px,214px) translateZ(34px);
-               --_t:#262626;--_r:#1c1c1c;--_l:#1c1c1c;">
-            <i class="fy"></i>
-          </div>
-
-          <!-- ===== 木（幹＋葉の立体：丸い木・針葉樹・低木） ===== -->
-          <!-- 丸い木（公園内） -->
-          <div class="box" style="--w:9px;--d:9px;--h:16px;transform:translate(-210px,180px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;" data-trunk><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box leaf round" style="--w:30px;--d:30px;--h:28px;transform:translate(-221px,169px) translateZ(14px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-
-
-          <!-- 針葉樹（2段）（公園内） -->
-          <div class="box" style="--w:9px;--d:9px;--h:16px;transform:translate(-110px,190px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box leaf" style="--w:28px;--d:28px;--h:20px;transform:translate(-123px,177px) translateZ(12px);--_t:#5bb36a;--_r:#43974f;--_l:#357c40;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box leaf" style="--w:18px;--d:18px;--h:20px;transform:translate(-118px,182px) translateZ(30px);--_t:#67c076;--_r:#4fa35b;--_l:#3f8a4b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-
-          <!-- ===== 街区の建物（密な街並み・グリッド配置） ===== -->
-          <div class="box bldg win-band" style="--w:58px;--d:54px;--h:50px;transform:translate(-849px,-802px);--_t:#9fb0c4;--_r:#8598ae;--_l:#6f8298;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box bldg win-fine" style="--w:65px;--d:59px;--h:79px;transform:translate(-537px,-804px);--_t:#5bb6a2;--_r:#469a88;--_l:#387f70;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box bldg win-store" style="--w:72px;--d:64px;--h:108px;transform:translate(-36px,-807px);--_t:#f0a94f;--_r:#d9933c;--_l:#bf7d30;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box bldg win-band" style="--w:79px;--d:69px;--h:137px;transform:translate(466px,-809px);--_t:#4fb3a0;--_r:#3d9a88;--_l:#2f8171;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box bldg win-fine" style="--w:86px;--d:74px;--h:61px;transform:translate(777px,-812px);--_t:#e0685a;--_r:#c9564a;--_l:#b0483d;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box bldg win-store" style="--w:61px;--d:79px;--h:90px;transform:translate(-850px,-489px);--_t:#e8b84b;--_r:#d0a238;--_l:#b88e2c;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box bldg win-band" style="--w:68px;--d:58px;--h:119px;transform:translate(-539px,-479px);--_t:#8a6fd0;--_r:#6f55b5;--_l:#5a44a0;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box bldg win-fine" style="--w:75px;--d:63px;--h:148px;transform:translate(-37px,-481px);--_t:#7fb0d6;--_r:#6698c0;--_l:#5382a8;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box bldg win-store" style="--w:82px;--d:68px;--h:72px;transform:translate(464px,-484px);--_t:#e07aa0;--_r:#c96389;--_l:#b05174;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box bldg win-band" style="--w:89px;--d:73px;--h:101px;transform:translate(776px,-486px);--_t:#f28d6b;--_r:#d97654;--_l:#bf6243;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box bldg win-fine" style="--w:64px;--d:78px;--h:130px;transform:translate(-852px,-39px);--_t:#b0b7c0;--_r:#989fa9;--_l:#828a95;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box bldg win-store" style="--w:71px;--d:57px;--h:54px;transform:translate(-540px,-28px);--_t:#6f9fd6;--_r:#5686bd;--_l:#4571a3;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box bldg win-band" style="--w:78px;--d:62px;--h:83px;transform:translate(466px,-31px);--_t:#9fb0c4;--_r:#8598ae;--_l:#6f8298;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box bldg win-fine" style="--w:85px;--d:67px;--h:112px;transform:translate(778px,-33px);--_t:#5bb6a2;--_r:#469a88;--_l:#387f70;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box bldg win-store" style="--w:60px;--d:72px;--h:141px;transform:translate(-850px,414px);--_t:#f0a94f;--_r:#d9933c;--_l:#bf7d30;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box bldg win-band" style="--w:67px;--d:77px;--h:65px;transform:translate(-538px,412px);--_t:#4fb3a0;--_r:#3d9a88;--_l:#2f8171;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box bldg win-fine" style="--w:74px;--d:56px;--h:94px;transform:translate(-37px,422px);--_t:#e0685a;--_r:#c9564a;--_l:#b0483d;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box bldg win-store" style="--w:81px;--d:61px;--h:123px;transform:translate(465px,420px);--_t:#e8b84b;--_r:#d0a238;--_l:#b88e2c;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box bldg win-band" style="--w:88px;--d:66px;--h:152px;transform:translate(776px,417px);--_t:#8a6fd0;--_r:#6f55b5;--_l:#5a44a0;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box bldg win-fine" style="--w:63px;--d:71px;--h:76px;transform:translate(-851px,740px);--_t:#7fb0d6;--_r:#6698c0;--_l:#5382a8;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box bldg win-store" style="--w:70px;--d:76px;--h:105px;transform:translate(-540px,737px);--_t:#e07aa0;--_r:#c96389;--_l:#b05174;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box bldg win-band" style="--w:77px;--d:55px;--h:134px;transform:translate(-38px,748px);--_t:#f28d6b;--_r:#d97654;--_l:#bf6243;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box bldg win-fine" style="--w:84px;--d:60px;--h:58px;transform:translate(463px,745px);--_t:#b0b7c0;--_r:#989fa9;--_l:#828a95;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box bldg win-store" style="--w:59px;--d:65px;--h:87px;transform:translate(791px,743px);--_t:#6f9fd6;--_r:#5686bd;--_l:#4571a3;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <!-- ===== 街路樹 ===== -->
-          <div class="box" style="--w:8px;--d:8px;--h:15px;transform:translate(-660px,-180px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box leaf round" style="--w:26px;--d:26px;--h:26px;transform:translate(-669px,-189px) translateZ(13px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box" style="--w:8px;--d:8px;--h:15px;transform:translate(-180px,-660px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box leaf round" style="--w:26px;--d:26px;--h:29px;transform:translate(-189px,-669px) translateZ(13px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box" style="--w:8px;--d:8px;--h:15px;transform:translate(660px,180px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box leaf round" style="--w:26px;--d:26px;--h:32px;transform:translate(651px,171px) translateZ(13px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box" style="--w:8px;--d:8px;--h:15px;transform:translate(180px,660px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box leaf round" style="--w:26px;--d:26px;--h:27px;transform:translate(171px,651px) translateZ(13px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box" style="--w:8px;--d:8px;--h:15px;transform:translate(-660px,180px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box leaf round" style="--w:26px;--d:26px;--h:30px;transform:translate(-669px,171px) translateZ(13px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box" style="--w:8px;--d:8px;--h:15px;transform:translate(660px,-180px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box leaf round" style="--w:26px;--d:26px;--h:33px;transform:translate(651px,-189px) translateZ(13px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box" style="--w:8px;--d:8px;--h:15px;transform:translate(-180px,660px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box leaf round" style="--w:26px;--d:26px;--h:28px;transform:translate(-189px,651px) translateZ(13px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box" style="--w:8px;--d:8px;--h:15px;transform:translate(180px,-660px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box leaf round" style="--w:26px;--d:26px;--h:31px;transform:translate(171px,-669px) translateZ(13px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box" style="--w:8px;--d:8px;--h:15px;transform:translate(-460px,-680px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box leaf round" style="--w:26px;--d:26px;--h:26px;transform:translate(-469px,-689px) translateZ(13px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box" style="--w:8px;--d:8px;--h:15px;transform:translate(460px,680px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box leaf round" style="--w:26px;--d:26px;--h:29px;transform:translate(451px,671px) translateZ(13px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-        </div>
-
-        <!-- ＋ホットスポット（クリックでポップアップ / お問い合わせはフォーム） -->
-        <button type="button" class="spot" data-modal="company" data-name="会社概要" style="left:320px;top:100px;" aria-label="会社概要"></button>
-        <button type="button" class="spot" data-modal="app"     data-name="アプリ受託開発" style="left:82px;top:174px;" aria-label="アプリ受託開発"></button>
-        <button type="button" class="spot" data-modal="ai"      data-name="AIラーニング" style="left:635px;top:184px;" aria-label="AIラーニング"></button>
-        <a class="spot" href="https://docs.google.com/forms/d/e/1FAIpQLSeoEm-YK0NHAoZQN1prAbbCqa6cGhm_HLvX0jbfzxV1CSysTA/viewform" target="_blank" rel="noopener" data-name="お問い合わせ" style="left:512px;top:250px;" aria-label="お問い合わせ"></a>
-        <button type="button" class="spot" data-modal="bona" data-name="Bona（自社プロダクト）" style="left:442px;top:274px;" aria-label="Bona"></button>
-      </div>
-    </div>
-  </main>
-
   <!-- ===== モーダル ===== -->
-  <!-- 会社概要 -->
   <div class="modal" id="m-company" hidden>
     <div class="modal__panel">
       <button type="button" class="modal__close" aria-label="閉じる">&times;</button>
@@ -196,7 +57,6 @@
     </div>
   </div>
 
-  <!-- アプリ受託開発 -->
   <div class="modal" id="m-app" hidden>
     <div class="modal__panel">
       <button type="button" class="modal__close" aria-label="閉じる">&times;</button>
@@ -206,7 +66,6 @@
     </div>
   </div>
 
-  <!-- AIラーニング -->
   <div class="modal" id="m-ai" hidden>
     <div class="modal__panel">
       <button type="button" class="modal__close" aria-label="閉じる">&times;</button>
@@ -216,7 +75,6 @@
     </div>
   </div>
 
-  <!-- 自社プロダクト Bona -->
   <div class="modal" id="m-bona" hidden>
     <div class="modal__panel">
       <button type="button" class="modal__close" aria-label="閉じる">&times;</button>
@@ -228,84 +86,340 @@
     </div>
   </div>
 
-  <script>
-    // アイソメを画面いっぱいに自動フィット。スマホでは要素を中央寄せしてズームイン
-    var stage = document.querySelector('.stage');
-    var q = function (s) { return document.querySelector(s); };
-    // 通常配置 / スマホ用の中央寄せ配置
-    var LAYOUT = {
-      desktop: {
-        '#obj-phone':  'translate(-225px,-150px)',
-        '#obj-aimon':  'translate(205px,193px)',
-        '#obj-aicap':  'translate(203px,183px) translateZ(56px)',
-        '#obj-aitas':  'translate(228px,209px) translateZ(63px)',
-        '.spot[data-modal="app"]': [82, 174],
-        '.spot[data-modal="ai"]':  [635, 184]
-      },
-      mobile: {
-        '#obj-phone':  'translate(-160px,-115px)',
-        '#obj-aimon':  'translate(145px,125px)',
-        '#obj-aicap':  'translate(143px,115px) translateZ(56px)',
-        '#obj-aitas':  'translate(168px,141px) translateZ(63px)',
-        '.spot[data-modal="app"]': [153, 183],
-        '.spot[data-modal="ai"]':  [545, 200]
-      }
-    };
-    var appliedMobile = null;
-    function applyLayout(mob) {
-      if (appliedMobile === mob) return;
-      appliedMobile = mob;
-      document.body.classList.toggle('is-mobile', mob);   // スマホは芝生エリアのみ表示
-      var L = mob ? LAYOUT.mobile : LAYOUT.desktop;
-      Object.keys(L).forEach(function (sel) {
-        var el = q(sel); if (!el) return;
-        var v = L[sel];
-        if (typeof v === 'string') { el.style.transform = v; }
-        else { el.style.left = v[0] + 'px'; el.style.top = v[1] + 'px'; }
-      });
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
     }
-    function fitStage() {
-      var vw = window.innerWidth, vh = window.innerHeight;
-      var mob = vw < 768;
-      applyLayout(mob);
-      var s = mob
-        ? Math.min(vw / 545, vh / 600) * 0.97   // スマホ：中央寄せした分だけ大きく
-        : Math.min(vw / 700, vh / 660) * 0.98;
-      stage.style.transform = 'translate(-50%, -50%) scale(' + s + ')';
+  }
+  </script>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+
+    const appEl = document.getElementById('app');
+    const spotsEl = document.getElementById('spots');
+
+    // ---------- レンダラ ----------
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    appEl.appendChild(renderer.domElement);
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color('#eef1f4');
+
+    // ---------- アイソメ用オルソカメラ ----------
+    let viewSize = 96;            // 縦方向に見えるワールド単位
+    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 2000);
+    camera.position.set(200, 200, 200);
+    camera.lookAt(0, 9, 0);
+
+    function resize() {
+      const w = window.innerWidth, h = window.innerHeight;
+      renderer.setSize(w, h);
+      const aspect = w / h;
+      // モバイルは寄せる（見える範囲を狭める）
+      viewSize = w < 768 ? 72 : 100;
+      camera.left = -viewSize * aspect / 2;
+      camera.right = viewSize * aspect / 2;
+      camera.top = viewSize / 2;
+      camera.bottom = -viewSize / 2;
+      camera.updateProjectionMatrix();
     }
-    window.addEventListener('resize', fitStage);
-    fitStage();
+    window.addEventListener('resize', resize);
 
-    var menu = document.getElementById('menu');
-    var burger = document.getElementById('burger');
+    // ---------- ライティング ----------
+    scene.add(new THREE.HemisphereLight('#ffffff', '#c9cfe0', 0.9));
+    const sun = new THREE.DirectionalLight('#fff6e8', 1.15);
+    sun.position.set(60, 120, 40);
+    sun.castShadow = true;
+    sun.shadow.mapSize.set(2048, 2048);
+    const S = 120;
+    sun.shadow.camera.left = -S; sun.shadow.camera.right = S;
+    sun.shadow.camera.top = S; sun.shadow.camera.bottom = -S;
+    sun.shadow.camera.near = 1; sun.shadow.camera.far = 400;
+    sun.shadow.bias = -0.0004;
+    scene.add(sun);
 
-    // ハンバーガー開閉
-    burger.addEventListener('click', function () { menu.hidden = false; });
-    menu.addEventListener('click', function (e) {
-      if (e.target === menu || e.target.classList.contains('menu__close')) menu.hidden = true;
+    // ---------- テクスチャ生成 ----------
+    function makeCanvas(w, h) {
+      const c = document.createElement('canvas'); c.width = w; c.height = h;
+      return c;
+    }
+    // ビルの窓テクスチャ
+    function windowTexture(base, kind) {
+      const c = makeCanvas(128, 256), x = c.getContext('2d');
+      x.fillStyle = base; x.fillRect(0, 0, 128, 256);
+      x.fillStyle = 'rgba(255,255,255,0.28)';
+      const rows = kind === 'fine' ? 22 : 14, cols = kind === 'fine' ? 6 : 4;
+      const pad = 12, gap = 6;
+      const cw = (128 - pad * 2 - gap * (cols - 1)) / cols;
+      const ch = (256 - pad * 2 - gap * (rows - 1)) / rows;
+      for (let r = 0; r < rows; r++) for (let cc = 0; cc < cols; cc++) {
+        x.fillRect(pad + cc * (cw + gap), pad + r * (ch + gap), cw, ch * 0.7);
+      }
+      const t = new THREE.CanvasTexture(c);
+      t.colorSpace = THREE.SRGBColorSpace;
+      t.anisotropy = 4;
+      return t;
+    }
+    // 地面（道路グリッド＋横断歩道）
+    function groundTexture() {
+      const N = 2048, c = makeCanvas(N, N), x = c.getContext('2d');
+      x.fillStyle = '#f3f0e8'; x.fillRect(0, 0, N, N);              // 街区（クリーム）
+      const mid = N / 2, unit = 150;                                 // 1ブロック=150px
+      x.strokeStyle = 'rgba(255,255,255,0.5)'; x.lineWidth = 2;      // グリッド線
+      for (let i = -12; i <= 12; i++) {
+        x.beginPath(); x.moveTo(mid + i * 60, 0); x.lineTo(mid + i * 60, N); x.stroke();
+        x.beginPath(); x.moveTo(0, mid + i * 60); x.lineTo(N, mid + i * 60); x.stroke();
+      }
+      // 道路（グレー）
+      x.fillStyle = '#d8d7d1';
+      const roadW = 78;
+      const lines = [-3, -1, 1, 3].map(k => mid + k * unit);
+      lines.forEach(p => { x.fillRect(p - roadW / 2, 0, roadW, N); x.fillRect(0, p - roadW / 2, N, roadW); });
+      // 横断歩道（中央十字の内側）
+      x.fillStyle = '#ffffff';
+      function crossH(cx, cy) { for (let i = 0; i < 6; i++) x.fillRect(cx - 34 + i * 12, cy - roadW / 2 + 6, 7, roadW - 12); }
+      function crossV(cx, cy) { for (let i = 0; i < 6; i++) x.fillRect(cx - roadW / 2 + 6, cy - 34 + i * 12, roadW - 12, 7); }
+      crossH(mid, mid - unit); crossH(mid, mid + unit); crossV(mid - unit, mid); crossV(mid + unit, mid);
+      const t = new THREE.CanvasTexture(c);
+      t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8;
+      return t;
+    }
+
+    // ---------- 地面・公園 ----------
+    const ground = new THREE.Mesh(
+      new THREE.PlaneGeometry(600, 600),
+      new THREE.MeshStandardMaterial({ map: groundTexture(), roughness: 1 })
+    );
+    ground.rotation.x = -Math.PI / 2;
+    ground.receiveShadow = true;
+    scene.add(ground);
+
+    // 公園（角丸の芝生）
+    function roundedRectShape(w, h, r) {
+      const s = new THREE.Shape();
+      s.moveTo(-w / 2 + r, -h / 2);
+      s.lineTo(w / 2 - r, -h / 2); s.quadraticCurveTo(w / 2, -h / 2, w / 2, -h / 2 + r);
+      s.lineTo(w / 2, h / 2 - r); s.quadraticCurveTo(w / 2, h / 2, w / 2 - r, h / 2);
+      s.lineTo(-w / 2 + r, h / 2); s.quadraticCurveTo(-w / 2, h / 2, -w / 2, h / 2 - r);
+      s.lineTo(-w / 2, -h / 2 + r); s.quadraticCurveTo(-w / 2, -h / 2, -w / 2 + r, -h / 2);
+      return s;
+    }
+    const park = new THREE.Mesh(
+      new THREE.ShapeGeometry(roundedRectShape(50, 44, 5)),
+      new THREE.MeshStandardMaterial({ color: '#8ec957', roughness: 1 })
+    );
+    park.rotation.x = -Math.PI / 2; park.position.y = 0.06; park.receiveShadow = true;
+    scene.add(park);
+    // 周回トラック
+    const track = new THREE.Mesh(
+      new THREE.RingGeometry(13, 16, 48),
+      new THREE.MeshStandardMaterial({ color: '#dccea6', roughness: 1 })
+    );
+    track.rotation.x = -Math.PI / 2; track.position.y = 0.08;
+    scene.add(track);
+
+    // ---------- 生成ヘルパー ----------
+    const clickable = [];  // レイキャスト対象
+    function tag(obj, data) { obj.userData.hit = data; obj.traverse(o => (o.userData.hit = data)); clickable.push(obj); }
+
+    function building(w, h, d, x, z, color, kind) {
+      const geo = new RoundedBoxGeometry(w, h, d, 2, 0.6);
+      const top = new THREE.MeshStandardMaterial({ color, roughness: 0.85 });
+      const side = new THREE.MeshStandardMaterial({ map: windowTexture(color, kind || 'band'), roughness: 0.85 });
+      // RoundedBoxGeometry は単一マテリアルなので側面窓は簡易的に側面テクスチャで
+      const m = new THREE.Mesh(geo, side);
+      m.position.set(x, h / 2 + 0.1, z);
+      m.castShadow = true; m.receiveShadow = true;
+      scene.add(m);
+      return m;
+    }
+
+    function tree(x, z, scale = 1) {
+      const g = new THREE.Group();
+      const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.6, 2.4, 8),
+        new THREE.MeshStandardMaterial({ color: '#8f5f31', roughness: 1 }));
+      trunk.position.y = 1.2; trunk.castShadow = true;
+      const foliage = new THREE.Mesh(new THREE.IcosahedronGeometry(2.6, 1),
+        new THREE.MeshStandardMaterial({ color: '#5aa64c', roughness: 1, flatShading: true }));
+      foliage.position.y = 4.2; foliage.castShadow = true;
+      g.add(trunk, foliage);
+      g.scale.setScalar(scale);
+      g.position.set(x, 0.1, z);
+      scene.add(g);
+      return g;
+    }
+
+    // ---------- 中央プロダクト ----------
+    // OneView 本社タワー
+    const oneview = building(11, 17, 11, 0, 0, '#2f6fc4', 'fine');
+    tag(oneview, { modal: 'company', name: '会社概要' });
+
+    // アプリ受託開発：スマホ
+    const phone = new THREE.Group();
+    const phoneBody = new THREE.Mesh(new RoundedBoxGeometry(6.2, 11, 1.6, 4, 1.0),
+      new THREE.MeshStandardMaterial({ color: '#12161f', roughness: 0.5, metalness: 0.1 }));
+    phoneBody.castShadow = true;
+    // 画面（アプリアイコン）
+    const scr = makeCanvas(256, 456); const sx = scr.getContext('2d');
+    sx.fillStyle = '#eef3fa'; sx.fillRect(0, 0, 256, 456);
+    const cols = ['#ff6b6b', '#4dabf7', '#51cf66', '#ffd43b', '#845ef7', '#ff922b', '#22b8cf', '#f06595', '#94d82d', '#5c7cfa', '#ffa94d', '#20c997'];
+    for (let i = 0; i < 12; i++) {
+      const cx = 40 + (i % 3) * 80, cy = 50 + Math.floor(i / 3) * 95;
+      sx.fillStyle = cols[i]; sx.beginPath(); sx.roundRect(cx, cy, 46, 62, 16); sx.fill();
+    }
+    const scrTex = new THREE.CanvasTexture(scr); scrTex.colorSpace = THREE.SRGBColorSpace;
+    const screen = new THREE.Mesh(new THREE.PlaneGeometry(5, 9),
+      new THREE.MeshBasicMaterial({ map: scrTex }));
+    screen.position.z = 0.82;
+    phone.add(phoneBody, screen);
+    phone.position.set(-18, 5.6, 0);
+    phone.rotation.y = Math.PI / 4;
+    scene.add(phone);
+    tag(phone, { modal: 'app', name: 'アプリ受託開発' });
+
+    // AIラーニング：モニター＋卒業帽
+    const ai = new THREE.Group();
+    const monitor = new THREE.Mesh(new RoundedBoxGeometry(6, 6, 4.2, 3, 0.5),
+      new THREE.MeshStandardMaterial({ color: '#1a1f2b', roughness: 0.6 }));
+    monitor.castShadow = true;
+    const aiScr = makeCanvas(200, 200); const ax = aiScr.getContext('2d');
+    ax.fillStyle = '#e7edf9'; ax.fillRect(0, 0, 200, 200);
+    [['#5c7cfa', 45, 55], ['#5c7cfa', 45, 105], ['#5c7cfa', 45, 155], ['#f06595', 140, 75], ['#f06595', 140, 135]].forEach(([c, px, py]) => { ax.fillStyle = c; ax.beginPath(); ax.arc(px, py, 8, 0, 7); ax.fill(); });
+    const aiTex = new THREE.CanvasTexture(aiScr); aiTex.colorSpace = THREE.SRGBColorSpace;
+    const aiScreen = new THREE.Mesh(new THREE.PlaneGeometry(4.6, 4.6), new THREE.MeshBasicMaterial({ map: aiTex }));
+    aiScreen.position.z = 2.12;
+    const capBoard = new THREE.Mesh(new THREE.BoxGeometry(7, 0.5, 7),
+      new THREE.MeshStandardMaterial({ color: '#20222b', roughness: 0.7 }));
+    capBoard.position.y = 3.4; capBoard.castShadow = true;
+    const capBtn = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 0.5, 12),
+      new THREE.MeshStandardMaterial({ color: '#f4c744', roughness: 0.5 }));
+    capBtn.position.y = 3.8;
+    ai.add(monitor, aiScreen, capBoard, capBtn);
+    ai.position.set(16, 3.2, 8);
+    ai.rotation.y = Math.PI / 4;
+    scene.add(ai);
+    tag(ai, { modal: 'ai', name: 'AIラーニング' });
+
+    // お問い合わせ：郵便ポスト
+    const post = new THREE.Group();
+    const postBody = new THREE.Mesh(new RoundedBoxGeometry(3.8, 6, 3.2, 3, 0.4),
+      new THREE.MeshStandardMaterial({ color: '#d33b3b', roughness: 0.6 }));
+    postBody.position.y = 3; postBody.castShadow = true;
+    const postCap = new THREE.Mesh(new THREE.BoxGeometry(4.4, 0.9, 3.8),
+      new THREE.MeshStandardMaterial({ color: '#a82727', roughness: 0.6 }));
+    postCap.position.y = 6.3; postCap.castShadow = true;
+    const slot = new THREE.Mesh(new THREE.BoxGeometry(2, 0.5, 0.2),
+      new THREE.MeshStandardMaterial({ color: '#1a1a1a' }));
+    slot.position.set(0, 4.4, 1.62);
+    post.add(postBody, postCap, slot);
+    post.position.set(2, 0.1, 17);
+    scene.add(post);
+    tag(post, { url: 'https://docs.google.com/forms/d/e/1FAIpQLSeoEm-YK0NHAoZQN1prAbbCqa6cGhm_HLvX0jbfzxV1CSysTA/viewform', name: 'お問い合わせ' });
+
+    // Bona：台座＋アイコンタイル
+    const bona = new THREE.Group();
+    const pedestal = new THREE.Mesh(new THREE.BoxGeometry(5.2, 3.4, 4.4),
+      new THREE.MeshStandardMaterial({ color: '#ece9e0', roughness: 0.9 }));
+    pedestal.position.y = 1.7; pedestal.castShadow = true; pedestal.receiveShadow = true;
+    const tile = new THREE.Mesh(new RoundedBoxGeometry(4.4, 4.6, 0.5, 3, 0.5),
+      new THREE.MeshStandardMaterial({ color: '#000', roughness: 0.5 }));
+    tile.position.y = 5.7; tile.castShadow = true;
+    bona.add(pedestal, tile);
+    new THREE.TextureLoader().load('bona-icon.png', tex => {
+      tex.colorSpace = THREE.SRGBColorSpace;
+      const face = new THREE.Mesh(new THREE.PlaneGeometry(4.0, 4.2), new THREE.MeshBasicMaterial({ map: tex }));
+      face.position.set(0, 5.7, 0.27); bona.add(face);
+    });
+    bona.position.set(-9, 0.1, 15);
+    bona.rotation.y = Math.PI / 4;
+    scene.add(bona);
+    tag(bona, { modal: 'bona', name: 'Bona（自社プロダクト）' });
+
+    // ---------- 街のビル ----------
+    const PALETTE = ['#9fb0c4', '#5bb6a2', '#f0a94f', '#4fb3a0', '#e0685a', '#e8b84b', '#8a6fd0', '#7fb0d6', '#e07aa0', '#f28d6b', '#b0b7c0', '#6f9fd6'];
+    const KINDS = ['band', 'fine', 'store'];
+    const GX = [-75, -45, 45, 75], GZ = [-70, -42, 42, 70];
+    let bi = 0;
+    for (const z of GZ) for (const x of GX) {
+      if (Math.abs(x) < 30 && Math.abs(z) < 30) continue;
+      const w = 6 + (bi * 1.7) % 5, d = 6 + (bi * 1.3) % 4, h = 6 + (bi * 3.1) % 16;
+      building(w, h, d, x, z, PALETTE[bi % PALETTE.length], KINDS[bi % 3]);
+      bi++;
+    }
+    // 街路樹
+    [[-58, -18], [-18, -58], [58, 18], [18, 58], [-58, 18], [58, -18], [-30, 30], [30, -30]].forEach((p, i) => tree(p[0], p[1], 0.9 + (i % 3) * 0.15));
+
+    // ---------- ＋ホットスポット（HTMLを3D位置に投影） ----------
+    const hotspots = [];
+    clickable.forEach(obj => {
+      const d = obj.userData.hit;
+      const el = document.createElement(d.url ? 'a' : 'button');
+      el.className = 'spot';
+      if (d.url) { el.href = d.url; el.target = '_blank'; el.rel = 'noopener'; }
+      else { el.type = 'button'; el.dataset.modal = d.modal; }
+      el.setAttribute('data-name', d.name);
+      el.setAttribute('aria-label', d.name);
+      spotsEl.appendChild(el);
+      // 対象の高さ（上端）を取得
+      const box = new THREE.Box3().setFromObject(obj);
+      hotspots.push({ el, obj, topY: box.max.y + 3 });
     });
 
-    // モーダル開閉（メニュー項目・ラベル共通）
-    document.querySelectorAll('[data-modal]').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        menu.hidden = true;
-        var m = document.getElementById('m-' + btn.dataset.modal);
-        if (m) m.hidden = false;
-      });
-    });
-    document.querySelectorAll('.modal').forEach(function (modal) {
-      modal.addEventListener('click', function (e) {
-        if (e.target === modal || e.target.classList.contains('modal__close')) modal.hidden = true;
-      });
-    });
-
-    // Escで全て閉じる
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') {
-        menu.hidden = true;
-        document.querySelectorAll('.modal').forEach(function (m) { m.hidden = true; });
+    // ---------- クリック（レイキャスト） ----------
+    const ray = new THREE.Raycaster(), mouse = new THREE.Vector2();
+    function openFor(data) {
+      if (data.url) { window.open(data.url, '_blank', 'noopener'); return; }
+      const m = document.getElementById('m-' + data.modal);
+      document.getElementById('menu').hidden = true;
+      if (m) m.hidden = false;
+    }
+    renderer.domElement.addEventListener('pointerdown', e => {
+      mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+      ray.setFromCamera(mouse, camera);
+      const hits = ray.intersectObjects(clickable, true);
+      if (hits.length) {
+        let o = hits[0].object; while (o && !o.userData.hit) o = o.parent;
+        if (o) openFor(o.userData.hit);
       }
     });
+
+    // ---------- メニュー・モーダル ----------
+    const menu = document.getElementById('menu'), burger = document.getElementById('burger');
+    burger.addEventListener('click', () => menu.hidden = false);
+    menu.addEventListener('click', e => { if (e.target === menu || e.target.classList.contains('menu__close')) menu.hidden = true; });
+    document.querySelectorAll('[data-modal]').forEach(b => b.addEventListener('click', () => {
+      menu.hidden = true; const m = document.getElementById('m-' + b.dataset.modal); if (m) m.hidden = false;
+    }));
+    document.querySelectorAll('.modal').forEach(mo => mo.addEventListener('click', e => {
+      if (e.target === mo || e.target.classList.contains('modal__close')) mo.hidden = true;
+    }));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') { menu.hidden = true; document.querySelectorAll('.modal').forEach(m => m.hidden = true); } });
+
+    // ---------- ループ ----------
+    const v = new THREE.Vector3();
+    function render() {
+      // ＋ホットスポットを画面座標へ
+      const w = window.innerWidth, h = window.innerHeight;
+      hotspots.forEach(s => {
+        v.set(s.obj.position.x, s.topY, s.obj.position.z).project(camera);
+        s.el.style.left = ((v.x * 0.5 + 0.5) * w) + 'px';
+        s.el.style.top = ((-v.y * 0.5 + 0.5) * h) + 'px';
+      });
+      renderer.render(scene, camera);
+      requestAnimationFrame(render);
+    }
+    resize();
+    document.getElementById('loading').remove();
+    render();
   </script>
 
 </body>

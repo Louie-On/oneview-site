@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OneView合同会社</title>
+  <meta name="description" content="OneView合同会社のコーポレートサイト。私たちの事業・会社概要・お問い合わせはこちら。">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ハンバーガーメニュー -->
+  <button type="button" class="burger" id="burger" aria-label="メニューを開く">
+    <span></span><span></span><span></span>
+  </button>
+  <nav class="menu" id="menu" hidden>
+    <button type="button" class="menu__close" aria-label="閉じる">&times;</button>
+    <ul>
+      <li><button type="button" data-modal="company">会社概要</button></li>
+      <li><button type="button" data-modal="app">アプリ受託開発</button></li>
+      <li><button type="button" data-modal="ai">AIラーニング</button></li>
+      <li><button type="button" data-modal="bona">Bona（自社プロダクト）</button></li>
+      <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSeoEm-YK0NHAoZQN1prAbbCqa6cGhm_HLvX0jbfzxV1CSysTA/viewform" target="_blank" rel="noopener">お問い合わせ</a></li>
+    </ul>
+  </nav>
+
+  <!-- 1画面完結メイン -->
+  <main class="screen">
+    <div class="hero__scene">
+      <div class="stage">
+        <div class="scene">
+          <div class="ground"><div class="grid"></div></div>
+
+          <!-- 道路（グリッド：中央公園を囲む＋外周まで拡張） -->
+          <div class="road h" style="top:-650px;"></div>
+          <div class="road h" style="top:-350px;"></div>
+          <div class="road h" style="top:250px;"></div>
+          <div class="road h" style="top:550px;"></div>
+          <div class="road v" style="left:-720px;"></div>
+          <div class="road v" style="left:-390px;"></div>
+          <div class="road v" style="left:290px;"></div>
+          <div class="road v" style="left:620px;"></div>
+
+          <!-- 横断歩道（中央公園まわり） -->
+          <div class="cross ch" style="left:-36px;top:-350px;"></div>
+          <div class="cross ch" style="left:-36px;top:250px;"></div>
+          <div class="cross cv" style="left:-390px;top:-36px;"></div>
+          <div class="cross cv" style="left:290px;top:-36px;"></div>
+
+          <!-- 中央公園（芝生＋周回トラック） -->
+          <div class="park"></div>
+          <div class="track"></div>
+
+          <!-- 中央：OneView 本社 -->
+          <div class="box bldg" style="--w:110px;--d:110px;--h:150px;transform:translate(-55px,-55px);
+               --_t:#2f6fc4;--_r:#1a4d8f;--_l:#123a6e;">
+            <i class="fy"></i><i class="fx"></i><i class="top"></i>
+          </div>
+
+          <!-- アプリ受託開発：巨大スマートフォン -->
+          <div id="obj-phone" class="box phone" style="--w:62px;--d:17px;--h:104px;transform:translate(-225px,-150px);
+               --_t:#2b3140;--_r:#20242e;--_l:#3a4152;">
+            <i class="fy">
+              <div class="scr">
+                <span style="--c:#ff6b6b"></span><span style="--c:#4dabf7"></span><span style="--c:#51cf66"></span>
+                <span style="--c:#ffd43b"></span><span style="--c:#845ef7"></span><span style="--c:#ff922b"></span>
+                <span style="--c:#22b8cf"></span><span style="--c:#f06595"></span><span style="--c:#94d82d"></span>
+                <span style="--c:#5c7cfa"></span><span style="--c:#ffa94d"></span><span style="--c:#20c997"></span>
+              </div>
+            </i>
+          </div>
+
+          <!-- AIラーニング：モニター＋卒業帽 -->
+          <div id="obj-aimon" class="box ai" style="--w:56px;--d:40px;--h:56px;transform:translate(205px,193px);
+               --_t:#3a4152;--_r:#20242e;--_l:#2b3140;">
+            <i class="fy"><div class="scr"></div></i><i class="fx"></i><i class="top"></i>
+          </div>
+          <!-- 卒業帽の板（モニター上に中央寄せ） -->
+          <div id="obj-aicap" class="box" style="--w:60px;--d:60px;--h:7px;transform:translate(203px,183px) translateZ(56px);
+               --_t:#23252f;--_r:#14161d;--_l:#191b23;">
+            <i class="fy"></i><i class="fx"></i><i class="top"></i>
+          </div>
+          <!-- 帽子の房（金） -->
+          <div id="obj-aitas" class="box" style="--w:9px;--d:9px;--h:8px;transform:translate(228px,209px) translateZ(63px);
+               --_t:#f4c744;--_r:#d9ad2f;--_l:#c09826;">
+            <i class="fy"></i><i class="fx"></i><i class="top"></i>
+          </div>
+
+          <!-- お問い合わせ：郵便ポスト -->
+          <div class="box post" style="--w:40px;--d:34px;--h:62px;transform:translate(30px,205px);
+               --_t:#e23b3b;--_r:#c22e2e;--_l:#a82727;">
+            <i class="fy"><span class="mark"><b class="mb1"></b><b class="mb2"></b><b class="mb3"></b></span><span class="slot"></span></i><i class="fx"></i><i class="top"></i>
+          </div>
+          <!-- ポストの屋根（少し張り出し） -->
+          <div class="box" style="--w:46px;--d:40px;--h:7px;transform:translate(27px,202px) translateZ(62px);
+               --_t:#b62727;--_r:#9c2020;--_l:#871c1c;">
+            <i class="fy"></i><i class="fx"></i><i class="top"></i>
+          </div>
+
+          <!-- 自社プロダクト Bona：台座ショーケース -->
+          <div class="box" style="--w:52px;--d:44px;--h:34px;transform:translate(-70px,195px);
+               --_t:#ece9e0;--_r:#d8d4c8;--_l:#cbc7ba;">
+            <i class="fy"></i><i class="fx"></i><i class="top"></i>
+          </div>
+          <div class="box bona" style="--w:44px;--d:6px;--h:46px;transform:translate(-66px,214px) translateZ(34px);
+               --_t:#262626;--_r:#1c1c1c;--_l:#1c1c1c;">
+            <i class="fy"></i>
+          </div>
+
+          <!-- ===== 木（幹＋葉の立体：丸い木・針葉樹・低木） ===== -->
+          <!-- 丸い木（公園内） -->
+          <div class="box" style="--w:9px;--d:9px;--h:16px;transform:translate(-210px,180px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;" data-trunk><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box leaf round" style="--w:30px;--d:30px;--h:28px;transform:translate(-221px,169px) translateZ(14px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+
+
+          <!-- 針葉樹（2段）（公園内） -->
+          <div class="box" style="--w:9px;--d:9px;--h:16px;transform:translate(-110px,190px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box leaf" style="--w:28px;--d:28px;--h:20px;transform:translate(-123px,177px) translateZ(12px);--_t:#5bb36a;--_r:#43974f;--_l:#357c40;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box leaf" style="--w:18px;--d:18px;--h:20px;transform:translate(-118px,182px) translateZ(30px);--_t:#67c076;--_r:#4fa35b;--_l:#3f8a4b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+
+          <!-- ===== 街区の建物（密な街並み・グリッド配置） ===== -->
+          <div class="box bldg win-band" style="--w:58px;--d:54px;--h:50px;transform:translate(-849px,-802px);--_t:#9fb0c4;--_r:#8598ae;--_l:#6f8298;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-fine" style="--w:65px;--d:59px;--h:79px;transform:translate(-537px,-804px);--_t:#5bb6a2;--_r:#469a88;--_l:#387f70;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-store" style="--w:72px;--d:64px;--h:108px;transform:translate(-36px,-807px);--_t:#f0a94f;--_r:#d9933c;--_l:#bf7d30;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-band" style="--w:79px;--d:69px;--h:137px;transform:translate(466px,-809px);--_t:#4fb3a0;--_r:#3d9a88;--_l:#2f8171;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-fine" style="--w:86px;--d:74px;--h:61px;transform:translate(777px,-812px);--_t:#e0685a;--_r:#c9564a;--_l:#b0483d;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-store" style="--w:61px;--d:79px;--h:90px;transform:translate(-850px,-489px);--_t:#e8b84b;--_r:#d0a238;--_l:#b88e2c;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-band" style="--w:68px;--d:58px;--h:119px;transform:translate(-539px,-479px);--_t:#8a6fd0;--_r:#6f55b5;--_l:#5a44a0;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-fine" style="--w:75px;--d:63px;--h:148px;transform:translate(-37px,-481px);--_t:#7fb0d6;--_r:#6698c0;--_l:#5382a8;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-store" style="--w:82px;--d:68px;--h:72px;transform:translate(464px,-484px);--_t:#e07aa0;--_r:#c96389;--_l:#b05174;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-band" style="--w:89px;--d:73px;--h:101px;transform:translate(776px,-486px);--_t:#f28d6b;--_r:#d97654;--_l:#bf6243;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-fine" style="--w:64px;--d:78px;--h:130px;transform:translate(-852px,-39px);--_t:#b0b7c0;--_r:#989fa9;--_l:#828a95;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-store" style="--w:71px;--d:57px;--h:54px;transform:translate(-540px,-28px);--_t:#6f9fd6;--_r:#5686bd;--_l:#4571a3;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-band" style="--w:78px;--d:62px;--h:83px;transform:translate(466px,-31px);--_t:#9fb0c4;--_r:#8598ae;--_l:#6f8298;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-fine" style="--w:85px;--d:67px;--h:112px;transform:translate(778px,-33px);--_t:#5bb6a2;--_r:#469a88;--_l:#387f70;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-store" style="--w:60px;--d:72px;--h:141px;transform:translate(-850px,414px);--_t:#f0a94f;--_r:#d9933c;--_l:#bf7d30;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-band" style="--w:67px;--d:77px;--h:65px;transform:translate(-538px,412px);--_t:#4fb3a0;--_r:#3d9a88;--_l:#2f8171;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-fine" style="--w:74px;--d:56px;--h:94px;transform:translate(-37px,422px);--_t:#e0685a;--_r:#c9564a;--_l:#b0483d;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-store" style="--w:81px;--d:61px;--h:123px;transform:translate(465px,420px);--_t:#e8b84b;--_r:#d0a238;--_l:#b88e2c;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-band" style="--w:88px;--d:66px;--h:152px;transform:translate(776px,417px);--_t:#8a6fd0;--_r:#6f55b5;--_l:#5a44a0;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-fine" style="--w:63px;--d:71px;--h:76px;transform:translate(-851px,740px);--_t:#7fb0d6;--_r:#6698c0;--_l:#5382a8;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-store" style="--w:70px;--d:76px;--h:105px;transform:translate(-540px,737px);--_t:#e07aa0;--_r:#c96389;--_l:#b05174;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-band" style="--w:77px;--d:55px;--h:134px;transform:translate(-38px,748px);--_t:#f28d6b;--_r:#d97654;--_l:#bf6243;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-fine" style="--w:84px;--d:60px;--h:58px;transform:translate(463px,745px);--_t:#b0b7c0;--_r:#989fa9;--_l:#828a95;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-store" style="--w:59px;--d:65px;--h:87px;transform:translate(791px,743px);--_t:#6f9fd6;--_r:#5686bd;--_l:#4571a3;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <!-- ===== 街路樹 ===== -->
+          <div class="box" style="--w:8px;--d:8px;--h:15px;transform:translate(-660px,-180px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box leaf round" style="--w:26px;--d:26px;--h:26px;transform:translate(-669px,-189px) translateZ(13px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:8px;--d:8px;--h:15px;transform:translate(-180px,-660px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box leaf round" style="--w:26px;--d:26px;--h:29px;transform:translate(-189px,-669px) translateZ(13px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:8px;--d:8px;--h:15px;transform:translate(660px,180px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box leaf round" style="--w:26px;--d:26px;--h:32px;transform:translate(651px,171px) translateZ(13px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:8px;--d:8px;--h:15px;transform:translate(180px,660px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box leaf round" style="--w:26px;--d:26px;--h:27px;transform:translate(171px,651px) translateZ(13px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:8px;--d:8px;--h:15px;transform:translate(-660px,180px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box leaf round" style="--w:26px;--d:26px;--h:30px;transform:translate(-669px,171px) translateZ(13px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:8px;--d:8px;--h:15px;transform:translate(660px,-180px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box leaf round" style="--w:26px;--d:26px;--h:33px;transform:translate(651px,-189px) translateZ(13px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:8px;--d:8px;--h:15px;transform:translate(-180px,660px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box leaf round" style="--w:26px;--d:26px;--h:28px;transform:translate(-189px,651px) translateZ(13px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:8px;--d:8px;--h:15px;transform:translate(180px,-660px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box leaf round" style="--w:26px;--d:26px;--h:31px;transform:translate(171px,-669px) translateZ(13px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:8px;--d:8px;--h:15px;transform:translate(-460px,-680px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box leaf round" style="--w:26px;--d:26px;--h:26px;transform:translate(-469px,-689px) translateZ(13px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:8px;--d:8px;--h:15px;transform:translate(460px,680px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box leaf round" style="--w:26px;--d:26px;--h:29px;transform:translate(451px,671px) translateZ(13px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+        </div>
+
+        <!-- ＋ホットスポット（クリックでポップアップ / お問い合わせはフォーム） -->
+        <button type="button" class="spot" data-modal="company" data-name="会社概要" style="left:320px;top:100px;" aria-label="会社概要"></button>
+        <button type="button" class="spot" data-modal="app"     data-name="アプリ受託開発" style="left:82px;top:174px;" aria-label="アプリ受託開発"></button>
+        <button type="button" class="spot" data-modal="ai"      data-name="AIラーニング" style="left:635px;top:184px;" aria-label="AIラーニング"></button>
+        <a class="spot" href="https://docs.google.com/forms/d/e/1FAIpQLSeoEm-YK0NHAoZQN1prAbbCqa6cGhm_HLvX0jbfzxV1CSysTA/viewform" target="_blank" rel="noopener" data-name="お問い合わせ" style="left:512px;top:250px;" aria-label="お問い合わせ"></a>
+        <button type="button" class="spot" data-modal="bona" data-name="Bona（自社プロダクト）" style="left:442px;top:274px;" aria-label="Bona"></button>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===== モーダル ===== -->
+  <!-- 会社概要 -->
+  <div class="modal" id="m-company" hidden>
+    <div class="modal__panel">
+      <button type="button" class="modal__close" aria-label="閉じる">&times;</button>
+      <p class="modal__label">COMPANY</p>
+      <h2 class="modal__title">会社概要</h2>
+      <table class="company-table">
+        <tr><th>会社名</th><td>OneView合同会社</td></tr>
+        <tr><th>設立</th><td>2026年6月29日</td></tr>
+        <tr><th>法人種別</th><td>合同会社</td></tr>
+        <tr><th>法人番号</th><td>8011003024762</td></tr>
+        <tr><th>CEO</th><td>小野澤 留偉</td></tr>
+        <tr><th>所在地</th><td>東京都渋谷区恵比寿西2丁目4番8号 ウィンド恵比寿ビル8F</td></tr>
+        <tr><th>資本金</th><td>100,000円</td></tr>
+        <tr><th>事業内容</th><td>Web・モバイルアプリの受託開発 / プロジェクトマネジメント支援 / AIラーニング</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- アプリ受託開発 -->
+  <div class="modal" id="m-app" hidden>
+    <div class="modal__panel">
+      <button type="button" class="modal__close" aria-label="閉じる">&times;</button>
+      <p class="modal__label">SERVICE</p>
+      <h2 class="modal__title">アプリ受託開発</h2>
+      <p class="modal__text">要件定義から設計・開発・リリースまで、Web／モバイルアプリを成果物として一貫開発・納品します。企画段階からの伴走で、確かなプロダクトをかたちにします。</p>
+    </div>
+  </div>
+
+  <!-- AIラーニング -->
+  <div class="modal" id="m-ai" hidden>
+    <div class="modal__panel">
+      <button type="button" class="modal__close" aria-label="閉じる">&times;</button>
+      <p class="modal__label">SERVICE</p>
+      <h2 class="modal__title">AIラーニング</h2>
+      <p class="modal__text">AI・機械学習を活用した学習支援や、AIリテラシー向上のための教育プログラムを提供します。実務に活かせるスキル習得を、伴走しながらサポートします。</p>
+    </div>
+  </div>
+
+  <!-- 自社プロダクト Bona -->
+  <div class="modal" id="m-bona" hidden>
+    <div class="modal__panel">
+      <button type="button" class="modal__close" aria-label="閉じる">&times;</button>
+      <p class="modal__label">PRODUCT</p>
+      <img src="bona-icon.png" alt="Bona アプリアイコン" style="width:84px;height:84px;border-radius:19px;display:block;margin:2px 0 16px;box-shadow:0 6px 16px rgba(20,50,100,.18);">
+      <h2 class="modal__title">Bona</h2>
+      <p class="modal__text">Bonaは、個人事業主・フリーランスのための総合iOSアプリです。現金・株式・物的資産・負債といった資産管理から、収支記録、FIRE計画や税金シミュレーションまでを1つに集約。人脈をグラフで可視化するネットワーク機能も備えます。クラウド同期で複数端末に対応し、あなたの「今」と「これから」を見える化します。</p>
+      <a href="https://apps.apple.com/jp/app/bona/id6758908840" target="_blank" rel="noopener" class="btn-appstore"> App Storeで見る</a>
+    </div>
+  </div>
+
+  <script>
+    // アイソメを画面いっぱいに自動フィット。スマホでは要素を中央寄せしてズームイン
+    var stage = document.querySelector('.stage');
+    var q = function (s) { return document.querySelector(s); };
+    // 通常配置 / スマホ用の中央寄せ配置
+    var LAYOUT = {
+      desktop: {
+        '#obj-phone':  'translate(-225px,-150px)',
+        '#obj-aimon':  'translate(205px,193px)',
+        '#obj-aicap':  'translate(203px,183px) translateZ(56px)',
+        '#obj-aitas':  'translate(228px,209px) translateZ(63px)',
+        '.spot[data-modal="app"]': [82, 174],
+        '.spot[data-modal="ai"]':  [635, 184]
+      },
+      mobile: {
+        '#obj-phone':  'translate(-160px,-115px)',
+        '#obj-aimon':  'translate(145px,125px)',
+        '#obj-aicap':  'translate(143px,115px) translateZ(56px)',
+        '#obj-aitas':  'translate(168px,141px) translateZ(63px)',
+        '.spot[data-modal="app"]': [153, 183],
+        '.spot[data-modal="ai"]':  [545, 200]
+      }
+    };
+    var appliedMobile = null;
+    function applyLayout(mob) {
+      if (appliedMobile === mob) return;
+      appliedMobile = mob;
+      document.body.classList.toggle('is-mobile', mob);   // スマホは芝生エリアのみ表示
+      var L = mob ? LAYOUT.mobile : LAYOUT.desktop;
+      Object.keys(L).forEach(function (sel) {
+        var el = q(sel); if (!el) return;
+        var v = L[sel];
+        if (typeof v === 'string') { el.style.transform = v; }
+        else { el.style.left = v[0] + 'px'; el.style.top = v[1] + 'px'; }
+      });
+    }
+    function fitStage() {
+      var vw = window.innerWidth, vh = window.innerHeight;
+      var mob = vw < 768;
+      applyLayout(mob);
+      var s = mob
+        ? Math.min(vw / 545, vh / 600) * 0.97   // スマホ：中央寄せした分だけ大きく
+        : Math.min(vw / 700, vh / 660) * 0.98;
+      stage.style.transform = 'translate(-50%, -50%) scale(' + s + ')';
+    }
+    window.addEventListener('resize', fitStage);
+    fitStage();
+
+    var menu = document.getElementById('menu');
+    var burger = document.getElementById('burger');
+
+    // ハンバーガー開閉
+    burger.addEventListener('click', function () { menu.hidden = false; });
+    menu.addEventListener('click', function (e) {
+      if (e.target === menu || e.target.classList.contains('menu__close')) menu.hidden = true;
+    });
+
+    // モーダル開閉（メニュー項目・ラベル共通）
+    document.querySelectorAll('[data-modal]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        menu.hidden = true;
+        var m = document.getElementById('m-' + btn.dataset.modal);
+        if (m) m.hidden = false;
+      });
+    });
+    document.querySelectorAll('.modal').forEach(function (modal) {
+      modal.addEventListener('click', function (e) {
+        if (e.target === modal || e.target.classList.contains('modal__close')) modal.hidden = true;
+      });
+    });
+
+    // Escで全て閉じる
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        menu.hidden = true;
+        document.querySelectorAll('.modal').forEach(function (m) { m.hidden = true; });
+      }
+    });
+  </script>
+
+</body>
+</html>
