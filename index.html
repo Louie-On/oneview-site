@@ -532,26 +532,16 @@
 
     // mamori 看板（右上エリア・支援プロダクト）
     (function () {
-      const c = makeCanvas(512, 168), g = c.getContext('2d');
-      g.fillStyle = '#2b3aa0'; g.fillRect(0, 0, 512, 168);
-      // ロゴマーク（白い六角形＋切り欠き）
-      const cx = 82, cy = 84, R = 48;
-      g.fillStyle = '#ffffff'; g.beginPath();
-      for (let i = 0; i < 6; i++) { const a = Math.PI / 6 + i * Math.PI / 3, px = cx + R * Math.cos(a), py = cy + R * Math.sin(a); i ? g.lineTo(px, py) : g.moveTo(px, py); }
-      g.closePath(); g.fill();
-      g.fillStyle = '#2b3aa0'; g.beginPath(); g.arc(cx - 19, cy - 21, 13, 0, 7); g.fill();   // 切り欠き
-      // テキスト
-      g.fillStyle = '#ffffff'; g.font = 'bold 98px "Helvetica Neue", Arial, sans-serif';
-      g.textBaseline = 'middle'; g.fillText('mamori', 148, 92);
-      const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8;
+      const tex = new THREE.TextureLoader().load('mamori-logo.png');   // 提供画像をそのまま使用
+      tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8;
 
       const sign = new THREE.Group();
-      const panel = new THREE.Mesh(new RoundedBoxGeometry(8, 2.7, 0.4, 3, 0.15),
+      const panel = new THREE.Mesh(new RoundedBoxGeometry(8, 2.5, 0.4, 3, 0.15),
         new THREE.MeshStandardMaterial({ color: '#2b3aa0', roughness: 0.5 }));
       panel.position.y = 6.9; panel.castShadow = true;
-      const face = new THREE.Mesh(new THREE.PlaneGeometry(7.7, 2.5), new THREE.MeshBasicMaterial({ map: tex }));
+      const face = new THREE.Mesh(new THREE.PlaneGeometry(7.7, 2.3), new THREE.MeshBasicMaterial({ map: tex }));
       face.position.set(0, 6.9, 0.22);
-      const faceB = new THREE.Mesh(new THREE.PlaneGeometry(7.7, 2.5), new THREE.MeshBasicMaterial({ map: tex }));
+      const faceB = new THREE.Mesh(new THREE.PlaneGeometry(7.7, 2.3), new THREE.MeshBasicMaterial({ map: tex }));
       faceB.position.set(0, 6.9, -0.22); faceB.rotation.y = Math.PI;
       [-3, 3].forEach(px => {
         const post = new THREE.Mesh(new THREE.CylinderGeometry(0.26, 0.26, 5.6, 12),
