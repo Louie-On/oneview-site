@@ -187,8 +187,8 @@
       lines.forEach(p => { x.fillRect(p - roadW / 2, 0, roadW, N); x.fillRect(0, p - roadW / 2, N, roadW); });
       // 横断歩道（中央十字の内側）
       x.fillStyle = '#ffffff';
-      function crossH(cx, cy) { for (let i = 0; i < 6; i++) x.fillRect(cx - 34 + i * 12, cy - roadW / 2 + 6, 7, roadW - 12); }
-      function crossV(cx, cy) { for (let i = 0; i < 6; i++) x.fillRect(cx - roadW / 2 + 6, cy - 34 + i * 12, roadW - 12, 7); }
+      function crossH(cx, cy) { for (let i = 0; i < 6; i++) x.fillRect(cx - roadW / 2 + 6, cy - 34 + i * 12, roadW - 12, 7); }
+      function crossV(cx, cy) { for (let i = 0; i < 6; i++) x.fillRect(cx - 34 + i * 12, cy - roadW / 2 + 6, 7, roadW - 12); }
       crossH(mid, mid - unit); crossH(mid, mid + unit); crossV(mid - unit, mid); crossV(mid + unit, mid);
       const t = new THREE.CanvasTexture(c);
       t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8;
