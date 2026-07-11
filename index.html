@@ -319,25 +319,67 @@
     scene.add(phone);
     tag(phone, { modal: 'app', name: 'アプリ受託開発' });
 
-    // AIラーニング：モニター＋卒業帽
+    // AIラーニング：ミニ教室（黒板＋講師＋生徒）
     const ai = new THREE.Group();
-    const monitor = new THREE.Mesh(new RoundedBoxGeometry(6, 6, 4.2, 3, 0.5),
-      new THREE.MeshStandardMaterial({ color: '#1a1f2b', roughness: 0.6 }));
-    monitor.castShadow = true;
-    const aiScr = makeCanvas(200, 200); const ax = aiScr.getContext('2d');
-    ax.fillStyle = '#e7edf9'; ax.fillRect(0, 0, 200, 200);
-    [['#5c7cfa', 45, 55], ['#5c7cfa', 45, 105], ['#5c7cfa', 45, 155], ['#f06595', 140, 75], ['#f06595', 140, 135]].forEach(([c, px, py]) => { ax.fillStyle = c; ax.beginPath(); ax.arc(px, py, 8, 0, 7); ax.fill(); });
-    const aiTex = new THREE.CanvasTexture(aiScr); aiTex.colorSpace = THREE.SRGBColorSpace;
-    const aiScreen = new THREE.Mesh(new THREE.PlaneGeometry(4.6, 4.6), new THREE.MeshBasicMaterial({ map: aiTex }));
-    aiScreen.position.z = 2.12;
-    const capBoard = new THREE.Mesh(new THREE.BoxGeometry(7, 0.5, 7),
-      new THREE.MeshStandardMaterial({ color: '#20222b', roughness: 0.7 }));
-    capBoard.position.y = 3.4; capBoard.castShadow = true;
-    const capBtn = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 0.5, 12),
-      new THREE.MeshStandardMaterial({ color: '#f4c744', roughness: 0.5 }));
-    capBtn.position.y = 3.8;
-    ai.add(monitor, aiScreen, capBoard, capBtn);
-    ai.position.set(16, 3.2, 8);
+    function person(cloth, scale = 1) {
+      const g = new THREE.Group();
+      const body = new THREE.Mesh(new THREE.CylinderGeometry(0.34, 0.6, 1.4, 12),
+        new THREE.MeshStandardMaterial({ color: cloth, roughness: 0.7 }));
+      body.position.y = 0.7; body.castShadow = true;
+      const head = new THREE.Mesh(new THREE.SphereGeometry(0.4, 16, 14),
+        new THREE.MeshStandardMaterial({ color: '#f0c9a0', roughness: 0.7 }));
+      head.position.y = 1.66; head.castShadow = true;
+      const hair = new THREE.Mesh(new THREE.SphereGeometry(0.43, 16, 14, 0, Math.PI * 2, 0, Math.PI * 0.62),
+        new THREE.MeshStandardMaterial({ color: '#3a2e26', roughness: 0.85 }));
+      hair.position.y = 1.7;
+      g.add(body, head, hair);
+      g.scale.setScalar(scale);
+      return g;
+    }
+    // 教室の床
+    const floor = new THREE.Mesh(new RoundedBoxGeometry(8, 0.3, 7, 2, 0.15),
+      new THREE.MeshStandardMaterial({ color: '#e5ddcd', roughness: 0.9 }));
+    floor.position.y = 0.15; floor.receiveShadow = true;
+    // 黒板（ニューラルネット図）
+    const bC = makeCanvas(320, 200), bx = bC.getContext('2d');
+    bx.fillStyle = '#2f4a3a'; bx.fillRect(0, 0, 320, 200);
+    const layers = [[55, [55, 100, 145]], [160, [45, 100, 155]], [265, [78, 122]]];
+    bx.strokeStyle = 'rgba(255,255,255,0.45)'; bx.lineWidth = 1.5;
+    for (let l = 0; l < layers.length - 1; l++) layers[l][1].forEach(y1 => layers[l + 1][1].forEach(y2 => { bx.beginPath(); bx.moveTo(layers[l][0], y1); bx.lineTo(layers[l + 1][0], y2); bx.stroke(); }));
+    layers.forEach(([lx, ys], li) => ys.forEach(y => { bx.fillStyle = li === 1 ? '#f4c744' : '#8fd0ff'; bx.beginPath(); bx.arc(lx, y, 9, 0, 7); bx.fill(); }));
+    const bTex = new THREE.CanvasTexture(bC); bTex.colorSpace = THREE.SRGBColorSpace;
+    const boardFrame = new THREE.Mesh(new THREE.BoxGeometry(4.8, 3.0, 0.3),
+      new THREE.MeshStandardMaterial({ color: '#6b513a', roughness: 0.8 }));
+    boardFrame.position.set(0, 2.3, -2.7); boardFrame.castShadow = true;
+    const boardPanel = new THREE.Mesh(new THREE.PlaneGeometry(4.3, 2.5),
+      new THREE.MeshBasicMaterial({ map: bTex }));
+    boardPanel.position.set(0, 2.3, -2.54);
+    const boardLegs = [-1.6, 1.6].map(lx => {
+      const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 1.0, 8),
+        new THREE.MeshStandardMaterial({ color: '#6b513a', roughness: 0.8 }));
+      leg.position.set(lx, 0.8, -2.7); leg.castShadow = true; return leg;
+    });
+    // 講師（正面向き）＋指し棒
+    const teacher = person('#34507a', 1.12);
+    teacher.position.set(-1.7, 0.3, -1.1);
+    const pointer = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 1.8, 8),
+      new THREE.MeshStandardMaterial({ color: '#d8b048', roughness: 0.5 }));
+    pointer.rotation.z = Math.PI / 3.2; pointer.position.set(0.55, 1.5, 0.1);
+    teacher.add(pointer);
+    // 生徒3人（後ろ姿・机に向かう）
+    const studentColors = ['#e0685a', '#f7c948', '#51cf66'];
+    const students = new THREE.Group();
+    [-1.7, 0, 1.7].forEach((sx, i) => {
+      const s = person(studentColors[i], 0.8);
+      s.position.set(sx, 0.3, 1.5);
+      s.rotation.y = Math.PI;   // 黒板の方（-z）を向く＝後ろ姿
+      const desk = new THREE.Mesh(new RoundedBoxGeometry(1.3, 0.7, 0.7, 2, 0.1),
+        new THREE.MeshStandardMaterial({ color: '#c9b79a', roughness: 0.85 }));
+      desk.position.set(sx, 0.65, 0.75); desk.castShadow = true;
+      students.add(s, desk);
+    });
+    ai.add(floor, boardFrame, boardPanel, ...boardLegs, teacher, students);
+    ai.position.set(16, 0.1, 8);
     ai.rotation.y = 0;
     scene.add(ai);
     tag(ai, { modal: 'ai', name: 'AIラーニング' });
