@@ -327,7 +327,8 @@
       g.textAlign = 'center'; g.textBaseline = 'middle';
       g.fillText('OneView LLC', 256, 78);
       const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8;
-      const roofY = 17.5, cy = roofY + 2.3;
+      const roofSign = new THREE.Group();
+      const cy = 2.3;
       const panel = new THREE.Mesh(new RoundedBoxGeometry(8, 2.2, 0.3, 3, 0.1),
         new THREE.MeshStandardMaterial({ color: '#1a4d8f', roughness: 0.5 }));
       panel.position.set(0, cy, 0); panel.castShadow = true;
@@ -338,9 +339,12 @@
       [-2.6, 2.6].forEach(px => {
         const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.13, 1.5, 10),
           new THREE.MeshStandardMaterial({ color: '#7f8792', roughness: 0.6, metalness: 0.3 }));
-        leg.position.set(px, roofY + 0.75, 0); leg.castShadow = true; oneview.add(leg);
+        leg.position.set(px, 0.75, 0); leg.castShadow = true; roofSign.add(leg);
       });
-      oneview.add(panel, face, faceB);
+      roofSign.add(panel, face, faceB);
+      roofSign.scale.setScalar(3);       // 看板を3倍に
+      roofSign.position.set(0, 17.5, 0);  // 屋上に接地
+      oneview.add(roofSign);
     })();
     scene.add(oneview);
     tag(oneview, { modal: 'company', name: '会社概要' });
