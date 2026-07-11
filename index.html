@@ -9,7 +9,7 @@
   <style>
     body { overflow: hidden; background: #eef1f4; }
     #app { position: fixed; inset: 0; }
-    #app canvas { display: block; }
+    #app canvas { display: block; touch-action: none; cursor: grab; }
     /* 3D上に重ねる＋ホットスポット */
     #spots { position: fixed; inset: 0; pointer-events: none; z-index: 5; }
     #spots .spot { pointer-events: auto; position: absolute; }
@@ -116,15 +116,17 @@
     // ---------- アイソメ用オルソカメラ ----------
     let viewSize = 96;            // 縦方向に見えるワールド単位
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 2000);
-    camera.position.set(200, 200, 200);
-    camera.lookAt(0, 9, 0);
+    const target = new THREE.Vector3(0, 9, 0);
+    const camOffset = new THREE.Vector3(200, 200, 200);
+    function updateCam() { camera.position.copy(target).add(camOffset); camera.lookAt(target); }
+    updateCam();
 
     function resize() {
       const w = window.innerWidth, h = window.innerHeight;
       renderer.setSize(w, h);
       const aspect = w / h;
-      // モバイルは寄せる（見える範囲を狭める）
-      viewSize = w < 768 ? 72 : 100;
+      // PC・スマホで構図（ズーム）は共通。スマホはドラッグで移動して見る
+      viewSize = 100;
       camera.left = -viewSize * aspect / 2;
       camera.right = viewSize * aspect / 2;
       camera.top = viewSize / 2;
@@ -346,16 +348,22 @@
     // ---------- 街のビル ----------
     const PALETTE = ['#9fb0c4', '#5bb6a2', '#f0a94f', '#4fb3a0', '#e0685a', '#e8b84b', '#8a6fd0', '#7fb0d6', '#e07aa0', '#f28d6b', '#b0b7c0', '#6f9fd6'];
     const KINDS = ['band', 'fine', 'store'];
-    const GX = [-75, -45, 45, 75], GZ = [-70, -42, 42, 70];
+    // 道路（中心 ±44 / ±132）を避けて、区画内に密に配置
+    const roadCenters = [-132, -44, 44, 132];
+    const onRoad = v => roadCenters.some(c => Math.abs(v - c) < 19);
     let bi = 0;
-    for (const z of GZ) for (const x of GX) {
-      if (Math.abs(x) < 30 && Math.abs(z) < 30) continue;
-      const w = 6 + (bi * 1.7) % 5, d = 6 + (bi * 1.3) % 4, h = 6 + (bi * 3.1) % 16;
-      building(w, h, d, x, z, PALETTE[bi % PALETTE.length], KINDS[bi % 3]);
-      bi++;
+    for (let x = -180; x <= 180; x += 36) {
+      for (let z = -180; z <= 180; z += 36) {
+        if (onRoad(x) || onRoad(z)) continue;                 // 道路上は置かない
+        if (Math.abs(x) < 30 && Math.abs(z) < 26) continue;   // 中央公園
+        const w = 6 + (bi * 1.7) % 5, d = 6 + (bi * 1.3) % 4, h = 6 + (bi * 3.1) % 16;
+        building(w, h, d, x, z, PALETTE[bi % PALETTE.length], KINDS[bi % 3]);
+        bi++;
+      }
     }
-    // 街路樹
-    [[-58, -18], [-18, -58], [58, 18], [18, 58], [-58, 18], [58, -18], [-30, 30], [30, -30]].forEach((p, i) => tree(p[0], p[1], 0.9 + (i % 3) * 0.15));
+    // 街路樹（区画内・道路を避ける）
+    [[-72, -20], [-20, -72], [72, 20], [20, 72], [-72, 20], [72, -20], [-20, 72], [20, -72],
+     [-108, -108], [108, 108], [-108, 108], [108, -108]].forEach((p, i) => tree(p[0], p[1], 0.85 + (i % 3) * 0.15));
 
     // ---------- ＋ホットスポット（HTMLを3D位置に投影） ----------
     const hotspots = [];
@@ -373,24 +381,52 @@
       hotspots.push({ el, obj, topY: box.max.y + 3 });
     });
 
-    // ---------- クリック（レイキャスト） ----------
+    // ---------- ドラッグで移動（パン）／タップで開く ----------
     const ray = new THREE.Raycaster(), mouse = new THREE.Vector2();
+    const groundPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
     function openFor(data) {
       if (data.url) { window.open(data.url, '_blank', 'noopener'); return; }
       const m = document.getElementById('m-' + data.modal);
       document.getElementById('menu').hidden = true;
       if (m) m.hidden = false;
     }
-    renderer.domElement.addEventListener('pointerdown', e => {
-      mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-      mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    function groundAt(cx, cy) {
+      mouse.x = (cx / window.innerWidth) * 2 - 1;
+      mouse.y = -(cy / window.innerHeight) * 2 + 1;
       ray.setFromCamera(mouse, camera);
-      const hits = ray.intersectObjects(clickable, true);
-      if (hits.length) {
-        let o = hits[0].object; while (o && !o.userData.hit) o = o.parent;
-        if (o) openFor(o.userData.hit);
-      }
+      const p = new THREE.Vector3();
+      return ray.ray.intersectPlane(groundPlane, p) ? p : null;
+    }
+    const cv = renderer.domElement;
+    let panning = false, downX = 0, downY = 0, lastG = null;
+    cv.addEventListener('pointerdown', e => {
+      panning = true; downX = e.clientX; downY = e.clientY;
+      lastG = groundAt(e.clientX, e.clientY);
+      cv.style.cursor = 'grabbing'; cv.setPointerCapture(e.pointerId);
     });
+    cv.addEventListener('pointermove', e => {
+      if (!panning) return;
+      const g = groundAt(e.clientX, e.clientY);
+      if (g && lastG) {
+        target.x = Math.max(-140, Math.min(140, target.x + (lastG.x - g.x)));
+        target.z = Math.max(-140, Math.min(140, target.z + (lastG.z - g.z)));
+        updateCam();
+      }
+      lastG = groundAt(e.clientX, e.clientY);   // カメラ移動後に取り直す
+    });
+    function endPan(e) {
+      if (!panning) return;
+      panning = false; cv.style.cursor = 'grab';
+      if (Math.hypot(e.clientX - downX, e.clientY - downY) < 6) {   // ほぼ動いてなければタップ→開く
+        mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+        ray.setFromCamera(mouse, camera);
+        const hits = ray.intersectObjects(clickable, true);
+        if (hits.length) { let o = hits[0].object; while (o && !o.userData.hit) o = o.parent; if (o) openFor(o.userData.hit); }
+      }
+    }
+    cv.addEventListener('pointerup', endPan);
+    cv.addEventListener('pointercancel', () => { panning = false; cv.style.cursor = 'grab'; });
 
     // ---------- メニュー・モーダル ----------
     const menu = document.getElementById('menu'), burger = document.getElementById('burger');
