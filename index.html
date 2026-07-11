@@ -31,13 +31,17 @@
         <div class="scene">
           <div class="ground"><div class="grid"></div></div>
 
-          <!-- 道路（グリッド：中央公園を囲む） -->
+          <!-- 道路（グリッド：中央公園を囲む＋外周まで拡張） -->
+          <div class="road h" style="top:-650px;"></div>
           <div class="road h" style="top:-350px;"></div>
           <div class="road h" style="top:250px;"></div>
+          <div class="road h" style="top:550px;"></div>
+          <div class="road v" style="left:-720px;"></div>
           <div class="road v" style="left:-390px;"></div>
           <div class="road v" style="left:290px;"></div>
+          <div class="road v" style="left:620px;"></div>
 
-          <!-- 横断歩道 -->
+          <!-- 横断歩道（中央公園まわり） -->
           <div class="cross ch" style="left:-36px;top:-350px;"></div>
           <div class="cross ch" style="left:-36px;top:250px;"></div>
           <div class="cross cv" style="left:-390px;top:-36px;"></div>
@@ -114,37 +118,52 @@
           <div class="box leaf" style="--w:28px;--d:28px;--h:20px;transform:translate(-123px,177px) translateZ(12px);--_t:#5bb36a;--_r:#43974f;--_l:#357c40;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
           <div class="box leaf" style="--w:18px;--d:18px;--h:20px;transform:translate(-118px,182px) translateZ(30px);--_t:#67c076;--_r:#4fa35b;--_l:#3f8a4b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
 
-          <!-- ===== 街区の建物（道路の外側・多様なパターン） ===== -->
-          <!-- 上：高層タワー / 中層オフィス / 低層ショップ -->
-          <div class="box bldg win-fine" style="--w:66px;--d:66px;--h:150px;transform:translate(-110px,-520px);--_t:#9fb0c4;--_r:#8598ae;--_l:#6f8298;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box bldg win-band" style="--w:80px;--d:70px;--h:88px;transform:translate(110px,-480px);--_t:#5bb6a2;--_r:#469a88;--_l:#387f70;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box bldg win-store" style="--w:86px;--d:60px;--h:50px;transform:translate(-280px,-440px);--_t:#f0a94f;--_r:#d9933c;--_l:#bf7d30;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-
-          <!-- 右：薬局タワー / 家 / オフィス -->
-          <div class="box bldg win-fine" style="--w:70px;--d:66px;--h:118px;transform:translate(500px,-170px);--_t:#4fb3a0;--_r:#3d9a88;--_l:#2f8171;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box bldg win-band" style="--w:74px;--d:64px;--h:56px;transform:translate(500px,110px);--_t:#e0685a;--_r:#c9564a;--_l:#b0483d;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box bldg win-band" style="--w:70px;--d:66px;--h:82px;transform:translate(470px,360px);--_t:#e8b84b;--_r:#d0a238;--_l:#b88e2c;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-
-          <!-- 下：カフェ / 家 / タワー -->
-          <div class="box bldg win-store" style="--w:80px;--d:64px;--h:50px;transform:translate(120px,490px);--_t:#f28d6b;--_r:#d97654;--_l:#bf6243;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box bldg win-band" style="--w:66px;--d:62px;--h:60px;transform:translate(-160px,490px);--_t:#8a6fd0;--_r:#6f55b5;--_l:#5a44a0;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box bldg win-fine" style="--w:64px;--d:64px;--h:128px;transform:translate(430px,480px);--_t:#9fb0c4;--_r:#8598ae;--_l:#6f8298;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-
-          <!-- 左：オフィス / 低層 / 家 -->
-          <div class="box bldg win-store" style="--w:80px;--d:66px;--h:52px;transform:translate(-510px,-170px);--_t:#7fb0d6;--_r:#6698c0;--_l:#5382a8;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box bldg win-band" style="--w:60px;--d:58px;--h:64px;transform:translate(-250px,410px);--_t:#e07aa0;--_r:#c96389;--_l:#b05174;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-
-          <!-- ===== 街路樹・低木（散らし） ===== -->
-          <!-- 針葉樹 -->
-          <div class="box" style="--w:8px;--d:8px;--h:14px;transform:translate(-270px,-30px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box leaf" style="--w:24px;--d:24px;--h:18px;transform:translate(-278px,-38px) translateZ(11px);--_t:#5bb36a;--_r:#43974f;--_l:#357c40;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box leaf" style="--w:15px;--d:15px;--h:18px;transform:translate(-274px,-34px) translateZ(26px);--_t:#67c076;--_r:#4fa35b;--_l:#3f8a4b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-
-          <!-- 丸い木 -->
-
-          <div class="box" style="--w:8px;--d:8px;--h:14px;transform:translate(150px,240px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-          <div class="box leaf round" style="--w:26px;--d:26px;--h:24px;transform:translate(141px,231px) translateZ(12px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
-
+          <!-- ===== 街区の建物（密な街並み・グリッド配置） ===== -->
+          <div class="box bldg win-band" style="--w:58px;--d:54px;--h:50px;transform:translate(-849px,-802px);--_t:#9fb0c4;--_r:#8598ae;--_l:#6f8298;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-fine" style="--w:65px;--d:59px;--h:79px;transform:translate(-537px,-804px);--_t:#5bb6a2;--_r:#469a88;--_l:#387f70;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-store" style="--w:72px;--d:64px;--h:108px;transform:translate(-36px,-807px);--_t:#f0a94f;--_r:#d9933c;--_l:#bf7d30;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-band" style="--w:79px;--d:69px;--h:137px;transform:translate(466px,-809px);--_t:#4fb3a0;--_r:#3d9a88;--_l:#2f8171;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-fine" style="--w:86px;--d:74px;--h:61px;transform:translate(777px,-812px);--_t:#e0685a;--_r:#c9564a;--_l:#b0483d;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-store" style="--w:61px;--d:79px;--h:90px;transform:translate(-850px,-489px);--_t:#e8b84b;--_r:#d0a238;--_l:#b88e2c;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-band" style="--w:68px;--d:58px;--h:119px;transform:translate(-539px,-479px);--_t:#8a6fd0;--_r:#6f55b5;--_l:#5a44a0;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-fine" style="--w:75px;--d:63px;--h:148px;transform:translate(-37px,-481px);--_t:#7fb0d6;--_r:#6698c0;--_l:#5382a8;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-store" style="--w:82px;--d:68px;--h:72px;transform:translate(464px,-484px);--_t:#e07aa0;--_r:#c96389;--_l:#b05174;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-band" style="--w:89px;--d:73px;--h:101px;transform:translate(776px,-486px);--_t:#f28d6b;--_r:#d97654;--_l:#bf6243;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-fine" style="--w:64px;--d:78px;--h:130px;transform:translate(-852px,-39px);--_t:#b0b7c0;--_r:#989fa9;--_l:#828a95;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-store" style="--w:71px;--d:57px;--h:54px;transform:translate(-540px,-28px);--_t:#6f9fd6;--_r:#5686bd;--_l:#4571a3;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-band" style="--w:78px;--d:62px;--h:83px;transform:translate(466px,-31px);--_t:#9fb0c4;--_r:#8598ae;--_l:#6f8298;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-fine" style="--w:85px;--d:67px;--h:112px;transform:translate(778px,-33px);--_t:#5bb6a2;--_r:#469a88;--_l:#387f70;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-store" style="--w:60px;--d:72px;--h:141px;transform:translate(-850px,414px);--_t:#f0a94f;--_r:#d9933c;--_l:#bf7d30;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-band" style="--w:67px;--d:77px;--h:65px;transform:translate(-538px,412px);--_t:#4fb3a0;--_r:#3d9a88;--_l:#2f8171;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-fine" style="--w:74px;--d:56px;--h:94px;transform:translate(-37px,422px);--_t:#e0685a;--_r:#c9564a;--_l:#b0483d;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-store" style="--w:81px;--d:61px;--h:123px;transform:translate(465px,420px);--_t:#e8b84b;--_r:#d0a238;--_l:#b88e2c;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-band" style="--w:88px;--d:66px;--h:152px;transform:translate(776px,417px);--_t:#8a6fd0;--_r:#6f55b5;--_l:#5a44a0;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-fine" style="--w:63px;--d:71px;--h:76px;transform:translate(-851px,740px);--_t:#7fb0d6;--_r:#6698c0;--_l:#5382a8;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-store" style="--w:70px;--d:76px;--h:105px;transform:translate(-540px,737px);--_t:#e07aa0;--_r:#c96389;--_l:#b05174;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-band" style="--w:77px;--d:55px;--h:134px;transform:translate(-38px,748px);--_t:#f28d6b;--_r:#d97654;--_l:#bf6243;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-fine" style="--w:84px;--d:60px;--h:58px;transform:translate(463px,745px);--_t:#b0b7c0;--_r:#989fa9;--_l:#828a95;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box bldg win-store" style="--w:59px;--d:65px;--h:87px;transform:translate(791px,743px);--_t:#6f9fd6;--_r:#5686bd;--_l:#4571a3;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <!-- ===== 街路樹 ===== -->
+          <div class="box" style="--w:8px;--d:8px;--h:15px;transform:translate(-660px,-180px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box leaf round" style="--w:26px;--d:26px;--h:26px;transform:translate(-669px,-189px) translateZ(13px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:8px;--d:8px;--h:15px;transform:translate(-180px,-660px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box leaf round" style="--w:26px;--d:26px;--h:29px;transform:translate(-189px,-669px) translateZ(13px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:8px;--d:8px;--h:15px;transform:translate(660px,180px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box leaf round" style="--w:26px;--d:26px;--h:32px;transform:translate(651px,171px) translateZ(13px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:8px;--d:8px;--h:15px;transform:translate(180px,660px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box leaf round" style="--w:26px;--d:26px;--h:27px;transform:translate(171px,651px) translateZ(13px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:8px;--d:8px;--h:15px;transform:translate(-660px,180px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box leaf round" style="--w:26px;--d:26px;--h:30px;transform:translate(-669px,171px) translateZ(13px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:8px;--d:8px;--h:15px;transform:translate(660px,-180px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box leaf round" style="--w:26px;--d:26px;--h:33px;transform:translate(651px,-189px) translateZ(13px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:8px;--d:8px;--h:15px;transform:translate(-180px,660px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box leaf round" style="--w:26px;--d:26px;--h:28px;transform:translate(-189px,651px) translateZ(13px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:8px;--d:8px;--h:15px;transform:translate(180px,-660px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box leaf round" style="--w:26px;--d:26px;--h:31px;transform:translate(171px,-669px) translateZ(13px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:8px;--d:8px;--h:15px;transform:translate(-460px,-680px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box leaf round" style="--w:26px;--d:26px;--h:26px;transform:translate(-469px,-689px) translateZ(13px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box" style="--w:8px;--d:8px;--h:15px;transform:translate(460px,680px);--_t:#a9743f;--_r:#8f5f31;--_l:#7a5029;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
+          <div class="box leaf round" style="--w:26px;--d:26px;--h:29px;transform:translate(451px,671px) translateZ(13px);--_t:#7cc46a;--_r:#5aa64c;--_l:#478a3b;"><i class="fy"></i><i class="fx"></i><i class="top"></i></div>
         </div>
 
         <!-- ＋ホットスポット（クリックでポップアップ / お問い合わせはフォーム） -->
