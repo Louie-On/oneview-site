@@ -551,15 +551,15 @@
       const sign = new THREE.Group();
       const panel = new THREE.Mesh(new RoundedBoxGeometry(8, 2.5, 0.4, 3, 0.15),
         new THREE.MeshStandardMaterial({ color: '#2b3aa0', roughness: 0.5 }));
-      panel.position.y = 6.9; panel.castShadow = true;
+      panel.position.y = 3.15; panel.castShadow = true;
       const face = new THREE.Mesh(new THREE.PlaneGeometry(7.7, 2.3), new THREE.MeshBasicMaterial({ map: tex }));
-      face.position.set(0, 6.9, 0.22);
+      face.position.set(0, 3.15, 0.22);
       const faceB = new THREE.Mesh(new THREE.PlaneGeometry(7.7, 2.3), new THREE.MeshBasicMaterial({ map: tex }));
-      faceB.position.set(0, 6.9, -0.22); faceB.rotation.y = Math.PI;
+      faceB.position.set(0, 3.15, -0.22); faceB.rotation.y = Math.PI;
       [-3, 3].forEach(px => {
-        const post = new THREE.Mesh(new THREE.CylinderGeometry(0.26, 0.26, 5.6, 12),
+        const post = new THREE.Mesh(new THREE.CylinderGeometry(0.26, 0.26, 1.9, 12),   // 棒を約1/3に短縮
           new THREE.MeshStandardMaterial({ color: '#8a8f98', roughness: 0.6, metalness: 0.3 }));
-        post.position.set(px, 2.8, 0); post.castShadow = true; sign.add(post);
+        post.position.set(px, 0.95, 0); post.castShadow = true; sign.add(post);
       });
       sign.add(panel, face, faceB);
       sign.scale.setScalar(3);         // 縦横比そのままで3倍
