@@ -549,9 +549,11 @@
         post.position.set(px, 2.8, 0); post.castShadow = true; sign.add(post);
       });
       sign.add(panel, face, faceB);
+      sign.scale.setScalar(3);         // 縦横比そのままで3倍
       sign.position.set(10, 0, -60);   // 右上ブロック（青ビルの手前）
       sign.rotation.y = 0;             // ビルと同じ軸沿いの向き（+Z面）
       scene.add(sign);
+      tag(sign, { url: 'https://greentea.earth/omamori/', name: 'mamori' });   // クリックでmamoriへ
     })();
 
     // ---------- 道路を走る車 ----------
