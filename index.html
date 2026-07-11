@@ -586,12 +586,15 @@
           }
         return false;
       };
+      const crosswalks = [[0, 44], [0, -44], [44, 0], [-44, 0]];
+      const nearCrosswalk = (tx, tz) => crosswalks.some(([cx, cz]) => Math.abs(tx - cx) < 16 && Math.abs(tz - cz) < 16);
       const seen = new Set();
       let i = 0;
       const plant = (tx, tz) => {
         const key = Math.round(tx) + ',' + Math.round(tz);
         if (seen.has(key)) return; seen.add(key);
         if (Math.abs(tx) > 172 || Math.abs(tz) > 172) return;
+        if (nearCrosswalk(tx, tz)) return;          // 横断歩道の近くには植えない
         if (inBuilding(tx, tz)) return;
         tree(tx, tz, 0.75 + (i++ % 4) * 0.12);
       };
