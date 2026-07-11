@@ -321,7 +321,17 @@
     const slot = new THREE.Mesh(new THREE.BoxGeometry(2, 0.5, 0.2),
       new THREE.MeshStandardMaterial({ color: '#1a1a1a' }));
     slot.position.set(0, 4.4, 1.62);
-    post.add(postBody, postCap, slot);
+    // 〒マーク（前面・スロット上）
+    const markC = makeCanvas(128, 128), markX = markC.getContext('2d');
+    markX.fillStyle = '#ffffff';
+    markX.font = 'bold 96px "Hiragino Kaku Gothic ProN", system-ui, sans-serif';
+    markX.textAlign = 'center'; markX.textBaseline = 'middle';
+    markX.fillText('〒', 64, 72);
+    const markTex = new THREE.CanvasTexture(markC); markTex.colorSpace = THREE.SRGBColorSpace;
+    const postMark = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 1.5),
+      new THREE.MeshBasicMaterial({ map: markTex, transparent: true }));
+    postMark.position.set(0, 5.25, 1.62);
+    post.add(postBody, postCap, slot, postMark);
     post.position.set(2, 0.1, 17);
     post.rotation.y = 0;   // 全プロダクト共通：軸沿いの向きに統一
     scene.add(post);
@@ -365,6 +375,52 @@
     // 街路樹（区画内・道路を避ける）
     [[-72, -20], [-20, -72], [72, 20], [20, 72], [-72, 20], [72, -20], [-20, 72], [20, -72],
      [-108, -108], [108, 108], [-108, 108], [108, -108]].forEach((p, i) => tree(p[0], p[1], 0.85 + (i % 3) * 0.15));
+
+    // ---------- 道路を走る車 ----------
+    const carColors = ['#e0685a', '#4dabf7', '#f7c948', '#51cf66', '#f06595', '#9775fa', '#ff922b', '#22b8cf', '#e9ecef'];
+    const cars = [];
+    let carIx = 0;
+    const wheelGeo = new THREE.CylinderGeometry(0.55, 0.55, 0.4, 14);
+    const wheelMat = new THREE.MeshStandardMaterial({ color: '#1c1f24', roughness: 0.7 });
+    function makeCar(color) {
+      const g = new THREE.Group();
+      const body = new THREE.Mesh(new RoundedBoxGeometry(4.4, 1.5, 2.1, 3, 0.45),
+        new THREE.MeshStandardMaterial({ color, roughness: 0.35, metalness: 0.15 }));
+      body.position.y = 1.15; body.castShadow = true;
+      const cabin = new THREE.Mesh(new RoundedBoxGeometry(2.3, 1.15, 1.75, 3, 0.4),
+        new THREE.MeshStandardMaterial({ color: '#cfe0f0', roughness: 0.2, metalness: 0.1 }));
+      cabin.position.set(-0.1, 2.05, 0); cabin.castShadow = true;
+      g.add(body, cabin);
+      [[1.4, 1.0], [1.4, -1.0], [-1.4, 1.0], [-1.4, -1.0]].forEach(([wx, wz]) => {
+        const wheel = new THREE.Mesh(wheelGeo, wheelMat);
+        wheel.rotation.x = Math.PI / 2;
+        wheel.position.set(wx, 0.55, wz); wheel.castShadow = true;
+        g.add(wheel);
+      });
+      scene.add(g);
+      return g;
+    }
+    const CAR_RANGE = 155;
+    function addCar(axis, coord, lane, dir, start, speed) {
+      const car = makeCar(carColors[carIx++ % carColors.length]);
+      car.rotation.y = axis === 'z' ? (dir > 0 ? -Math.PI / 2 : Math.PI / 2) : (dir > 0 ? 0 : Math.PI);
+      cars.push({ car, axis, coord, lane, dir, pos: start, speed });
+    }
+    roadCenters.forEach(coord => {
+      ['z', 'x'].forEach(axis => {
+        addCar(axis, coord, -4, +1, -CAR_RANGE + Math.random() * 2 * CAR_RANGE, 9 + Math.random() * 6);
+        addCar(axis, coord, +4, -1, -CAR_RANGE + Math.random() * 2 * CAR_RANGE, 9 + Math.random() * 6);
+      });
+    });
+    function updateCars(dt) {
+      cars.forEach(c => {
+        c.pos += c.dir * c.speed * dt;
+        if (c.pos > CAR_RANGE) c.pos -= 2 * CAR_RANGE;
+        else if (c.pos < -CAR_RANGE) c.pos += 2 * CAR_RANGE;
+        if (c.axis === 'z') c.car.position.set(c.coord + c.lane, 0, c.pos);
+        else c.car.position.set(c.pos, 0, c.coord + c.lane);
+      });
+    }
 
     // ---------- ＋ホットスポット（HTMLを3D位置に投影） ----------
     const hotspots = [];
@@ -443,7 +499,10 @@
 
     // ---------- ループ ----------
     const v = new THREE.Vector3();
+    const clock = new THREE.Clock();
     function render() {
+      const dt = Math.min(clock.getDelta(), 0.05);
+      updateCars(dt);
       // ＋ホットスポットを画面座標へ
       const w = window.innerWidth, h = window.innerHeight;
       hotspots.forEach(s => {
