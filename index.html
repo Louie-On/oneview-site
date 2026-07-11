@@ -222,13 +222,6 @@
     );
     park.rotation.x = -Math.PI / 2; park.position.y = 0.06; park.receiveShadow = true;
     scene.add(park);
-    // 周回トラック
-    const track = new THREE.Mesh(
-      new THREE.RingGeometry(13, 16, 48),
-      new THREE.MeshStandardMaterial({ color: '#dccea6', roughness: 1 })
-    );
-    track.rotation.x = -Math.PI / 2; track.position.y = 0.08;
-    scene.add(track);
 
     // ---------- 生成ヘルパー ----------
     const clickable = [];  // レイキャスト対象
