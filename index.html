@@ -747,12 +747,44 @@
     makeTrafficLight(-50, -7, Math.PI / 2);
     makeTrafficLight(50, 7, -Math.PI / 2);
 
-    // 歩行者（歩道を往復・簡易な上下動つき）
+    // 歩行アニメ用の人モデル（脚・腕を股関節/肩でピボットして振れる）
+    function makeWalker(shirt, pants, scale = 0.6, hair = '#3a2e26', skin = '#e8b48c') {
+      const g = new THREE.Group();
+      const mat = c => new THREE.MeshStandardMaterial({ color: c, roughness: 0.7 });
+      const legP = [], armP = [];
+      // 脚（ヒップでピボット・下方向にぶら下げる）
+      [-0.16, 0.16].forEach(dx => {
+        const pivot = new THREE.Group(); pivot.position.set(dx, 1.05, 0);
+        const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.13, 1.0, 10), mat(pants));
+        leg.position.y = -0.5; leg.castShadow = true; pivot.add(leg);
+        const shoe = new THREE.Mesh(new RoundedBoxGeometry(0.24, 0.16, 0.5, 2, 0.06), mat('#3a2f28'));
+        shoe.position.set(0, -1.0, 0.12); shoe.castShadow = true; pivot.add(shoe);
+        g.add(pivot); legP.push(pivot);
+      });
+      const torso = new THREE.Mesh(new RoundedBoxGeometry(0.7, 0.95, 0.42, 3, 0.18), mat(shirt));
+      torso.position.set(0, 1.5, 0); torso.castShadow = true; g.add(torso);
+      // 腕（肩でピボット）
+      [-0.44, 0.44].forEach(dx => {
+        const pivot = new THREE.Group(); pivot.position.set(dx, 1.9, 0);
+        const arm = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.1, 0.85, 10), mat(shirt));
+        arm.position.y = -0.42; arm.castShadow = true; pivot.add(arm);
+        const hand = new THREE.Mesh(new THREE.SphereGeometry(0.11, 10, 8), mat(skin));
+        hand.position.y = -0.85; pivot.add(hand);
+        g.add(pivot); armP.push(pivot);
+      });
+      const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 0.14, 8), mat(skin)); neck.position.set(0, 2.02, 0); g.add(neck);
+      const head = new THREE.Mesh(new THREE.SphereGeometry(0.28, 16, 14), mat(skin)); head.position.set(0, 2.28, 0); head.castShadow = true; g.add(head);
+      const hairM = new THREE.Mesh(new THREE.SphereGeometry(0.3, 16, 14, 0, Math.PI * 2, 0, Math.PI * 0.62), mat(hair)); hairM.position.set(0, 2.32, 0); g.add(hairM);
+      g.scale.setScalar(scale);
+      g.userData.limbs = { legL: legP[0], legR: legP[1], armL: armP[0], armR: armP[1] };
+      return g;
+    }
+    // 歩行者（歩道を往復・脚と腕を振って歩く）
     const peds = [];
     function addPed(shirt, pants, axis, coord, from, to, speed, hair) {
-      const p = person(shirt, pants, 0.6, hair);
+      const p = makeWalker(shirt, pants, 0.6, hair);
       scene.add(p);
-      peds.push({ p, axis, coord, from, to, pos: from + Math.random() * (to - from), dir: 1, speed });
+      peds.push({ p, axis, coord, from, to, pos: from + Math.random() * (to - from), dir: 1, speed, phase: Math.random() * 6.28 });
     }
     addPed('#e0685a', '#38506e', 'x', -52, -34, 34, 2.5, '#2a2118');
     addPed('#4dabf7', '#2b3a55', 'x', 52, -34, 34, 2.2, '#5a3a24');
@@ -765,9 +797,15 @@
         pd.pos += pd.dir * pd.speed * dt;
         if (pd.pos > pd.to) { pd.pos = pd.to; pd.dir = -1; }
         else if (pd.pos < pd.from) { pd.pos = pd.from; pd.dir = 1; }
-        const bob = Math.abs(Math.sin(pd.pos * 1.6)) * 0.1;
-        if (pd.axis === 'x') { pd.p.position.set(pd.pos, 0.1 + bob, pd.coord); pd.p.rotation.y = pd.dir > 0 ? Math.PI / 2 : -Math.PI / 2; }
-        else { pd.p.position.set(pd.coord, 0.1 + bob, pd.pos); pd.p.rotation.y = pd.dir > 0 ? 0 : Math.PI; }
+        // 歩行アニメ：移動速度に応じて位相を進め、脚・腕を前後に振る
+        pd.phase += pd.speed * dt * 3.4;
+        const sw = Math.sin(pd.phase);
+        const L = pd.p.userData.limbs;
+        L.legL.rotation.x = sw * 0.5; L.legR.rotation.x = -sw * 0.5;
+        L.armL.rotation.x = -sw * 0.42; L.armR.rotation.x = sw * 0.42;
+        const bob = 0.1 + Math.abs(Math.cos(pd.phase)) * 0.04;   // 脚が揃うときに少し上がる
+        if (pd.axis === 'x') { pd.p.position.set(pd.pos, bob, pd.coord); pd.p.rotation.y = pd.dir > 0 ? Math.PI / 2 : -Math.PI / 2; }
+        else { pd.p.position.set(pd.coord, bob, pd.pos); pd.p.rotation.y = pd.dir > 0 ? 0 : Math.PI; }
       });
     }
 
