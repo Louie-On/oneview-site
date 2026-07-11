@@ -217,7 +217,7 @@
       return s;
     }
     const park = new THREE.Mesh(
-      new THREE.ShapeGeometry(roundedRectShape(50, 44, 5)),
+      new THREE.ShapeGeometry(roundedRectShape(75.5, 75.5, 12)),   // 四方の道路の内側まで芝生を敷き詰め
       new THREE.MeshStandardMaterial({ color: '#8ec957', roughness: 1 })
     );
     park.rotation.x = -Math.PI / 2; park.position.y = 0.06; park.receiveShadow = true;
