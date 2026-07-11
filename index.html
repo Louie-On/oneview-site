@@ -185,9 +185,6 @@
       const roadW = 42;                                              // 2車線程度に細く
       const lines = [-3, -1, 1, 3].map(k => mid + k * unit);
       lines.forEach(p => { x.fillRect(p - roadW / 2, 0, roadW, N); x.fillRect(0, p - roadW / 2, N, roadW); });
-      // 中央線（黄・破線）
-      x.fillStyle = 'rgba(224,176,58,0.6)';
-      lines.forEach(p => { for (let s = 0; s < N; s += 28) { x.fillRect(p - 1.5, s, 3, 15); x.fillRect(s, p - 1.5, 15, 3); } });
       // 横断歩道（中央十字の内側・道路幅に合わせてスケール）
       x.fillStyle = '#ffffff';
       const cwT = 4, cwPitch = 7, cwLen = roadW - 10, cwN = Math.floor(cwLen / cwPitch), cwSpan = cwN * cwPitch;
