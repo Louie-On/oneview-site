@@ -538,7 +538,7 @@
       new THREE.MeshBasicMaterial({ map: markTex, transparent: true }));
     postMark.position.set(0, 5.25, 1.62);
     post.add(postBody, postCap, slot, postMark);
-    post.position.set(2, 0.1, 17);
+    post.position.set(36, 0.1, -10);   // 公園右側の開けたエリアへ再配置
     post.rotation.y = 0;   // 全プロダクト共通：軸沿いの向きに統一
     scene.add(post);
     tag(post, { modal: 'contact', name: 'お問い合わせ' });
@@ -569,12 +569,14 @@
     // 道路（中心 ±44 / ±132）を避けて、区画内に密に配置
     const roadCenters = [-132, -44, 44, 132];
     const onRoad = v => roadCenters.some(c => Math.abs(v - c) < 19);
+    const clearCells = new Set(['-72,0', '-108,0', '0,72', '0,108', '72,0', '108,0', '-72,-72', '-72,-108', '-108,-72', '-108,-108']);
     let bi = 0;
     for (let x = -180; x <= 180; x += 36) {
       for (let z = -180; z <= 180; z += 36) {
         if (onRoad(x) || onRoad(z)) continue;                 // 道路上は置かない
         if (Math.abs(x) < 30 && Math.abs(z) < 26) continue;   // 中央公園
         if (x === 0 && z === -72) { bi++; continue; }         // mamori看板の後ろのビルは置かない
+        if (clearCells.has(x + ',' + z)) { bi++; continue; }  // テーマ地区の区画は建物を置かない
         const w = 6 + (bi * 1.7) % 5, d = 6 + (bi * 1.3) % 4, h = 6 + (bi * 3.1) % 16;
         building(w, h, d, x, z, PALETTE[bi % PALETTE.length], KINDS[bi % 3]);
         bi++;
@@ -907,6 +909,106 @@
     // 低木を公園の縁に点在
     [[-33, -16], [-16, -33], [16, -33], [33, -18], [-33, 18], [33, 20], [-19, 33], [14, 33]]
       .forEach(([bx, bz], i) => makeBush(bx, bz, 0.9 + (i % 3) * 0.15));
+
+    // ---------- 角ブロックのテーマ地区（それぞれ別テーマ） ----------
+    // ① スポーツコート（バスケ）
+    function districtSports(cx, cz) {
+      const g = new THREE.Group();
+      const court = new THREE.Mesh(new THREE.BoxGeometry(22, 0.3, 13), new THREE.MeshStandardMaterial({ color: '#40704a', roughness: 1 }));
+      court.position.y = 0.15; court.receiveShadow = true; g.add(court);
+      const inner = new THREE.Mesh(new THREE.BoxGeometry(20, 0.32, 11), new THREE.MeshStandardMaterial({ color: '#54894f', roughness: 1 }));
+      inner.position.y = 0.16; g.add(inner);
+      const cline = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.34, 11), new THREE.MeshStandardMaterial({ color: '#eaeaea' }));
+      cline.position.y = 0.17; g.add(cline);
+      const circle = new THREE.Mesh(new THREE.RingGeometry(1.8, 2.1, 24), new THREE.MeshStandardMaterial({ color: '#eaeaea', side: THREE.DoubleSide }));
+      circle.rotation.x = -Math.PI / 2; circle.position.y = 0.18; g.add(circle);
+      [-9.5, 9.5].forEach(hx => {
+        const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 4, 8), poleMat);
+        pole.position.set(hx, 2, 0); pole.castShadow = true; g.add(pole);
+        const board = new THREE.Mesh(new THREE.BoxGeometry(0.2, 1.3, 1.9), new THREE.MeshStandardMaterial({ color: '#fff' }));
+        board.position.set(hx + (hx < 0 ? 0.5 : -0.5), 3.7, 0); g.add(board);
+        const rim = new THREE.Mesh(new THREE.TorusGeometry(0.5, 0.08, 8, 16), new THREE.MeshStandardMaterial({ color: '#e8613c' }));
+        rim.rotation.x = Math.PI / 2; rim.position.set(hx + (hx < 0 ? 1.1 : -1.1), 3.2, 0); g.add(rim);
+      });
+      g.position.set(cx, 0.1, cz); scene.add(g);
+      makeBench(cx, cz + 8, Math.PI); makeBush(cx - 11, cz - 7, 0.9); makeBush(cx + 11, cz + 7, 0.9);
+    }
+    // ② 池と太鼓橋・アヒル
+    function districtPond(cx, cz) {
+      const g = new THREE.Group();
+      const edge = new THREE.Mesh(new THREE.CylinderGeometry(9.5, 9.8, 0.5, 32), new THREE.MeshStandardMaterial({ color: '#b9b0a0', roughness: 1 }));
+      edge.position.y = 0.25; edge.receiveShadow = true; g.add(edge);
+      const water = new THREE.Mesh(new THREE.CylinderGeometry(8.6, 8.6, 0.3, 32), new THREE.MeshStandardMaterial({ color: '#3f8fc4', roughness: 0.15, metalness: 0.3, transparent: true, opacity: 0.9 }));
+      water.position.y = 0.4; g.add(water);
+      const bridgeMat = new THREE.MeshStandardMaterial({ color: '#b0562f', roughness: 0.8 });
+      for (let i = -3; i <= 3; i++) {
+        const plank = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.28, 1.3), bridgeMat);
+        plank.position.set(i * 1.25, 1.0 + (1 - (i * i) / 11) * 1.3, 0); plank.castShadow = true; g.add(plank);
+        [-1.5, 1.5].forEach(rz => {
+          const rail = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.8, 0.18), bridgeMat);
+          rail.position.set(i * 1.25, 1.4 + (1 - (i * i) / 11) * 1.3, rz); g.add(rail);
+        });
+      }
+      [[3, 2, 1], [-2, 3, -1], [4, -3, 1]].forEach(([dx, dz]) => {
+        const duck = new THREE.Mesh(new THREE.SphereGeometry(0.4, 8, 6), new THREE.MeshStandardMaterial({ color: '#f4e04d' }));
+        duck.scale.set(1, 0.7, 1.3); duck.position.set(dx, 0.62, dz); g.add(duck);
+        const head = new THREE.Mesh(new THREE.SphereGeometry(0.22, 8, 6), new THREE.MeshStandardMaterial({ color: '#f4e04d' }));
+        head.position.set(dx, 0.95, dz + 0.4); g.add(head);
+      });
+      g.position.set(cx, 0.1, cz); scene.add(g);
+      [[-9, -6], [9, 7], [-8, 9], [10, -6]].forEach(([bx, bz]) => makeBush(cx + bx, cz + bz, 0.75));
+      makeBench(cx - 11, cz, Math.PI / 2);
+    }
+    // ③ マルシェ（露店＋オーニング）
+    function districtMarket(cx, cz) {
+      const g = new THREE.Group();
+      const ground = new THREE.Mesh(new THREE.BoxGeometry(24, 0.2, 20), new THREE.MeshStandardMaterial({ color: '#cbb89a', roughness: 1 }));
+      ground.position.y = 0.1; ground.receiveShadow = true; g.add(ground);
+      const cols = ['#e0685a', '#4dabf7', '#51cf66', '#f4c744'];
+      const stall = (sx, sz, ci) => {
+        const table = new THREE.Mesh(new THREE.BoxGeometry(3.6, 0.3, 2.2), new THREE.MeshStandardMaterial({ color: '#c9a24a' }));
+        table.position.set(sx, 1.2, sz); table.castShadow = true; g.add(table);
+        [-1.6, 1.6].forEach(px => [-0.9, 0.9].forEach(pz => {
+          const leg = new THREE.Mesh(new THREE.BoxGeometry(0.12, 1.2, 0.12), new THREE.MeshStandardMaterial({ color: '#8a6f45' }));
+          leg.position.set(sx + px, 0.6, sz + pz); g.add(leg);
+        }));
+        const awn = new THREE.Mesh(new THREE.BoxGeometry(4.2, 0.2, 3), new THREE.MeshStandardMaterial({ color: cols[ci], roughness: 0.7 }));
+        awn.position.set(sx, 3.4, sz - 0.3); awn.rotation.x = -0.18; awn.castShadow = true; g.add(awn);
+        [-1.9, 1.9].forEach(px => {
+          const post = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 3.3, 8), poleMat);
+          post.position.set(sx + px, 1.65, sz - 1.2); g.add(post);
+        });
+        [-1, 0, 1].forEach((k, i) => {
+          const crate = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.5, 1.7), new THREE.MeshStandardMaterial({ color: cols[(ci + i + 1) % 4] }));
+          crate.position.set(sx + k * 1.1, 1.6, sz); g.add(crate);
+        });
+      };
+      stall(-7, -3, 0); stall(0, 4, 1); stall(7, -3, 2);
+      g.position.set(cx, 0.1, cz); scene.add(g);
+      [['#e0685a', '#38506e', -3, -6], ['#4dabf7', '#5a4a3a', 4, 8]].forEach(([sh, pa, kx, kz]) => { const p = person(sh, pa, 0.6); p.position.set(cx + kx, 0.1, cz + kz); scene.add(p); });
+    }
+    // ④ 遊び場（砂場・すべり台・回転遊具・子ども）
+    function districtPlayground(cx, cz) {
+      const g = new THREE.Group();
+      const ground = new THREE.Mesh(new THREE.BoxGeometry(22, 0.2, 18), new THREE.MeshStandardMaterial({ color: '#d8c9a8', roughness: 1 }));
+      ground.position.y = 0.1; ground.receiveShadow = true; g.add(ground);
+      const sand = new THREE.Mesh(new THREE.BoxGeometry(6, 0.35, 6), new THREE.MeshStandardMaterial({ color: '#e8d7a0' }));
+      sand.position.set(-6, 0.28, 3); g.add(sand);
+      const platform = new THREE.Mesh(new THREE.BoxGeometry(2, 0.25, 2), new THREE.MeshStandardMaterial({ color: '#4dabf7' }));
+      platform.position.set(6, 2.6, -3); platform.castShadow = true; g.add(platform);
+      const slide = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.2, 5.5), new THREE.MeshStandardMaterial({ color: '#e0685a', roughness: 0.5 }));
+      slide.position.set(6, 1.5, 0.2); slide.rotation.x = 0.55; slide.castShadow = true; g.add(slide);
+      [[-0.8, -3.8], [0.8, -3.8], [-0.8, -2.2], [0.8, -2.2]].forEach(([lx, lz]) => { const leg = new THREE.Mesh(new THREE.BoxGeometry(0.15, 2.6, 0.15), poleMat); leg.position.set(6 + lx, 1.3, lz); g.add(leg); });
+      const gpost = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 0.9, 10), poleMat); gpost.position.set(-1, 0.55, -4); g.add(gpost);
+      const disc = new THREE.Mesh(new THREE.CylinderGeometry(2, 2, 0.2, 16), new THREE.MeshStandardMaterial({ color: '#51cf66', roughness: 0.6 })); disc.position.set(-1, 1.0, -4); disc.castShadow = true; g.add(disc);
+      g.position.set(cx, 0.1, cz); scene.add(g);
+      makeBench(cx + 8, cz + 5, Math.PI);
+      [['#f06595', '#38506e', -6, 1], ['#f4c744', '#5a4a3a', 5, 3]].forEach(([sh, pa, kx, kz]) => { const k = person(sh, pa, 0.5); k.position.set(cx + kx, 0.1, cz + kz); scene.add(k); });
+    }
+    districtPond(-88, 0);        // 左上ブロック
+    districtSports(0, 88);       // 左下ブロック
+    districtMarket(88, 0);       // 右下ブロック
+    districtPlayground(-88, -88);// 上ブロック（パンで見える）
 
     // ---------- ＋ホットスポット（HTMLを3D位置に投影） ----------
     const hotspots = [];
