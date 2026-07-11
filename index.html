@@ -86,6 +86,17 @@
     </div>
   </div>
 
+  <div class="modal" id="m-mamori" hidden>
+    <div class="modal__panel">
+      <button type="button" class="modal__close" aria-label="閉じる">&times;</button>
+      <p class="modal__label">PARTNER</p>
+      <img src="mamori-logo.png" alt="mamori" style="width:100%;max-width:260px;border-radius:10px;display:block;margin:2px 0 16px;box-shadow:0 6px 16px rgba(20,50,100,.18);">
+      <h2 class="modal__title">mamori</h2>
+      <p class="modal__text">サイバー × 物理のセキュリティプラットフォーム。OneViewが支援するプロダクトです。</p>
+      <a href="https://greentea.earth/omamori/" target="_blank" rel="noopener" class="btn-appstore">公式サイトを見る</a>
+    </div>
+  </div>
+
   <script type="importmap">
   {
     "imports": {
@@ -554,7 +565,7 @@
       sign.position.set(10, 0, -60);   // 右上ブロック（青ビルの手前）
       sign.rotation.y = 0;             // ビルと同じ軸沿いの向き（+Z面）
       scene.add(sign);
-      tag(sign, { url: 'https://greentea.earth/omamori/', name: 'mamori' });   // クリックでmamoriへ
+      tag(sign, { modal: 'mamori', name: 'mamori' });   // クリックでポップアップ
     })();
 
     // ---------- 道路を走る車 ----------
