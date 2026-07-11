@@ -182,13 +182,17 @@
       }
       // 道路（グレー）
       x.fillStyle = '#d8d7d1';
-      const roadW = 78;
+      const roadW = 42;                                              // 2車線程度に細く
       const lines = [-3, -1, 1, 3].map(k => mid + k * unit);
       lines.forEach(p => { x.fillRect(p - roadW / 2, 0, roadW, N); x.fillRect(0, p - roadW / 2, N, roadW); });
-      // 横断歩道（中央十字の内側）
+      // 中央線（黄・破線）
+      x.fillStyle = 'rgba(224,176,58,0.6)';
+      lines.forEach(p => { for (let s = 0; s < N; s += 28) { x.fillRect(p - 1.5, s, 3, 15); x.fillRect(s, p - 1.5, 15, 3); } });
+      // 横断歩道（中央十字の内側・道路幅に合わせてスケール）
       x.fillStyle = '#ffffff';
-      function crossH(cx, cy) { for (let i = 0; i < 6; i++) x.fillRect(cx - roadW / 2 + 6, cy - 34 + i * 12, roadW - 12, 7); }
-      function crossV(cx, cy) { for (let i = 0; i < 6; i++) x.fillRect(cx - 34 + i * 12, cy - roadW / 2 + 6, 7, roadW - 12); }
+      const cwT = 4, cwPitch = 7, cwLen = roadW - 10, cwN = Math.floor(cwLen / cwPitch), cwSpan = cwN * cwPitch;
+      function crossH(cx, cy) { for (let i = 0; i < cwN; i++) x.fillRect(cx - cwLen / 2, cy - cwSpan / 2 + i * cwPitch, cwLen, cwT); }
+      function crossV(cx, cy) { for (let i = 0; i < cwN; i++) x.fillRect(cx - cwSpan / 2 + i * cwPitch, cy - cwLen / 2, cwT, cwLen); }
       crossH(mid, mid - unit); crossH(mid, mid + unit); crossV(mid - unit, mid); crossV(mid + unit, mid);
       const t = new THREE.CanvasTexture(c);
       t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8;
@@ -260,8 +264,38 @@
     }
 
     // ---------- 中央プロダクト ----------
-    // OneView 本社タワー
-    const oneview = building(11, 17, 11, 0, 0, '#2f6fc4', 'fine');
+    // OneView 本社タワー（白壁＋横並びの青い窓帯＋エントランス）
+    function towerTexture() {
+      const c = makeCanvas(256, 384), x = c.getContext('2d');
+      x.fillStyle = '#eef1f4'; x.fillRect(0, 0, 256, 384);           // 白い外壁
+      const left = 28, right = 228, bandH = 22, gap = 16;
+      for (let y = 46; y + bandH < 360; y += bandH + gap) {
+        x.fillStyle = '#6ba7d8'; x.fillRect(left, y, right - left, bandH);            // 青い窓帯
+        x.fillStyle = 'rgba(30,60,90,0.20)'; x.fillRect(left, y, right - left, 3);    // 上端の影
+        x.fillStyle = '#eef1f4';
+        for (let gx = left + 33; gx < right; gx += 33) x.fillRect(gx, y, 3, bandH);   // 縦桟で窓を分割
+      }
+      const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8;
+      return t;
+    }
+    const oneview = new THREE.Group();
+    const towerWall = new THREE.MeshStandardMaterial({ map: towerTexture(), roughness: 0.65 });
+    const towerTop = new THREE.MeshStandardMaterial({ color: '#f4f6f8', roughness: 0.8 });
+    const towerBot = new THREE.MeshStandardMaterial({ color: '#c9ccd0', roughness: 0.9 });
+    const towerBody = new THREE.Mesh(new THREE.BoxGeometry(11, 17, 11),
+      [towerWall, towerWall, towerTop, towerBot, towerWall, towerWall]);
+    towerBody.position.y = 8.6; towerBody.castShadow = true; towerBody.receiveShadow = true;
+    const parapet = new THREE.Mesh(new THREE.BoxGeometry(11.4, 0.6, 11.4),   // 屋上パラペット
+      new THREE.MeshStandardMaterial({ color: '#f4f6f8', roughness: 0.8 }));
+    parapet.position.y = 17.2; parapet.castShadow = true;
+    const entrance = new THREE.Mesh(new THREE.BoxGeometry(4.6, 3.2, 0.6),    // 青いガラスのエントランス（+Z面）
+      new THREE.MeshStandardMaterial({ color: '#4a86c4', roughness: 0.3, metalness: 0.2 }));
+    entrance.position.set(0, 1.7, 5.6); entrance.castShadow = true;
+    const canopy = new THREE.Mesh(new THREE.BoxGeometry(5.6, 0.4, 1.2),      // 白い庇
+      new THREE.MeshStandardMaterial({ color: '#f4f6f8', roughness: 0.8 }));
+    canopy.position.set(0, 3.5, 5.7); canopy.castShadow = true;
+    oneview.add(towerBody, parapet, entrance, canopy);
+    scene.add(oneview);
     tag(oneview, { modal: 'company', name: '会社概要' });
 
     // アプリ受託開発：スマホ
@@ -408,8 +442,8 @@
     }
     roadCenters.forEach(coord => {
       ['z', 'x'].forEach(axis => {
-        addCar(axis, coord, -4, +1, -CAR_RANGE + Math.random() * 2 * CAR_RANGE, 9 + Math.random() * 6);
-        addCar(axis, coord, +4, -1, -CAR_RANGE + Math.random() * 2 * CAR_RANGE, 9 + Math.random() * 6);
+        addCar(axis, coord, -3, +1, -CAR_RANGE + Math.random() * 2 * CAR_RANGE, 9 + Math.random() * 6);
+        addCar(axis, coord, +3, -1, -CAR_RANGE + Math.random() * 2 * CAR_RANGE, 9 + Math.random() * 6);
       });
     });
     function updateCars(dt) {
