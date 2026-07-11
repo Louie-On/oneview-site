@@ -222,6 +222,28 @@
     );
     park.rotation.x = -Math.PI / 2; park.position.y = 0.06; park.receiveShadow = true;
     scene.add(park);
+    // レンガ敷きの周回路（プラザ）
+    function brickTexture() {
+      const c = makeCanvas(128, 128), x = c.getContext('2d');
+      x.fillStyle = '#9c7250'; x.fillRect(0, 0, 128, 128);           // 目地
+      const bw = 29, gap = 3, pitch = 32, bh = 13, vpitch = 16, cols = ['#c98a5b', '#bd7f52', '#d1976b', '#c08258'];
+      for (let r = 0, y = 0; y < 128; y += vpitch, r++) {
+        const off = (r % 2) * pitch / 2;
+        for (let bx = -pitch; bx < 128 + pitch; bx += pitch) {
+          x.fillStyle = cols[Math.abs(r * 3 + Math.round(bx / pitch)) % cols.length];
+          x.fillRect(bx + off, y + 1, bw, bh);
+        }
+      }
+      const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace;
+      t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(5, 5); t.anisotropy = 8;
+      return t;
+    }
+    const brickPath = new THREE.Mesh(
+      new THREE.RingGeometry(12.5, 16.5, 80),
+      new THREE.MeshStandardMaterial({ map: brickTexture(), roughness: 0.95 })
+    );
+    brickPath.rotation.x = -Math.PI / 2; brickPath.position.y = 0.07; brickPath.receiveShadow = true;
+    scene.add(brickPath);
 
     // ---------- 生成ヘルパー ----------
     const clickable = [];  // レイキャスト対象
@@ -507,6 +529,40 @@
     // 街路樹（区画内・道路を避ける）
     [[-72, -20], [-20, -72], [72, 20], [20, 72], [-72, 20], [72, -20], [-20, 72], [20, -72],
      [-108, -108], [108, 108], [-108, 108], [108, -108]].forEach((p, i) => tree(p[0], p[1], 0.85 + (i % 3) * 0.15));
+
+    // mamori 看板（右上エリア・支援プロダクト）
+    (function () {
+      const c = makeCanvas(512, 168), g = c.getContext('2d');
+      g.fillStyle = '#2b3aa0'; g.fillRect(0, 0, 512, 168);
+      // ロゴマーク（白い六角形＋切り欠き）
+      const cx = 82, cy = 84, R = 48;
+      g.fillStyle = '#ffffff'; g.beginPath();
+      for (let i = 0; i < 6; i++) { const a = Math.PI / 6 + i * Math.PI / 3, px = cx + R * Math.cos(a), py = cy + R * Math.sin(a); i ? g.lineTo(px, py) : g.moveTo(px, py); }
+      g.closePath(); g.fill();
+      g.fillStyle = '#2b3aa0'; g.beginPath(); g.arc(cx - 19, cy - 21, 13, 0, 7); g.fill();   // 切り欠き
+      // テキスト
+      g.fillStyle = '#ffffff'; g.font = 'bold 98px "Helvetica Neue", Arial, sans-serif';
+      g.textBaseline = 'middle'; g.fillText('mamori', 148, 92);
+      const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8;
+
+      const sign = new THREE.Group();
+      const panel = new THREE.Mesh(new RoundedBoxGeometry(8, 2.7, 0.4, 3, 0.15),
+        new THREE.MeshStandardMaterial({ color: '#2b3aa0', roughness: 0.5 }));
+      panel.position.y = 6.9; panel.castShadow = true;
+      const face = new THREE.Mesh(new THREE.PlaneGeometry(7.7, 2.5), new THREE.MeshBasicMaterial({ map: tex }));
+      face.position.set(0, 6.9, 0.22);
+      const faceB = new THREE.Mesh(new THREE.PlaneGeometry(7.7, 2.5), new THREE.MeshBasicMaterial({ map: tex }));
+      faceB.position.set(0, 6.9, -0.22); faceB.rotation.y = Math.PI;
+      [-3, 3].forEach(px => {
+        const post = new THREE.Mesh(new THREE.CylinderGeometry(0.26, 0.26, 5.6, 12),
+          new THREE.MeshStandardMaterial({ color: '#8a8f98', roughness: 0.6, metalness: 0.3 }));
+        post.position.set(px, 2.8, 0); post.castShadow = true; sign.add(post);
+      });
+      sign.add(panel, face, faceB);
+      sign.position.set(10, 0, -60);   // 右上ブロック（青ビルの手前）
+      sign.rotation.y = Math.PI / 4;   // 正面（カメラ方向）を向く
+      scene.add(sign);
+    })();
 
     // ---------- 道路を走る車 ----------
     const carColors = ['#e0685a', '#4dabf7', '#f7c948', '#51cf66', '#f06595', '#9775fa', '#ff922b', '#22b8cf', '#e9ecef'];
