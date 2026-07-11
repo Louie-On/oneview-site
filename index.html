@@ -438,12 +438,9 @@
       car.rotation.y = axis === 'z' ? (dir > 0 ? -Math.PI / 2 : Math.PI / 2) : (dir > 0 ? 0 : Math.PI);
       cars.push({ car, axis, coord, lane, dir, pos: start, speed });
     }
-    roadCenters.forEach(coord => {
-      ['z', 'x'].forEach(axis => {
-        addCar(axis, coord, -3, +1, -CAR_RANGE + Math.random() * 2 * CAR_RANGE, 9 + Math.random() * 6);
-        addCar(axis, coord, +3, -1, -CAR_RANGE + Math.random() * 2 * CAR_RANGE, 9 + Math.random() * 6);
-      });
-    });
+    // 2台のみ・ゆっくり走行
+    addCar('z', -44, -3, +1, -40, 4);   // 縦の道路
+    addCar('x', 44, +3, -1, 40, 3.5);   // 横の道路
     function updateCars(dt) {
       cars.forEach(c => {
         c.pos += c.dir * c.speed * dt;
