@@ -390,6 +390,19 @@ body {
 }
 .btn-appstore:hover { opacity: 0.85; transform: translateY(-1px); }
 
+/* お問い合わせフォーム（モーダル内） */
+.modal__panel--form { max-width: 680px; padding: 30px 28px; }
+.modal__form-frame {
+  width: 100%;
+  height: 62vh;
+  min-height: 420px;
+  border: 0;
+  border-radius: 8px;
+  display: block;
+  margin-top: 10px;
+  background: #fff;
+}
+
 /* 会社概要テーブル */
 .company-table { width: 100%; border-collapse: collapse; }
 .company-table th,

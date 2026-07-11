@@ -34,7 +34,7 @@
       <li><button type="button" data-modal="app">アプリ受託開発</button></li>
       <li><button type="button" data-modal="ai">AIラーニング</button></li>
       <li><button type="button" data-modal="bona">Bona（自社プロダクト）</button></li>
-      <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSeoEm-YK0NHAoZQN1prAbbCqa6cGhm_HLvX0jbfzxV1CSysTA/viewform" target="_blank" rel="noopener">お問い合わせ</a></li>
+      <li><button type="button" data-modal="contact">お問い合わせ</button></li>
     </ul>
   </nav>
 
@@ -94,6 +94,17 @@
       <h2 class="modal__title">mamori</h2>
       <p class="modal__text">サイバー × 物理のセキュリティプラットフォーム。OneViewが支援するプロダクトです。</p>
       <a href="https://greentea.earth/omamori/" target="_blank" rel="noopener" class="btn-appstore">公式サイトを見る</a>
+    </div>
+  </div>
+
+  <div class="modal" id="m-contact" hidden>
+    <div class="modal__panel modal__panel--form">
+      <button type="button" class="modal__close" aria-label="閉じる">&times;</button>
+      <p class="modal__label">CONTACT</p>
+      <h2 class="modal__title">お問い合わせ</h2>
+      <p class="modal__text">下のフォームにそのままご入力・送信いただけます。</p>
+      <iframe class="modal__form-frame" title="お問い合わせフォーム" loading="lazy"
+        src="https://docs.google.com/forms/d/e/1FAIpQLSeoEm-YK0NHAoZQN1prAbbCqa6cGhm_HLvX0jbfzxV1CSysTA/viewform?embedded=true">読み込み中…</iframe>
     </div>
   </div>
 
@@ -530,7 +541,7 @@
     post.position.set(2, 0.1, 17);
     post.rotation.y = 0;   // 全プロダクト共通：軸沿いの向きに統一
     scene.add(post);
-    tag(post, { url: 'https://docs.google.com/forms/d/e/1FAIpQLSeoEm-YK0NHAoZQN1prAbbCqa6cGhm_HLvX0jbfzxV1CSysTA/viewform', name: 'お問い合わせ' });
+    tag(post, { modal: 'contact', name: 'お問い合わせ' });
 
     // Bona：台座＋アイコンタイル
     const bona = new THREE.Group();
