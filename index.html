@@ -195,12 +195,25 @@
     // 地面（道路グリッド＋横断歩道）
     function groundTexture() {
       const N = 2048, c = makeCanvas(N, N), x = c.getContext('2d');
-      x.fillStyle = '#f3f0e8'; x.fillRect(0, 0, N, N);              // 街区（クリーム・グリッド無し）
-      const mid = N / 2, unit = 150;                                 // 1ブロック=150px
-      // 道路（グレー）
-      x.fillStyle = '#d8d7d1';
-      const roadW = 42;                                              // 2車線程度に細く
+      const mid = N / 2, unit = 150, s = N / 600, w2p = w => mid + w * s;   // px/ワールド ≈ 3.41
+      // ① オフィス街の舗装（暖かいコンクリート・グリッド無し＋微斑）
+      x.fillStyle = '#ded7c6'; x.fillRect(0, 0, N, N);
+      x.fillStyle = 'rgba(178,166,143,0.09)';
+      for (let i = 0; i < 1100; i++) { x.beginPath(); x.arc(Math.random() * N, Math.random() * N, 6 + Math.random() * 22, 0, 7); x.fill(); }
+      // ③ テーマ地区ブロックを芝生に（池・バスケ・マルシェ・遊び場の区画）
+      [[-88, 0], [0, 88], [88, 0], [-88, -88]].forEach(([bx, bz]) => {
+        const x0 = w2p(bx - 37.85), z0 = w2p(bz - 37.85), bw = 75.7 * s;
+        x.fillStyle = '#89c058'; x.fillRect(x0, z0, bw, bw);
+        x.fillStyle = 'rgba(88,148,58,0.16)';
+        for (let i = 0; i < 70; i++) { x.beginPath(); x.arc(x0 + Math.random() * bw, z0 + Math.random() * bw, 6 + Math.random() * 14, 0, 7); x.fill(); }
+      });
+      const roadW = 42, sw = 30;                                     // 2車線程度＋歩道帯
       const lines = [-3, -1, 1, 3].map(k => mid + k * unit);
+      // ② 歩道帯（道路の両脇・道路より明るいベージュ）
+      x.fillStyle = '#e8e3d4';
+      lines.forEach(p => { x.fillRect(p - (roadW + sw) / 2, 0, roadW + sw, N); x.fillRect(0, p - (roadW + sw) / 2, N, roadW + sw); });
+      // 道路（グレー）
+      x.fillStyle = '#d4d3cd';
       lines.forEach(p => { x.fillRect(p - roadW / 2, 0, roadW, N); x.fillRect(0, p - roadW / 2, N, roadW); });
       // 横断歩道（中央十字の内側・道路幅に合わせてスケール）
       x.fillStyle = '#ffffff';
