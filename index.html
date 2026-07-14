@@ -635,8 +635,8 @@
       tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8;
 
       // 看板を載せる青ビル（(0,-72) の空き区画）
-      const SB_X = 0, SB_Z = -72, SB_H = 14;
-      building(15, SB_H, 12, SB_X, SB_Z, '#3a56b0', 'band');
+      const SB_X = 0, SB_Z = -72, SB_H = 15;
+      building(22, SB_H, 14, SB_X, SB_Z, '#3a56b0', 'band');   // 脚(±9)が屋上に載る幅に
       const roofY = SB_H + 0.1;        // building() の屋上高さ（h/2+0.1 + h/2）
 
       const sign = new THREE.Group();
@@ -647,7 +647,7 @@
       face.position.set(0, 2.35, 0.22);
       const faceB = new THREE.Mesh(new THREE.PlaneGeometry(7.7, 2.3), new THREE.MeshBasicMaterial({ map: tex }));
       faceB.position.set(0, 2.35, -0.22); faceB.rotation.y = Math.PI;
-      [-3, 3].forEach(px => {
+      [-2.7, 2.7].forEach(px => {
         const post = new THREE.Mesh(new THREE.CylinderGeometry(0.26, 0.26, 1.1, 12),   // 屋上の支持脚
           new THREE.MeshStandardMaterial({ color: '#8a8f98', roughness: 0.6, metalness: 0.3 }));
         post.position.set(px, 0.55, 0); post.castShadow = true; sign.add(post);
