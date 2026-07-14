@@ -629,15 +629,96 @@
       });
     })();
 
+    // Omamoriビル：参考画像調の赤レンガビル（多層＋窓の列＋傾斜屋根＋入口の庇）
+    function makeOmamoriBuilding(cx, cz) {
+      const g = new THREE.Group();
+      const W = 24, D = 15, wallH = 13, base = 0.1, floors = 4;
+      const brickMat = new THREE.MeshStandardMaterial({ color: '#a6432f', roughness: 0.95 });
+      const trimMat = new THREE.MeshStandardMaterial({ color: '#c9b79c', roughness: 0.9 });
+      const winMat = new THREE.MeshStandardMaterial({ color: '#bcd2e0', roughness: 0.3, metalness: 0.2, emissive: '#22303a', emissiveIntensity: 0.15 });
+      const doorMat = new THREE.MeshStandardMaterial({ color: '#2f5d78', roughness: 0.25, metalness: 0.3 });
+      const postMat = new THREE.MeshStandardMaterial({ color: '#8a8f98', roughness: 0.6, metalness: 0.3 });
+
+      // 敷地パッド／基礎
+      const pad = new THREE.Mesh(new THREE.BoxGeometry(W + 4, 0.3, D + 4),
+        new THREE.MeshStandardMaterial({ color: '#cfcfc4', roughness: 1 }));
+      pad.position.y = 0.15; pad.receiveShadow = true; g.add(pad);
+      const plinth = new THREE.Mesh(new THREE.BoxGeometry(W + 0.6, 1.0, D + 0.6),
+        new THREE.MeshStandardMaterial({ color: '#7d5a4a', roughness: 0.95 }));
+      plinth.position.y = base + 0.5; plinth.castShadow = true; g.add(plinth);
+
+      // 本体（レンガ壁）
+      const wallBottom = base + 1.0, wallTop = wallBottom + wallH;
+      const body = new THREE.Mesh(new THREE.BoxGeometry(W, wallH, D), brickMat);
+      body.position.y = wallBottom + wallH / 2; body.castShadow = true; body.receiveShadow = true; g.add(body);
+
+      // 各階の水平コーニス＋頂部コーニス（ベージュ帯）
+      for (let f = 1; f < floors; f++) {
+        const band = new THREE.Mesh(new THREE.BoxGeometry(W + 0.2, 0.25, D + 0.2), trimMat);
+        band.position.y = wallBottom + wallH * f / floors; g.add(band);
+      }
+      const cornice = new THREE.Mesh(new THREE.BoxGeometry(W + 0.8, 0.6, D + 0.8), trimMat);
+      cornice.position.y = wallTop + 0.1; cornice.castShadow = true; g.add(cornice);
+
+      // 窓グリッド
+      const winW = 1.1, winH = 2.0, winT = 0.12;
+      function windowsOnFace(s, axis, faceOffset, span, cols, skipGroundCenter) {
+        for (let f = 0; f < floors; f++) {
+          const cy = wallBottom + wallH * (f + 0.5) / floors;
+          for (let c = 0; c < cols; c++) {
+            const t = -span / 2 + span * (c + 0.5) / cols;
+            if (skipGroundCenter && f === 0 && Math.abs(t) < span * 0.18) continue;  // 1階中央は入口
+            const win = new THREE.Mesh(new THREE.BoxGeometry(
+              axis === 'z' ? winW : winT, winH, axis === 'z' ? winT : winW), winMat);
+            if (axis === 'z') win.position.set(t, cy, s * faceOffset);
+            else win.position.set(s * faceOffset, cy, t);
+            g.add(win);
+          }
+        }
+      }
+      windowsOnFace(+1, 'z', D / 2 + 0.06, W - 4, 6, true);    // 前面(+Z)
+      windowsOnFace(-1, 'z', D / 2 + 0.06, W - 4, 6, false);   // 背面(-Z)
+      windowsOnFace(+1, 'x', W / 2 + 0.06, D - 3, 3, false);   // 右(+X)
+      windowsOnFace(-1, 'x', W / 2 + 0.06, D - 3, 3, false);   // 左(-X)
+
+      // 入口（前面中央）：ガラス扉＋庇
+      const door = new THREE.Mesh(new THREE.BoxGeometry(4.4, 3.2, 0.3), doorMat);
+      door.position.set(0, wallBottom + 1.7, D / 2 + 0.1); g.add(door);
+      const canopy = new THREE.Mesh(new THREE.BoxGeometry(6.2, 0.4, 2.4), trimMat);
+      canopy.position.set(0, wallBottom + 3.6, D / 2 + 1.0); canopy.castShadow = true; g.add(canopy);
+      [-2.6, 2.6].forEach(px => {
+        const cpost = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 3.4, 8), postMat);
+        cpost.position.set(px, wallBottom + 1.7, D / 2 + 1.9); g.add(cpost);
+      });
+
+      // 傾斜屋根（ヒップ屋根・ベージュ）
+      const roofMat = new THREE.MeshStandardMaterial({ color: '#b7a184', roughness: 0.9, side: THREE.DoubleSide, flatShading: true });
+      const bw = W / 2 + 1.0, bd = D / 2 + 1.0, rh = 2.6;   // 基部（軒の張り出し）
+      const tw = W / 2 - 3.5, td = 1.4;                      // 頂部リッジ
+      const yb = wallTop + 0.4, yt = wallTop + 0.4 + rh;
+      const v = [[-bw, yb, -bd], [bw, yb, -bd], [bw, yb, bd], [-bw, yb, bd],
+                 [-tw, yt, -td], [tw, yt, -td], [tw, yt, td], [-tw, yt, td]];
+      const quads = [[0, 1, 5, 4], [1, 2, 6, 5], [2, 3, 7, 6], [3, 0, 4, 7], [4, 5, 6, 7]];
+      const pos = [];
+      quads.forEach(([a, b, c, d]) => pos.push(...v[a], ...v[b], ...v[c], ...v[a], ...v[c], ...v[d]));
+      const roofGeo = new THREE.BufferGeometry();
+      roofGeo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+      roofGeo.computeVertexNormals();
+      const roof = new THREE.Mesh(roofGeo, roofMat);
+      roof.castShadow = true; roof.receiveShadow = true; g.add(roof);
+
+      g.position.set(cx, 0, cz); scene.add(g);
+      return yt;   // リッジ上端＝看板を載せる高さ
+    }
+
     // mamori 看板（ビルの屋上に設置・支援プロダクト）
     (function () {
       const tex = new THREE.TextureLoader().load('mamori-logo.png');   // 提供画像をそのまま使用
       tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8;
 
-      // 看板を載せる青ビル（(0,-72) の空き区画）
-      const SB_X = 0, SB_Z = -72, SB_H = 15;
-      building(22, SB_H, 14, SB_X, SB_Z, '#3a56b0', 'band');   // 脚(±9)が屋上に載る幅に
-      const roofY = SB_H + 0.1;        // building() の屋上高さ（h/2+0.1 + h/2）
+      // 看板を載せる Omamori ビル（(0,-72) の空き区画・参考画像調の赤レンガビル）
+      const SB_X = 0, SB_Z = -72;
+      const roofY = makeOmamoriBuilding(SB_X, SB_Z);   // 傾斜屋根リッジ上端＝看板設置高さ
 
       const sign = new THREE.Group();
       const panel = new THREE.Mesh(new RoundedBoxGeometry(8, 2.5, 0.4, 3, 0.15),
