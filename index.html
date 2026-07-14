@@ -629,28 +629,33 @@
       });
     })();
 
-    // mamori 看板（右上エリア・支援プロダクト）
+    // mamori 看板（ビルの屋上に設置・支援プロダクト）
     (function () {
       const tex = new THREE.TextureLoader().load('mamori-logo.png');   // 提供画像をそのまま使用
       tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8;
 
+      // 看板を載せる青ビル（(0,-72) の空き区画）
+      const SB_X = 0, SB_Z = -72, SB_H = 14;
+      building(15, SB_H, 12, SB_X, SB_Z, '#3a56b0', 'band');
+      const roofY = SB_H + 0.1;        // building() の屋上高さ（h/2+0.1 + h/2）
+
       const sign = new THREE.Group();
       const panel = new THREE.Mesh(new RoundedBoxGeometry(8, 2.5, 0.4, 3, 0.15),
         new THREE.MeshStandardMaterial({ color: '#2b3aa0', roughness: 0.5 }));
-      panel.position.y = 3.15; panel.castShadow = true;
+      panel.position.y = 2.35; panel.castShadow = true;
       const face = new THREE.Mesh(new THREE.PlaneGeometry(7.7, 2.3), new THREE.MeshBasicMaterial({ map: tex }));
-      face.position.set(0, 3.15, 0.22);
+      face.position.set(0, 2.35, 0.22);
       const faceB = new THREE.Mesh(new THREE.PlaneGeometry(7.7, 2.3), new THREE.MeshBasicMaterial({ map: tex }));
-      faceB.position.set(0, 3.15, -0.22); faceB.rotation.y = Math.PI;
+      faceB.position.set(0, 2.35, -0.22); faceB.rotation.y = Math.PI;
       [-3, 3].forEach(px => {
-        const post = new THREE.Mesh(new THREE.CylinderGeometry(0.26, 0.26, 1.9, 12),   // 棒を約1/3に短縮
+        const post = new THREE.Mesh(new THREE.CylinderGeometry(0.26, 0.26, 1.1, 12),   // 屋上の支持脚
           new THREE.MeshStandardMaterial({ color: '#8a8f98', roughness: 0.6, metalness: 0.3 }));
-        post.position.set(px, 0.95, 0); post.castShadow = true; sign.add(post);
+        post.position.set(px, 0.55, 0); post.castShadow = true; sign.add(post);
       });
       sign.add(panel, face, faceB);
-      sign.scale.setScalar(3);         // 縦横比そのままで3倍
-      sign.position.set(10, 0, -60);   // 右上ブロック（青ビルの手前）
-      sign.rotation.y = 0;             // ビルと同じ軸沿いの向き（+Z面）
+      sign.scale.setScalar(3);            // 縦横比そのままで3倍
+      sign.position.set(SB_X, roofY, SB_Z);  // ビルの屋上に載せる
+      sign.rotation.y = 0;                // +Z面（ビルと同じ軸沿いの向き）
       scene.add(sign);
       tag(sign, { modal: 'mamori', name: 'Omamori' });   // クリックでポップアップ
     })();
