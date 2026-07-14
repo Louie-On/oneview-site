@@ -554,7 +554,7 @@
 
     // Bona：台座＋アイコンタイル
     const bona = new THREE.Group();
-    const pedestal = new THREE.Mesh(new THREE.BoxGeometry(5.2, 1.13, 4.4),   // 台座を1/3の高さに
+    const pedestal = new THREE.Mesh(new THREE.BoxGeometry(5.2, 1.13, 2.4),   // 高さ1/3・奥行きを狭く
       new THREE.MeshStandardMaterial({ color: '#ece9e0', roughness: 0.9 }));
     pedestal.position.y = 0.567; pedestal.castShadow = true; pedestal.receiveShadow = true;
     const tile = new THREE.Mesh(new RoundedBoxGeometry(4.4, 4.6, 0.5, 3, 0.5),
